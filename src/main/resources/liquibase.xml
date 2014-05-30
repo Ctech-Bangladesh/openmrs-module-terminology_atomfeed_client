@@ -1,0 +1,22 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+
+    <changeSet id="terminology-atomfeed-client-1" author="John, Balaji">
+        <insert tableName="scheduler_task_config">
+            <column name="name" value="Terminology Feed Task"/>
+            <column name="schedulable_class" value="org.bahmni.module.terminology.task.ConceptFeedTask"/>
+            <column name="start_time" valueDate=" now() "/>
+            <column name="start_time_pattern" value="MM/dd/yyyy HH:mm:ss"/>
+            <column name="repeat_interval" value="15"/>
+            <column name="start_on_startup" value="1"/>
+            <column name="started" value="1"/>
+            <column name="created_by" value="1"/>
+            <column name="date_created" valueDate=" now() "/>
+            <column name="uuid" valueComputed=" uuid() "/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
