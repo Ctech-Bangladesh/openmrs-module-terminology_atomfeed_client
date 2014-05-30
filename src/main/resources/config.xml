@@ -4,15 +4,15 @@
 <module configVersion="1.2">
 
     <!-- Base Module Properties -->
-    <id>@MODULE_ID@</id>
-    <name>@MODULE_NAME@</name>
-    <version>@MODULE_VERSION@</version>
-    <package>@MODULE_PACKAGE@</package>
-    <author>FreeSHR</author>
+    <id>${project.artifactId}</id>
+    <name>${project.name}</name>
+    <version>${project.version}</version>
+    <package>${project.groupId}.${project.artifactId}</package>
+    <author>Thoughtworks</author>
     <description>
         Atom feed client for Terminology registry changes
     </description>
-    <activator>@MODULE_PACKAGE@.Activator</activator>
+    <activator>org.bahmni.module.terminology.Activator</activator>
 
     <!--<updateURL>https://example.com/modules/download/openerpatomfeedclient/update.rdf</updateURL>-->
     <!-- /Base Module Properties -->

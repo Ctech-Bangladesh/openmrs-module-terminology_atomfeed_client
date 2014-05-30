@@ -1,4 +1,4 @@
-package org.bahmni.module.terminology.feeds;
+package org.bahmni.module.terminology;
 
 
 import org.apache.commons.logging.Log;
