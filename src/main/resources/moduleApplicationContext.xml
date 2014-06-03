@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-    <util:properties id="erpAtomFeedProperties" location="classpath:terminology-atomfeed.properties"/>
+    <util:properties id="terminologyFeedProperties" location="classpath:terminology-atomfeed.properties"/>
 
     <context:component-scan base-package="org.bahmni.module.terminology"/>
 

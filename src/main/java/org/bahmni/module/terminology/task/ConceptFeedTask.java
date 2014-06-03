@@ -5,11 +5,17 @@ import org.bahmni.module.terminology.feeds.ConceptFeedClient;
 import org.openmrs.api.context.Context;
 import org.openmrs.scheduler.tasks.AbstractTask;
 
+import java.net.URISyntaxException;
+
 public class ConceptFeedTask extends AbstractTask {
 
     @Override
     public void execute() {
         ConceptFeedClient conceptFeedClient = Context.getService(ConceptFeedClient.class);
-        conceptFeedClient.syncConcepts();
+        try {
+            conceptFeedClient.syncConcepts();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

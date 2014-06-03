@@ -47,20 +47,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.openmrs.api</groupId>
-            <artifactId>openmrs-api</artifactId>
-            <version>${openMRSVersion}</version>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.openmrs.web</groupId>
-            <artifactId>openmrs-web</artifactId>
-            <version>${openMRSVersion}</version>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.openmrs.test</groupId>
             <artifactId>openmrs-test</artifactId>
             <version>${openMRSVersion}</version>
@@ -68,16 +54,25 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.ict4h</groupId>
+            <artifactId>atomfeed-commons</artifactId>
+            <version>${atomfeed.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.ict4h.openmrs</groupId>
             <artifactId>openmrs-atomfeed-common</artifactId>
             <version>${atomfeed.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.ict4h</groupId>
             <artifactId>atomfeed-client</artifactId>
             <version>${atomfeed.version}</version>
-            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>rome</groupId>
+                    <artifactId>rome</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>
