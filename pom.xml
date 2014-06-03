@@ -71,11 +71,13 @@
             <groupId>org.ict4h.openmrs</groupId>
             <artifactId>openmrs-atomfeed-common</artifactId>
             <version>${atomfeed.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.ict4h</groupId>
             <artifactId>atomfeed-client</artifactId>
             <version>${atomfeed.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>

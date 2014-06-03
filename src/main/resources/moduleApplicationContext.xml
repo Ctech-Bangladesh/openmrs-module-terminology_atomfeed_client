@@ -17,7 +17,7 @@
     <bean parent="serviceContext">
         <property name="moduleService">
             <list>
-                <value>org.bahmni.module.terminologies.feed.ConceptFeedClient</value> <!-- service interface name -->
+                <value>org.bahmni.module.terminology.feeds.ConceptFeedClient</value> <!-- service interface name -->
                 <ref bean="conceptFeedClient"/>
             </list>
         </property>
