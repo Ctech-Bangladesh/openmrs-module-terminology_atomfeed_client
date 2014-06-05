@@ -15,7 +15,7 @@ public class ConceptRestResource {
         SimpleObject result = new SimpleObject();
         for (Map.Entry<String, Object> entry : simpleObject.entrySet()) {
             if (entry.getValue() != null) {
-                simpleObject.put(entry.getKey(), entry.getValue());
+                result.put(entry.getKey(), entry.getValue());
             }
         }
         this.simpleObject = result;
