@@ -1,11 +1,14 @@
 package org.bahmni.module.terminology;
 
 
+import org.bahmni.module.terminology.util.TRUtil;
 import org.ict4h.atomfeed.client.AtomFeedProperties;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Properties;
+
+import static org.bahmni.module.terminology.util.TRUtil.substringBefore;
 
 
 @Component
@@ -21,6 +24,14 @@ public class TRFeedProperties extends AtomFeedProperties {
     @Resource(name = "terminologyFeedProperties")
     private Properties atomFeedProperties;
 
+    public TRFeedProperties(){
+
+    }
+
+
+    public TRFeedProperties(Properties properties){
+        this.atomFeedProperties = properties;
+    }
 
     public String terminologyFeedUri() {
         return atomFeedProperties.getProperty(TERMINOLOGY_FEED_URI);
@@ -42,4 +53,7 @@ public class TRFeedProperties extends AtomFeedProperties {
     }
 
 
+    public String terminologyServerPrefix() {
+        return substringBefore(terminologyFeedUri(), "/", 3);
+    }
 }
