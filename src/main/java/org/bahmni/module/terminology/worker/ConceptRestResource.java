@@ -39,7 +39,7 @@ public class ConceptRestResource {
 
     private void updateRefereces(ConceptService conceptService) {
         getProperty("datatype").put("conceptDatatypeId", conceptService.getConceptDatatypeByUuid(dataTypeUUID()).getId());
-        getProperty("conceptClass").put("classID", conceptService.getConceptClassByUuid(classUUID()).getId());
+        getProperty("conceptClass").put("conceptClassId", conceptService.getConceptClassByUuid(classUUID()).getId());
     }
 
 
