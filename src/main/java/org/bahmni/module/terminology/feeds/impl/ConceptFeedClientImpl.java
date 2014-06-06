@@ -3,6 +3,7 @@ package org.bahmni.module.terminology.feeds.impl;
 import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.TRFeedProperties;
 import org.bahmni.module.terminology.factory.HttpClientFactory;
+import org.bahmni.module.terminology.factory.TRPropertiesFactory;
 import org.bahmni.module.terminology.feeds.ConceptFeedClient;
 import org.bahmni.module.terminology.worker.ConceptFeedWorker;
 import org.ict4h.atomfeed.client.repository.AllFeeds;
@@ -26,16 +27,12 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
 
     private RestService restService;
     private PlatformTransactionManager transactionManager;
-    private TRFeedProperties properties;
+    private TRPropertiesFactory trPropertiesFactory;
     private HttpClientFactory httpClientFactory;
 
-    public ConceptFeedClientImpl() {
-
-    }
-
     @Autowired
-    public ConceptFeedClientImpl(TRFeedProperties properties, RestService restService, PlatformTransactionManager transactionManager, HttpClientFactory httpClientFactory) {
-        this.properties = properties;
+    public ConceptFeedClientImpl(TRPropertiesFactory trPropertiesFactory, RestService restService, PlatformTransactionManager transactionManager, HttpClientFactory httpClientFactory) {
+        this.trPropertiesFactory = trPropertiesFactory;
         this.restService = restService;
         this.transactionManager = transactionManager;
         this.httpClientFactory = httpClientFactory;
@@ -45,6 +42,7 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
     public void syncConcepts() throws URISyntaxException {
         Logger logger = Logger.getLogger(ConceptFeedClientImpl.class);
         logger.info("Terminology atom feed started!");
+        TRFeedProperties properties = trPropertiesFactory.build();
         AtomFeedSpringTransactionManager txManager = new AtomFeedSpringTransactionManager(transactionManager);
         AtomFeedClient atomFeedClient = new AtomFeedClient(
                 new AllFeeds(properties, new HashMap<String, String>()),
