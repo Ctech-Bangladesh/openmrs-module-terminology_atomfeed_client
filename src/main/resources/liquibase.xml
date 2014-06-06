@@ -19,4 +19,11 @@
         </insert>
     </changeSet>
 
+    <changeSet id="terminology-atomfeed-chunking-history-2" author="John">
+        <insert tableName="chunking_history">
+            <column name="chunk_length" value="100"/>
+            <column name="start" value="1"/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>
