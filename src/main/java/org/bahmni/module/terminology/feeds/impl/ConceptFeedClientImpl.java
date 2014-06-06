@@ -2,13 +2,13 @@ package org.bahmni.module.terminology.feeds.impl;
 
 import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.TRFeedProperties;
+import org.bahmni.module.terminology.factory.HttpClientFactory;
 import org.bahmni.module.terminology.feeds.ConceptFeedClient;
 import org.bahmni.module.terminology.worker.ConceptFeedWorker;
 import org.ict4h.atomfeed.client.repository.AllFeeds;
 import org.ict4h.atomfeed.client.repository.jdbc.AllFailedEventsJdbcImpl;
 import org.ict4h.atomfeed.client.repository.jdbc.AllMarkersJdbcImpl;
 import org.ict4h.atomfeed.client.service.AtomFeedClient;
-import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.atomfeed.transaction.support.AtomFeedSpringTransactionManager;
 import org.openmrs.module.webservices.rest.web.api.RestService;
@@ -27,16 +27,18 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
     private RestService restService;
     private PlatformTransactionManager transactionManager;
     private TRFeedProperties properties;
+    private HttpClientFactory httpClientFactory;
 
     public ConceptFeedClientImpl() {
 
     }
 
     @Autowired
-    public ConceptFeedClientImpl(TRFeedProperties properties, RestService restService, PlatformTransactionManager transactionManager) {
+    public ConceptFeedClientImpl(TRFeedProperties properties, RestService restService, PlatformTransactionManager transactionManager, HttpClientFactory httpClientFactory) {
         this.properties = properties;
         this.restService = restService;
         this.transactionManager = transactionManager;
+        this.httpClientFactory = httpClientFactory;
     }
 
     @Override
@@ -51,7 +53,7 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
                 properties,
                 txManager,
                 new URI(properties.terminologyFeedUri()),
-                new ConceptFeedWorker(restService, properties, Context.getConceptService()));
+                new ConceptFeedWorker(httpClientFactory.createAuthenticatedHttpClient(), restService, properties, Context.getConceptService()));
         atomFeedClient.processEvents();
     }
 }

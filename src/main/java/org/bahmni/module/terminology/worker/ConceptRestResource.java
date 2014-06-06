@@ -12,23 +12,29 @@ public class ConceptRestResource {
     private SimpleObject simpleObject;
 
     public ConceptRestResource(SimpleObject simpleObject) throws IOException {
+        verifyRequiredPropertiesExist(simpleObject);
+        this.simpleObject = removeEmptyProperties(simpleObject);
+    }
+
+    private void verifyRequiredPropertiesExist(SimpleObject simpleObject) {
+        if (null == simpleObject.get("datatype")) throw new IllegalArgumentException("datatype is null");
+        if (null == simpleObject.get("conceptClass")) throw new IllegalArgumentException("concept class is null");
+    }
+
+    private SimpleObject removeEmptyProperties(SimpleObject simpleObject) {
         SimpleObject result = new SimpleObject();
         for (Map.Entry<String, Object> entry : simpleObject.entrySet()) {
             if (entry.getValue() != null) {
                 result.put(entry.getKey(), entry.getValue());
             }
         }
-        this.simpleObject = result;
+        return result;
     }
 
     public SimpleObject toDTO(ConceptService conceptService) {
         clearUnsupportedProperties();
         updateRefereces(conceptService);
         return simpleObject;
-    }
-
-    public String uuid() {
-        return (String) simpleObject.get("uuid");
     }
 
     private void clearUnsupportedProperties() {
@@ -38,12 +44,12 @@ public class ConceptRestResource {
     }
 
     private void updateRefereces(ConceptService conceptService) {
-        getProperty("datatype").put("conceptDatatypeId", conceptService.getConceptDatatypeByUuid(dataTypeUUID()).getId());
-        getProperty("conceptClass").put("conceptClassId", conceptService.getConceptClassByUuid(classUUID()).getId());
+        getNestedMap("datatype").put("conceptDatatypeId", conceptService.getConceptDatatypeByUuid(dataTypeUUID()).getId());
+        getNestedMap("conceptClass").put("conceptClassId", conceptService.getConceptClassByUuid(classUUID()).getId());
     }
 
 
-    private Map getProperty(String key) {
+    private Map getNestedMap(String key) {
         return ((Map) simpleObject.get(key));
     }
 

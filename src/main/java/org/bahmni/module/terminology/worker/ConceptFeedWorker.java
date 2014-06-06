@@ -3,13 +3,8 @@ package org.bahmni.module.terminology.worker;
 import com.google.gson.Gson;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.TRFeedProperties;
@@ -32,8 +27,10 @@ public class ConceptFeedWorker implements EventWorker {
     private RestService restService;
     private TRFeedProperties properties;
     private ConceptService conceptService;
+    private HttpClient authenticatedHttpClient;
 
-    public ConceptFeedWorker(RestService restService, TRFeedProperties properties, ConceptService conceptService) {
+    public ConceptFeedWorker(HttpClient authenticatedHttpClient, RestService restService, TRFeedProperties properties, ConceptService conceptService) {
+        this.authenticatedHttpClient = authenticatedHttpClient;
         this.restService = restService;
         this.properties = properties;
         this.conceptService = conceptService;
@@ -43,29 +40,17 @@ public class ConceptFeedWorker implements EventWorker {
         return new Gson().fromJson(EntityUtils.toString(entity), SimpleObject.class);
     }
 
-    private String getAbsolutePath(Event event) {
-        return properties.terminologyServerPrefix() + event.getContent();
-    }
-
     @Override
     public void process(final Event event) {
         logger.info(format("Received concept sync event for %s with conent %s ", event.getFeedUri(), event.getContent()));
         try {
-            HttpResponse response = httpClient().execute(new HttpGet(getAbsolutePath(event)));
+            HttpResponse response = authenticatedHttpClient.execute(new HttpGet(properties.getTerminologyUrl(event.getContent())));
             SimpleObject conceptData = new ConceptRestResource(asSimpleObject(response.getEntity())).toDTO(conceptService);
             CrudResource conceptResource = (CrudResource) restService.getResourceByName("v1/concept");
             conceptResource.create(conceptData, null);
         } catch (IOException e) {
             logger.error(format("Error while syncing concept %s , reason : %s", event.getId(), e.getMessage()));
         }
-    }
-
-    private HttpClient httpClient() {
-        CredentialsProvider provider = new BasicCredentialsProvider();
-        //TODO: secure this
-        UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("admin", "Admin123");
-        provider.setCredentials(AuthScope.ANY, credentials);
-        return HttpClientBuilder.create().setDefaultCredentialsProvider(provider).build();
     }
 
     @Override
