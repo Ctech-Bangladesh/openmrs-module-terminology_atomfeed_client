@@ -17,22 +17,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.annotation.Resource;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.Properties;
 
 
 @Component("conceptFeedClient")
 public class ConceptFeedClientImpl implements ConceptFeedClient {
 
+    @Resource(name = "terminologyFeedProperties")
+    private Properties defaultAtomFeedProperties;
     private RestService restService;
     private PlatformTransactionManager transactionManager;
-    private TRPropertiesFactory trPropertiesFactory;
     private HttpClientFactory httpClientFactory;
 
+    private final Logger logger = Logger.getLogger(ConceptFeedClientImpl.class);
+
     @Autowired
-    public ConceptFeedClientImpl(TRPropertiesFactory trPropertiesFactory, RestService restService, PlatformTransactionManager transactionManager, HttpClientFactory httpClientFactory) {
-        this.trPropertiesFactory = trPropertiesFactory;
+    public ConceptFeedClientImpl(RestService restService, PlatformTransactionManager transactionManager, HttpClientFactory httpClientFactory) {
         this.restService = restService;
         this.transactionManager = transactionManager;
         this.httpClientFactory = httpClientFactory;
@@ -40,9 +44,8 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
 
     @Override
     public void syncConcepts() throws URISyntaxException {
-        Logger logger = Logger.getLogger(ConceptFeedClientImpl.class);
         logger.info("Terminology atom feed started!");
-        TRFeedProperties properties = trPropertiesFactory.build();
+        TRFeedProperties properties = new TRPropertiesFactory(defaultAtomFeedProperties).build();
         AtomFeedSpringTransactionManager txManager = new AtomFeedSpringTransactionManager(transactionManager);
         AtomFeedClient atomFeedClient = new AtomFeedClient(
                 new AllFeeds(properties, new HashMap<String, String>()),
