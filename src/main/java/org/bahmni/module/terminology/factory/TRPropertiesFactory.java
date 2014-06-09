@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import java.io.FileInputStream;
 import java.util.Properties;
 
-@Component
 public class TRPropertiesFactory {
 
     private static final String PATH_TO_PROPERTIES = "/.OpenMRS/tr_atomfeed_properties.properties";
