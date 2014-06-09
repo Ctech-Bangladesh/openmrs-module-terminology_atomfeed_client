@@ -41,6 +41,7 @@ public class ConceptRestResource {
         simpleObject.removeProperty("uuid");
         simpleObject.removeProperty("precise");
         simpleObject.removeProperty("auditInfo");
+        simpleObject.removeProperty("mappings");
     }
 
     private void updateRefereces(ConceptService conceptService) {
