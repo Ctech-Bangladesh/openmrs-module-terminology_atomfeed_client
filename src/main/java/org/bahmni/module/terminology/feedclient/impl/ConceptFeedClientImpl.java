@@ -2,6 +2,7 @@ package org.bahmni.module.terminology.feedclient.impl;
 
 import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.TRFeedProperties;
+import org.bahmni.module.terminology.domain.service.ConceptRestService;
 import org.bahmni.module.terminology.factory.HttpClientFactory;
 import org.bahmni.module.terminology.factory.TRPropertiesFactory;
 import org.bahmni.module.terminology.feedclient.ConceptFeedClient;
@@ -10,9 +11,7 @@ import org.ict4h.atomfeed.client.repository.AllFeeds;
 import org.ict4h.atomfeed.client.repository.jdbc.AllFailedEventsJdbcImpl;
 import org.ict4h.atomfeed.client.repository.jdbc.AllMarkersJdbcImpl;
 import org.ict4h.atomfeed.client.service.AtomFeedClient;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.atomfeed.transaction.support.AtomFeedSpringTransactionManager;
-import org.openmrs.module.webservices.rest.web.api.RestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -29,15 +28,15 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
 
     @Resource(name = "terminologyFeedProperties")
     private Properties defaultAtomFeedProperties;
-    private RestService restService;
+    private ConceptRestService conceptRestService;
     private PlatformTransactionManager transactionManager;
     private HttpClientFactory httpClientFactory;
 
     private final Logger logger = Logger.getLogger(ConceptFeedClientImpl.class);
 
     @Autowired
-    public ConceptFeedClientImpl(RestService restService, PlatformTransactionManager transactionManager, HttpClientFactory httpClientFactory) {
-        this.restService = restService;
+    public ConceptFeedClientImpl(ConceptRestService conceptRestService, PlatformTransactionManager transactionManager, HttpClientFactory httpClientFactory) {
+        this.conceptRestService = conceptRestService;
         this.transactionManager = transactionManager;
         this.httpClientFactory = httpClientFactory;
     }
@@ -54,7 +53,7 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
                 properties,
                 txManager,
                 new URI(properties.terminologyFeedUri()),
-                new ConceptFeedWorker(httpClientFactory.createAuthenticatedHttpClient(), restService, properties, Context.getConceptService()));
+                new ConceptFeedWorker(httpClientFactory.createAuthenticatedHttpClient(), properties, conceptRestService));
         atomFeedClient.processEvents();
     }
 }

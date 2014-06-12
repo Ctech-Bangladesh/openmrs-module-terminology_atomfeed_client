@@ -8,12 +8,10 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.TRFeedProperties;
+import org.bahmni.module.terminology.domain.service.ConceptRestService;
 import org.ict4h.atomfeed.client.domain.Event;
 import org.ict4h.atomfeed.client.service.EventWorker;
-import org.openmrs.api.ConceptService;
 import org.openmrs.module.webservices.rest.SimpleObject;
-import org.openmrs.module.webservices.rest.web.api.RestService;
-import org.openmrs.module.webservices.rest.web.resource.api.CrudResource;
 
 import java.io.IOException;
 
@@ -24,16 +22,14 @@ public class ConceptFeedWorker implements EventWorker {
 
     private static Logger logger = Logger.getLogger(ConceptFeedWorker.class);
 
-    private RestService restService;
     private TRFeedProperties properties;
-    private ConceptService conceptService;
     private HttpClient authenticatedHttpClient;
+    private ConceptRestService conceptRestService;
 
-    public ConceptFeedWorker(HttpClient authenticatedHttpClient, RestService restService, TRFeedProperties properties, ConceptService conceptService) {
+    public ConceptFeedWorker(HttpClient authenticatedHttpClient, TRFeedProperties properties, ConceptRestService conceptRestService) {
         this.authenticatedHttpClient = authenticatedHttpClient;
-        this.restService = restService;
         this.properties = properties;
-        this.conceptService = conceptService;
+        this.conceptRestService = conceptRestService;
     }
 
     private SimpleObject asSimpleObject(HttpEntity entity) throws IOException {
@@ -45,9 +41,8 @@ public class ConceptFeedWorker implements EventWorker {
         logger.info(format("Received concept sync event for %s with conent %s ", event.getFeedUri(), event.getContent()));
         try {
             HttpResponse response = authenticatedHttpClient.execute(new HttpGet(properties.getTerminologyUrl(event.getContent())));
-            SimpleObject conceptData = new ConceptRestResource(asSimpleObject(response.getEntity())).toDTO(conceptService);
-            CrudResource conceptResource = (CrudResource) restService.getResourceByName("v1/concept");
-            conceptResource.create(conceptData, null);
+            SimpleObject concept = asSimpleObject(response.getEntity());
+            conceptRestService.save(concept);
         } catch (IOException e) {
             logger.error(format("Error while syncing concept %s , reason : %s", event.getId(), e.getMessage()));
         }
