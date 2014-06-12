@@ -1,7 +1,7 @@
 package org.bahmni.module.terminology.infrastructure.factory;
 
 import org.apache.log4j.Logger;
-import org.bahmni.module.terminology.TRFeedProperties;
+import org.bahmni.module.terminology.infrastructure.model.TRFeedProperties;
 
 import java.io.FileInputStream;
 import java.util.Properties;

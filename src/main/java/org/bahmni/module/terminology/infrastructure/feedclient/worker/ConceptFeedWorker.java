@@ -7,7 +7,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
-import org.bahmni.module.terminology.TRFeedProperties;
+import org.bahmni.module.terminology.infrastructure.model.TRFeedProperties;
 import org.bahmni.module.terminology.application.service.ConceptRestService;
 import org.ict4h.atomfeed.client.domain.Event;
 import org.ict4h.atomfeed.client.service.EventWorker;

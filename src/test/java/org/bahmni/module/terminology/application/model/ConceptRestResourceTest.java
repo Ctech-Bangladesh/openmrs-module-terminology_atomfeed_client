@@ -1,5 +1,6 @@
-package org.bahmni.module.terminology.application;
+package org.bahmni.module.terminology.application.model;
 
+import org.bahmni.module.terminology.application.model.ConceptRestResource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;

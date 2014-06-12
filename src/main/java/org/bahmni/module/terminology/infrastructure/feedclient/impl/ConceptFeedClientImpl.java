@@ -1,7 +1,7 @@
 package org.bahmni.module.terminology.infrastructure.feedclient.impl;
 
 import org.apache.log4j.Logger;
-import org.bahmni.module.terminology.TRFeedProperties;
+import org.bahmni.module.terminology.infrastructure.model.TRFeedProperties;
 import org.bahmni.module.terminology.application.service.ConceptRestService;
 import org.bahmni.module.terminology.infrastructure.factory.HttpClientFactory;
 import org.bahmni.module.terminology.infrastructure.factory.TRPropertiesFactory;

@@ -1,4 +1,4 @@
-package org.bahmni.module.terminology;
+package org.bahmni.module.terminology.infrastructure.model;
 
 
 import org.ict4h.atomfeed.client.AtomFeedProperties;
