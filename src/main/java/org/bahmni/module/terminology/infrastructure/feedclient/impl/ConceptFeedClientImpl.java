@@ -1,12 +1,12 @@
-package org.bahmni.module.terminology.feedclient.impl;
+package org.bahmni.module.terminology.infrastructure.feedclient.impl;
 
 import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.TRFeedProperties;
 import org.bahmni.module.terminology.application.service.ConceptRestService;
-import org.bahmni.module.terminology.factory.HttpClientFactory;
-import org.bahmni.module.terminology.factory.TRPropertiesFactory;
-import org.bahmni.module.terminology.feedclient.ConceptFeedClient;
-import org.bahmni.module.terminology.feedclient.worker.ConceptFeedWorker;
+import org.bahmni.module.terminology.infrastructure.factory.HttpClientFactory;
+import org.bahmni.module.terminology.infrastructure.factory.TRPropertiesFactory;
+import org.bahmni.module.terminology.infrastructure.feedclient.ConceptFeedClient;
+import org.bahmni.module.terminology.infrastructure.feedclient.worker.ConceptFeedWorker;
 import org.ict4h.atomfeed.client.repository.AllFeeds;
 import org.ict4h.atomfeed.client.repository.jdbc.AllFailedEventsJdbcImpl;
 import org.ict4h.atomfeed.client.repository.jdbc.AllMarkersJdbcImpl;

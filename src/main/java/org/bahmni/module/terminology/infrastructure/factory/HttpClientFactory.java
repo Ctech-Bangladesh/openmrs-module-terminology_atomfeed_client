@@ -1,4 +1,4 @@
-package org.bahmni.module.terminology.factory;
+package org.bahmni.module.terminology.infrastructure.factory;
 
 
 import org.apache.http.auth.AuthScope;

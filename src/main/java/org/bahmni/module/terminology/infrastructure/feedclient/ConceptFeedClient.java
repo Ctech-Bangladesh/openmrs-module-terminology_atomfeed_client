@@ -1,4 +1,4 @@
-package org.bahmni.module.terminology.feedclient;
+package org.bahmni.module.terminology.infrastructure.feedclient;
 
 
 import java.net.URISyntaxException;

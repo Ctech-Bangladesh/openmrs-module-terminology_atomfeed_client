@@ -1,4 +1,4 @@
-package org.bahmni.module.terminology.feedclient.worker;
+package org.bahmni.module.terminology.infrastructure.feedclient.worker;
 
 import com.google.gson.Gson;
 import org.apache.http.HttpEntity;
