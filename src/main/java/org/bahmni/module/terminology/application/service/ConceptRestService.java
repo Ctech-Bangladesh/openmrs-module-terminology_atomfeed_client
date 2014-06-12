@@ -1,6 +1,6 @@
-package org.bahmni.module.terminology.domain.service;
+package org.bahmni.module.terminology.application.service;
 
-import org.bahmni.module.terminology.domain.ConceptRestResource;
+import org.bahmni.module.terminology.application.ConceptRestResource;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.SimpleObject;

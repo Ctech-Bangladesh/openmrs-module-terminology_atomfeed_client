@@ -1,4 +1,4 @@
-package org.bahmni.module.terminology.domain;
+package org.bahmni.module.terminology.application;
 
 
 import org.openmrs.api.ConceptService;

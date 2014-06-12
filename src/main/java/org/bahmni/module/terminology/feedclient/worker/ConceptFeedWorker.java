@@ -8,7 +8,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.TRFeedProperties;
-import org.bahmni.module.terminology.domain.service.ConceptRestService;
+import org.bahmni.module.terminology.application.service.ConceptRestService;
 import org.ict4h.atomfeed.client.domain.Event;
 import org.ict4h.atomfeed.client.service.EventWorker;
 import org.openmrs.module.webservices.rest.SimpleObject;
