@@ -1,4 +1,4 @@
-package org.bahmni.module.terminology.feedclient.worker;
+package org.bahmni.module.terminology.domain;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package org.bahmni.module.terminology.feedclient.worker;
+package org.bahmni.module.terminology.domain;
 
 
 import org.openmrs.api.ConceptService;
