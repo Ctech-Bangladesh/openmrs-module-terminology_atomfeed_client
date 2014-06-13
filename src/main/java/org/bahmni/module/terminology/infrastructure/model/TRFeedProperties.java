@@ -11,10 +11,10 @@ import static org.apache.commons.lang.StringUtils.join;
 
 public class TRFeedProperties extends AtomFeedProperties {
 
-    private static final String TERMINOLOGY_FEED_URI = "terminology.feed.url";
-    private static final String CONNECT_TIMEOUT = "feed.connectionTimeoutInMilliseconds";
-    private static final String MAX_FAILED_EVENTS = "feed.maxFailedEvents";
-    private static final String READ_TIMEOUT = "feed.replyTimeoutInMilliseconds";
+    public static final String TERMINOLOGY_FEED_URI = "terminology.feed.url";
+    public static final String CONNECT_TIMEOUT = "feed.connectionTimeoutInMilliseconds";
+    public static final String MAX_FAILED_EVENTS = "feed.maxFailedEvents";
+    public static final String READ_TIMEOUT = "feed.replyTimeoutInMilliseconds";
 
     private Properties atomFeedProperties;
 

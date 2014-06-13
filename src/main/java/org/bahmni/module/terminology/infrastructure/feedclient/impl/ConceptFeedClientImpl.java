@@ -1,12 +1,12 @@
 package org.bahmni.module.terminology.infrastructure.feedclient.impl;
 
 import org.apache.log4j.Logger;
-import org.bahmni.module.terminology.infrastructure.model.TRFeedProperties;
 import org.bahmni.module.terminology.application.service.ConceptRestService;
-import org.bahmni.module.terminology.infrastructure.factory.HttpClientFactory;
 import org.bahmni.module.terminology.infrastructure.factory.TRPropertiesFactory;
 import org.bahmni.module.terminology.infrastructure.feedclient.ConceptFeedClient;
 import org.bahmni.module.terminology.infrastructure.feedclient.worker.ConceptFeedWorker;
+import org.bahmni.module.terminology.infrastructure.http.ConceptHttpClient;
+import org.bahmni.module.terminology.infrastructure.model.TRFeedProperties;
 import org.ict4h.atomfeed.client.repository.AllFeeds;
 import org.ict4h.atomfeed.client.repository.jdbc.AllFailedEventsJdbcImpl;
 import org.ict4h.atomfeed.client.repository.jdbc.AllMarkersJdbcImpl;
@@ -29,16 +29,16 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
     @Resource(name = "terminologyFeedProperties")
     private Properties defaultAtomFeedProperties;
     private ConceptRestService conceptRestService;
+    private ConceptHttpClient conceptHttpClient;
     private PlatformTransactionManager transactionManager;
-    private HttpClientFactory httpClientFactory;
 
     private final Logger logger = Logger.getLogger(ConceptFeedClientImpl.class);
 
     @Autowired
-    public ConceptFeedClientImpl(ConceptRestService conceptRestService, PlatformTransactionManager transactionManager, HttpClientFactory httpClientFactory) {
+    public ConceptFeedClientImpl(ConceptRestService conceptRestService, PlatformTransactionManager transactionManager, ConceptHttpClient conceptHttpClient) {
         this.conceptRestService = conceptRestService;
         this.transactionManager = transactionManager;
-        this.httpClientFactory = httpClientFactory;
+        this.conceptHttpClient = conceptHttpClient;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
                 properties,
                 txManager,
                 new URI(properties.terminologyFeedUri()),
-                new ConceptFeedWorker(httpClientFactory.createAuthenticatedHttpClient(), properties, conceptRestService));
+                new ConceptFeedWorker(conceptHttpClient, properties, conceptRestService));
         atomFeedClient.processEvents();
     }
 }

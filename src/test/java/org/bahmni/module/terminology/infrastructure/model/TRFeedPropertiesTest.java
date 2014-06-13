@@ -1,6 +1,5 @@
 package org.bahmni.module.terminology.infrastructure.model;
 
-import org.bahmni.module.terminology.infrastructure.model.TRFeedProperties;
 import org.junit.Before;
 import org.junit.Test;
 
