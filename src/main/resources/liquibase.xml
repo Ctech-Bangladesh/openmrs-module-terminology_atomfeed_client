@@ -7,7 +7,7 @@
     <changeSet id="terminology-atomfeed-client-1" author="John, Balaji">
         <insert tableName="scheduler_task_config">
             <column name="name" value="Terminology Feed Task"/>
-            <column name="schedulable_class" value="org.bahmni.module.terminology.infrastructure.task.ConceptFeedTask"/>
+            <column name="schedulable_class" value="org.bahmni.module.terminology.task.ConceptFeedTask"/>
             <column name="start_time" valueDate=" now() "/>
             <column name="start_time_pattern" value="MM/dd/yyyy HH:mm:ss"/>
             <column name="repeat_interval" value="15"/>
@@ -19,11 +19,25 @@
         </insert>
     </changeSet>
 
-    <changeSet id="terminology-atomfeed-chunking-history-2" author="John">
+    <changeSet id="terminology-atomfeed-client-2" author="John, Utsab">
+        <update tableName="scheduler_task_config">
+            <column name="schedulable_class" value="org.bahmni.module.terminology.task.ConceptFeedTask"/>
+            <where>name = "Terminology Feed Task"</where>
+        </update>
+    </changeSet>
+
+    <changeSet id="terminology-atomfeed-chunking-history-3" author="John">
         <insert tableName="chunking_history">
             <column name="chunk_length" value="100"/>
             <column name="start" value="1"/>
         </insert>
+    </changeSet>
+
+    <changeSet id="terminology-atomfeed-client-4" author="John, Utsab">
+        <update tableName="scheduler_task_config">
+            <column name="schedulable_class" value="org.bahmni.module.terminology.infrastructure.task.ConceptFeedTask"/>
+            <where>name = "Terminology Feed Task"</where>
+        </update>
     </changeSet>
 
 </databaseChangeLog>

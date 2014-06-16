@@ -5,7 +5,6 @@ import org.bahmni.module.terminology.application.model.ConceptObject;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
 import org.openmrs.api.ConceptService;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.rest.SimpleObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,9 +21,9 @@ public class ConceptMapper {
     private ConceptService conceptService;
 
     @Autowired
-    public ConceptMapper(ConceptNameMapper conceptNameMapper) {
+    public ConceptMapper(ConceptNameMapper conceptNameMapper, ConceptService conceptService) {
         this.conceptNameMapper = conceptNameMapper;
-        this.conceptService = Context.getConceptService();
+        this.conceptService = conceptService;
     }
 
     public ConceptObject map(SimpleObject simpleObject) {
@@ -35,8 +34,8 @@ public class ConceptMapper {
         result.setConceptNames(mapConceptNames((Collection) simpleObject.get("names")));
         result.setRetired(simpleObject.get("retired").toString());
         result.setSet(simpleObject.get("set").toString());
-        result.setVersion(simpleObject.get("version").toString());
-        result.setConceptDatatype(mapDataType((Map) simpleObject.get("dataType")));
+        result.setVersion(simpleObject.get("resourceVersion").toString());
+        result.setConceptDatatype(mapDataType((Map) simpleObject.get("datatype")));
         result.setConceptClass(mapConceptClass((Map) simpleObject.get("conceptClass")));
         return result;
     }

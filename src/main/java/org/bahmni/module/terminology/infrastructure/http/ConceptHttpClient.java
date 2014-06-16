@@ -1,6 +1,7 @@
 package org.bahmni.module.terminology.infrastructure.http;
 
 
+import com.google.gson.Gson;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -24,6 +25,6 @@ public class ConceptHttpClient {
 
     public SimpleObject get(String url) throws IOException {
         HttpResponse response = authenticatedHttpClient.execute(new HttpGet(url));
-        return SimpleObject.parseJson(EntityUtils.toString(response.getEntity()));
+        return new Gson().fromJson(EntityUtils.toString(response.getEntity()), SimpleObject.class);
     }
 }
