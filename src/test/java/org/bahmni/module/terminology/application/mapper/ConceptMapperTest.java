@@ -1,7 +1,6 @@
 package org.bahmni.module.terminology.application.mapper;
 
 import org.bahmni.module.terminology.application.model.ConceptObject;
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -26,7 +25,9 @@ public class ConceptMapperTest {
     private static final String CONCEPT_NAME = "test_concept_class";
     private static final String TEST_CONCEPT_NAME = "test_concept_name";
     private static final String CONCEPT_CLASS_UUID = "concept_uuid";
-    private final String DATA_TYPE_NAME = "DATA_TYPE_NAME";
+    private static final String DATA_TYPE_NAME = "DATA_TYPE_NAME";
+    private static final Integer CONCEPT_DATA_TYPE_ID = 1;
+    private static final Integer CONCEPT_CLASS_ID = 2;
 
     @Mock
     private ConceptService conceptService;
@@ -35,8 +36,8 @@ public class ConceptMapperTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        when(conceptService.getConceptDatatypeByName(DATA_TYPE_NAME)).thenReturn(new ConceptDatatype());
-        when(conceptService.getConceptClassByName(CONCEPT_NAME)).thenReturn(new ConceptClass());
+        when(conceptService.getConceptDatatypeByName(DATA_TYPE_NAME)).thenReturn(new ConceptDatatype(CONCEPT_DATA_TYPE_ID));
+        when(conceptService.getConceptClassByName(CONCEPT_NAME)).thenReturn(new ConceptClass(CONCEPT_CLASS_ID));
 
         mapper = new ConceptMapper(new ConceptNameMapper(), conceptService);
     }
@@ -49,11 +50,10 @@ public class ConceptMapperTest {
         assertThat(conceptObject, is(notNullValue()));
         assertThat(conceptObject.getDisplay(), is("test-display"));
         assertThat(conceptObject.getUuid(), is("test-uuid"));
-        assertThat(conceptObject.getRetired(), is("false"));
         assertThat(conceptObject.getVersion(), is("1"));
-        assertThat(conceptObject.getConceptName().getDisplay(), is(TEST_CONCEPT_NAME));
-        assertThat(conceptObject.getConceptClass().getUuid(), is(CoreMatchers.notNullValue()));
-
+        assertThat(conceptObject.getName().getDisplay(), is(TEST_CONCEPT_NAME));
+        assertThat(conceptObject.getConceptClass().getConceptClassId(), is(CONCEPT_CLASS_ID));
+        assertThat(conceptObject.getDatatype().getConceptDatatypeId(), is(CONCEPT_DATA_TYPE_ID));
     }
 
     private SimpleObject simpleObject() {

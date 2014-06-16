@@ -1,7 +1,6 @@
 package org.bahmni.module.terminology.application.model;
 
 
-import org.openmrs.api.ConceptService;
 import org.openmrs.module.webservices.rest.SimpleObject;
 
 import java.io.IOException;
@@ -31,9 +30,8 @@ public class ConceptRestResource {
         return result;
     }
 
-    public SimpleObject toDTO(ConceptService conceptService) {
+    public SimpleObject toDTO() {
         clearUnsupportedProperties();
-        updateRefereces(conceptService);
         return simpleObject;
     }
 
@@ -42,25 +40,6 @@ public class ConceptRestResource {
         simpleObject.removeProperty("precise");
         simpleObject.removeProperty("auditInfo");
         simpleObject.removeProperty("mappings");
-    }
-
-    private void updateRefereces(ConceptService conceptService) {
-        getNestedMap("datatype").put("conceptDatatypeId", conceptService.getConceptDatatypeByUuid(dataTypeUUID()).getId());
-        getNestedMap("conceptClass").put("conceptClassId", conceptService.getConceptClassByUuid(classUUID()).getId());
-    }
-
-
-    private Map getNestedMap(String key) {
-        return ((Map) simpleObject.get(key));
-    }
-
-
-    private String dataTypeUUID() {
-        return (String) ((Map) simpleObject.get("datatype")).get("uuid");
-    }
-
-    private String classUUID() {
-        return (String) ((Map) simpleObject.get("conceptClass")).get("uuid");
     }
 
 }

@@ -1,21 +1,17 @@
 package org.bahmni.module.terminology.application.model;
 
-import org.openmrs.ConceptClass;
-import org.openmrs.ConceptDatatype;
-
 import java.util.List;
 
 public class ConceptObject {
 
     private String uuid;
     private String display;
-    private ConceptName conceptName;
-    private List<ConceptName> conceptNames;
+    private ConceptName name;
+    private List<ConceptName> names;
     private String set;
     private String version;
-    private String retired;
-    private ConceptClass conceptClass;
-    private ConceptDatatype conceptDatatype;
+    private ConceptClassDTO conceptClass;
+    private ConceptDatatypeDTO datatype;
 
     public String getUuid() {
         return uuid;
@@ -33,20 +29,20 @@ public class ConceptObject {
         this.display = display;
     }
 
-    public ConceptName getConceptName() {
-        return conceptName;
+    public ConceptName getName() {
+        return name;
     }
 
-    public void setConceptName(ConceptName conceptName) {
-        this.conceptName = conceptName;
+    public void setName(ConceptName name) {
+        this.name = name;
     }
 
-    public List<ConceptName> getConceptNames() {
-        return conceptNames;
+    public List<ConceptName> getNames() {
+        return names;
     }
 
-    public void setConceptNames(List<ConceptName> conceptNames) {
-        this.conceptNames = conceptNames;
+    public void setNames(List<ConceptName> names) {
+        this.names = names;
     }
 
     public String getSet() {
@@ -65,27 +61,19 @@ public class ConceptObject {
         this.version = version;
     }
 
-    public String getRetired() {
-        return retired;
-    }
-
-    public void setRetired(String retired) {
-        this.retired = retired;
-    }
-
-    public ConceptClass getConceptClass() {
+    public ConceptClassDTO getConceptClass() {
         return conceptClass;
     }
 
-    public void setConceptClass(ConceptClass conceptClass) {
+    public void setConceptClass(ConceptClassDTO conceptClass) {
         this.conceptClass = conceptClass;
     }
 
-    public ConceptDatatype getConceptDatatype() {
-        return conceptDatatype;
+    public ConceptDatatypeDTO getDatatype() {
+        return datatype;
     }
 
-    public void setConceptDatatype(ConceptDatatype conceptDatatype) {
-        this.conceptDatatype = conceptDatatype;
+    public void setDatatype(ConceptDatatypeDTO datatype) {
+        this.datatype = datatype;
     }
 }

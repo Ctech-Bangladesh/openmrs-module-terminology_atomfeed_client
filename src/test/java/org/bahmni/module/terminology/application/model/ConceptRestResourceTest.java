@@ -14,8 +14,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
@@ -24,6 +26,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @RunWith(Enclosed.class)
 public class ConceptRestResourceTest {
 
+    private static final Integer DATA_TYPE_ID = 1;
+    private static final Integer CLASS_ID = 2;
 
     public static class WhenSimpleObjectIsValid {
 
@@ -46,8 +50,8 @@ public class ConceptRestResourceTest {
 
         private SimpleObject validSimpleObject() {
             SimpleObject simpleObject = new SimpleObject();
-            simpleObject.add("datatype", new HashMap<String, String>());
-            simpleObject.add("conceptClass", new HashMap<String, String>());
+            simpleObject.add("datatype", DATA_TYPE_ID);
+            simpleObject.add("conceptClass", CLASS_ID);
             return simpleObject;
         }
 
@@ -57,43 +61,41 @@ public class ConceptRestResourceTest {
             object.add("anotherKey", null);
 
             ConceptRestResource conceptRestResource = new ConceptRestResource(object);
-            assertTrue(conceptRestResource.toDTO(conceptService).keySet().contains("key"));
-            assertFalse(conceptRestResource.toDTO(conceptService).keySet().contains("anotherKey"));
+            assertTrue(conceptRestResource.toDTO().keySet().contains("key"));
+            assertFalse(conceptRestResource.toDTO().keySet().contains("anotherKey"));
         }
 
         @Test
         public void shouldHaveTheDataTypeId() throws IOException {
             ConceptRestResource conceptRestResource = new ConceptRestResource(object);
-            ((Map) conceptRestResource.toDTO(conceptService).get("datatype")).remove("conceptDatatypeId");
-            assertTrue(((Map) conceptRestResource.toDTO(conceptService).get("datatype")).keySet().contains("conceptDatatypeId"));
+            assertTrue(conceptRestResource.toDTO().get("datatype").equals(DATA_TYPE_ID));
         }
 
         @Test
         public void shouldHaveTheConceptClassId() throws IOException {
             ConceptRestResource conceptRestResource = new ConceptRestResource(object);
-            ((Map) conceptRestResource.toDTO(conceptService).get("datatype")).remove("conceptClassId");
-            assertTrue(((Map) conceptRestResource.toDTO(conceptService).get("conceptClass")).keySet().contains("conceptClassId"));
+            assertTrue(conceptRestResource.toDTO().get("conceptClass").equals(CLASS_ID));
         }
 
         @Test
         public void shouldNotHaveUUID() throws IOException {
             object.add("uuid", "someRandomUUID");
             ConceptRestResource conceptRestResource = new ConceptRestResource(object);
-            assertNull(conceptRestResource.toDTO(conceptService).get("uuid"));
+            assertNull(conceptRestResource.toDTO().get("uuid"));
         }
 
         @Test
         public void shouldNotHavePreciseSetting() throws IOException {
             object.add("precise", "true");
             ConceptRestResource conceptRestResource = new ConceptRestResource(object);
-            assertNull(conceptRestResource.toDTO(conceptService).get("precise"));
+            assertNull(conceptRestResource.toDTO().get("precise"));
         }
 
         @Test
         public void shouldNotHaveAuditInfo() throws IOException {
             object.add("auditInfo", "auditInfo");
             ConceptRestResource conceptRestResource = new ConceptRestResource(object);
-            assertNull(conceptRestResource.toDTO(conceptService).get("auditInfo"));
+            assertNull(conceptRestResource.toDTO().get("auditInfo"));
         }
     }
 
