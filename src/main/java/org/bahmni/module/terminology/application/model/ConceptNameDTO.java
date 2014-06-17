@@ -1,6 +1,6 @@
 package org.bahmni.module.terminology.application.model;
 
-public class ConceptName {
+public class ConceptNameDTO {
 
     private String uuid;
     private String display;

@@ -1,7 +1,7 @@
 package org.bahmni.module.terminology.application.mapper;
 
 import org.bahmni.module.terminology.application.functional.Lambda;
-import org.bahmni.module.terminology.application.model.ConceptName;
+import org.bahmni.module.terminology.application.model.ConceptNameDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -11,8 +11,8 @@ import static org.bahmni.module.terminology.application.functional.IfNotNull.ifN
 @Component
 public class ConceptNameMapper {
 
-    public ConceptName map(final Map nameObject) {
-        final ConceptName result = new ConceptName();
+    public ConceptNameDTO map(final Map nameObject) {
+        final ConceptNameDTO result = new ConceptNameDTO();
         ifNotNull(nameObject.get("uuid")).apply(new Lambda<Object>() {
             @Override
             public void apply(Object arg) {

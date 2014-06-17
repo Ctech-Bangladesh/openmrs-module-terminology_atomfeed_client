@@ -1,6 +1,6 @@
 package org.bahmni.module.terminology.application.mapper;
 
-import org.bahmni.module.terminology.application.model.ConceptObject;
+import org.bahmni.module.terminology.application.model.ConceptDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -45,15 +45,15 @@ public class ConceptMapperTest {
     @Test
     public void shouldMapSimpleObjectToConceptObject() {
 
-        ConceptObject conceptObject = mapper.map(simpleObject());
+        ConceptDTO conceptDTO = mapper.map(simpleObject());
 
-        assertThat(conceptObject, is(notNullValue()));
-        assertThat(conceptObject.getDisplay(), is("test-display"));
-        assertThat(conceptObject.getUuid(), is("test-uuid"));
-        assertThat(conceptObject.getVersion(), is("1"));
-        assertThat(conceptObject.getName().getDisplay(), is(TEST_CONCEPT_NAME));
-        assertThat(conceptObject.getConceptClass().getConceptClassId(), is(CONCEPT_CLASS_ID));
-        assertThat(conceptObject.getDatatype().getConceptDatatypeId(), is(CONCEPT_DATA_TYPE_ID));
+        assertThat(conceptDTO, is(notNullValue()));
+        assertThat(conceptDTO.getDisplay(), is("test-display"));
+        assertThat(conceptDTO.getUuid(), is("test-uuid"));
+        assertThat(conceptDTO.getVersion(), is("1"));
+        assertThat(conceptDTO.getName().getDisplay(), is(TEST_CONCEPT_NAME));
+        assertThat(conceptDTO.getConceptClass().getConceptClassId(), is(CONCEPT_CLASS_ID));
+        assertThat(conceptDTO.getDatatype().getConceptDatatypeId(), is(CONCEPT_DATA_TYPE_ID));
     }
 
     private SimpleObject simpleObject() {

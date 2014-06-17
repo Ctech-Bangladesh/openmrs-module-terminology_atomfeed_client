@@ -2,8 +2,8 @@ package org.bahmni.module.terminology.application.mapper;
 
 import org.bahmni.module.terminology.application.model.ConceptClassDTO;
 import org.bahmni.module.terminology.application.model.ConceptDatatypeDTO;
-import org.bahmni.module.terminology.application.model.ConceptName;
-import org.bahmni.module.terminology.application.model.ConceptObject;
+import org.bahmni.module.terminology.application.model.ConceptNameDTO;
+import org.bahmni.module.terminology.application.model.ConceptDTO;
 import org.openmrs.api.ConceptService;
 import org.openmrs.module.webservices.rest.SimpleObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,8 @@ public class ConceptMapper {
         this.conceptService = conceptService;
     }
 
-    public ConceptObject map(SimpleObject simpleObject) {
-        ConceptObject result = new ConceptObject();
+    public ConceptDTO map(SimpleObject simpleObject) {
+        ConceptDTO result = new ConceptDTO();
         result.setUuid(simpleObject.get("uuid").toString());
         result.setDisplay(simpleObject.get("display").toString());
         result.setName(mapConceptName((Map) simpleObject.get("name")));
@@ -47,15 +47,15 @@ public class ConceptMapper {
         return new ConceptDatatypeDTO(conceptService.getConceptDatatypeByName(dataType.get("display").toString()).getId());
     }
 
-    private List<ConceptName> mapConceptNames(Collection names) {
-        List<ConceptName> result = new ArrayList<>();
+    private List<ConceptNameDTO> mapConceptNames(Collection names) {
+        List<ConceptNameDTO> result = new ArrayList<>();
         for (Object name : names) {
             result.add(mapConceptName((Map) name));
         }
         return result;
     }
 
-    private ConceptName mapConceptName(Map name) {
+    private ConceptNameDTO mapConceptName(Map name) {
         return conceptNameMapper.map(name);
     }
 }

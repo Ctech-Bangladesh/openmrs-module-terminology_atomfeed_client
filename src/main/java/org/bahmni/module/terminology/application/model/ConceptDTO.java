@@ -2,12 +2,12 @@ package org.bahmni.module.terminology.application.model;
 
 import java.util.List;
 
-public class ConceptObject {
+public class ConceptDTO {
 
     private String uuid;
     private String display;
-    private ConceptName name;
-    private List<ConceptName> names;
+    private ConceptNameDTO name;
+    private List<ConceptNameDTO> names;
     private String set;
     private String version;
     private ConceptClassDTO conceptClass;
@@ -29,19 +29,19 @@ public class ConceptObject {
         this.display = display;
     }
 
-    public ConceptName getName() {
+    public ConceptNameDTO getName() {
         return name;
     }
 
-    public void setName(ConceptName name) {
+    public void setName(ConceptNameDTO name) {
         this.name = name;
     }
 
-    public List<ConceptName> getNames() {
+    public List<ConceptNameDTO> getNames() {
         return names;
     }
 
-    public void setNames(List<ConceptName> names) {
+    public void setNames(List<ConceptNameDTO> names) {
         this.names = names;
     }
 
