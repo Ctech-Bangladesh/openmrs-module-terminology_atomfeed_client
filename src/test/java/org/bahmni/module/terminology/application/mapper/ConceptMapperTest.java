@@ -1,6 +1,6 @@
 package org.bahmni.module.terminology.application.mapper;
 
-import org.bahmni.module.terminology.application.model.ConceptDTO;
+import org.bahmni.module.terminology.application.dtos.ConceptDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

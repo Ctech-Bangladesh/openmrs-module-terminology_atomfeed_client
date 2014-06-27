@@ -1,4 +1,4 @@
-package org.bahmni.module.terminology.application.model;
+package org.bahmni.module.terminology.application.dtos;
 
 
 import org.openmrs.module.webservices.rest.SimpleObject;

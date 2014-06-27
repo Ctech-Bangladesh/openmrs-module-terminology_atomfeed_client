@@ -1,9 +1,9 @@
 package org.bahmni.module.terminology.application.mapper;
 
-import org.bahmni.module.terminology.application.model.ConceptClassDTO;
-import org.bahmni.module.terminology.application.model.ConceptDatatypeDTO;
-import org.bahmni.module.terminology.application.model.ConceptNameDTO;
-import org.bahmni.module.terminology.application.model.ConceptDTO;
+import org.bahmni.module.terminology.application.dtos.ConceptClassDTO;
+import org.bahmni.module.terminology.application.dtos.ConceptDatatypeDTO;
+import org.bahmni.module.terminology.application.dtos.ConceptNameDTO;
+import org.bahmni.module.terminology.application.dtos.ConceptDTO;
 import org.openmrs.api.ConceptService;
 import org.openmrs.module.webservices.rest.SimpleObject;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package org.bahmni.module.terminology.application.model;
+package org.bahmni.module.terminology.application.dtos;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +12,6 @@ import org.openmrs.module.webservices.rest.SimpleObject;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;

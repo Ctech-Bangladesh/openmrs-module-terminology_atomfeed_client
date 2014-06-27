@@ -1,8 +1,9 @@
-package org.bahmni.module.terminology.infrastructure.feedclient.worker;
+package org.bahmni.module.terminology.infrastructure.atomfeed.workers;
 
 import org.bahmni.module.terminology.application.service.ConceptRestService;
-import org.bahmni.module.terminology.infrastructure.http.ConceptHttpClient;
-import org.bahmni.module.terminology.infrastructure.model.TRFeedProperties;
+import org.bahmni.module.terminology.infrastructure.atomfeed.workers.ConceptFeedWorker;
+import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
+import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.ict4h.atomfeed.client.domain.Event;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +29,7 @@ public class ConceptFeedWorkerTest {
     private ConceptRestService conceptRestService;
 
     @Mock
-    private ConceptHttpClient conceptHttpClient;
+    private AuthenticatedHttpClient httpClient;
 
     @Mock
     private TRFeedProperties properties;
@@ -42,7 +43,7 @@ public class ConceptFeedWorkerTest {
         initMocks(this);
         event = new Event("eventId", "/content", "title", "feedUri");
         properties = createProperties();
-        conceptFeedWorker = new ConceptFeedWorker(conceptHttpClient, properties, conceptRestService);
+        conceptFeedWorker = new ConceptFeedWorker(httpClient, properties, conceptRestService);
     }
 
     private TRFeedProperties createProperties() {
@@ -55,7 +56,7 @@ public class ConceptFeedWorkerTest {
     public void shouldSaveOrUpdateTheConceptFetched() throws IOException {
         SimpleObject response = new SimpleObject();
 
-        when(conceptHttpClient.get("http://localhost/content")).thenReturn(response);
+        when(httpClient.get("http://localhost/content", SimpleObject.class)).thenReturn(response);
         conceptFeedWorker.process(event);
         verify(conceptRestService).save(argumentCaptor.capture());
         assertEquals(response, argumentCaptor.getValue());

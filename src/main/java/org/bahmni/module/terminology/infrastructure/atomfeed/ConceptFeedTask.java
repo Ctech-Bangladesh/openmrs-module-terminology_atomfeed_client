@@ -1,7 +1,6 @@
-package org.bahmni.module.terminology.infrastructure.task;
+package org.bahmni.module.terminology.infrastructure.atomfeed;
 
 
-import org.bahmni.module.terminology.infrastructure.feedclient.ConceptFeedClient;
 import org.openmrs.api.context.Context;
 import org.openmrs.scheduler.tasks.AbstractTask;
 

@@ -1,4 +1,4 @@
-package org.bahmni.module.terminology.application.functional;
+package org.bahmni.module.terminology.util;
 
 public class IfNotNull<T> {
 

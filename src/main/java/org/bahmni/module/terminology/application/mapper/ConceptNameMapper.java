@@ -1,12 +1,12 @@
 package org.bahmni.module.terminology.application.mapper;
 
-import org.bahmni.module.terminology.application.functional.Lambda;
-import org.bahmni.module.terminology.application.model.ConceptNameDTO;
+import org.bahmni.module.terminology.application.dtos.ConceptNameDTO;
+import org.bahmni.module.terminology.util.Lambda;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-import static org.bahmni.module.terminology.application.functional.IfNotNull.ifNotNull;
+import static org.bahmni.module.terminology.util.IfNotNull.ifNotNull;
 
 @Component
 public class ConceptNameMapper {

@@ -1,4 +1,4 @@
-package org.bahmni.module.terminology.infrastructure.model;
+package org.bahmni.module.terminology.infrastructure.config;
 
 import org.junit.Before;
 import org.junit.Test;
