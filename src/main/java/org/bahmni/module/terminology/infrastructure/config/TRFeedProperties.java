@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.ict4h.atomfeed.client.AtomFeedProperties;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.io.FileInputStream;
 import java.util.Properties;
@@ -28,7 +29,8 @@ public class TRFeedProperties extends AtomFeedProperties {
 
     private Properties atomFeedProperties;
 
-    private void init(Properties defaultProperties){
+    @PostConstruct
+    public void init(){
         try {
             Properties feedProperties = new Properties();
             FileInputStream file = new FileInputStream(System.getProperty("user.home") + PATH_TO_PROPERTIES);
@@ -41,11 +43,11 @@ public class TRFeedProperties extends AtomFeedProperties {
     }
 
     public TRFeedProperties() {
-        init(defaultProperties);
     }
 
     public TRFeedProperties(Properties defaultProperties) {
-        init(defaultProperties);
+        this.defaultProperties = defaultProperties;
+        this.init();
     }
 
     public String terminologyFeedUri() {

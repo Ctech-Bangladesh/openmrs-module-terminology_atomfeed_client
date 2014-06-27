@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.openmrs.module.webservices.rest.SimpleObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
@@ -54,9 +55,9 @@ public class ConceptFeedWorkerTest {
 
     @Test
     public void shouldSaveOrUpdateTheConceptFetched() throws IOException {
-        SimpleObject response = new SimpleObject();
+        HashMap<String, Object> response = new HashMap<String, Object>();
 
-        when(httpClient.get("http://localhost/content", SimpleObject.class)).thenReturn(response);
+        when(httpClient.get("http://localhost/content", HashMap.class)).thenReturn(response);
         conceptFeedWorker.process(event);
         verify(conceptRestService).save(argumentCaptor.capture());
         assertEquals(response, argumentCaptor.getValue());

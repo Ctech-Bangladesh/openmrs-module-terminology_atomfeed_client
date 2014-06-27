@@ -1,36 +1,30 @@
 package org.bahmni.module.terminology.application.service;
 
-import com.google.gson.Gson;
-import org.bahmni.module.terminology.application.mapper.ConceptMapper;
-import org.bahmni.module.terminology.application.dtos.ConceptRestResource;
-import org.openmrs.module.webservices.rest.SimpleObject;
-import org.openmrs.module.webservices.rest.web.api.RestService;
-import org.openmrs.module.webservices.rest.web.resource.api.CrudResource;
+import org.bahmni.module.terminology.application.mappers.ConceptMapper;
+import org.openmrs.Concept;
+import org.openmrs.api.ConceptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Map;
 
 @Component
 public class ConceptRestService {
 
-    private RestService restService;
     private ConceptMapper conceptMapper;
+    private ConceptService conceptService;
 
     @Autowired
-    public ConceptRestService(RestService restService, ConceptMapper conceptMapper) {
-        this.restService = restService;
+    public ConceptRestService(ConceptMapper conceptMapper, ConceptService conceptService) {
         this.conceptMapper = conceptMapper;
+        this.conceptService = conceptService;
     }
 
-    public void save(SimpleObject simpleObject) throws IOException {
-        SimpleObject conceptData = toSimpleObject(conceptMapper.map(simpleObject));
-        CrudResource conceptResource = (CrudResource) restService.getResourceByName("v1/concept");
-        conceptResource.create(new ConceptRestResource(conceptData).toDTO(), null);
+    public void save(Map conceptData) throws IOException {
+        Concept concept = conceptMapper.map((Map<String, Object>) conceptData, conceptService);
+        conceptService.saveConcept(concept);
     }
 
-    public static SimpleObject toSimpleObject(Object entity) throws IOException {
-        return SimpleObject.parseJson(new Gson().toJson(entity));
-    }
 
 }

@@ -9,6 +9,8 @@ import org.ict4h.atomfeed.client.service.EventWorker;
 import org.openmrs.module.webservices.rest.SimpleObject;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static java.lang.String.format;
 
@@ -31,7 +33,7 @@ public class ConceptFeedWorker implements EventWorker {
     public void process(final Event event) {
         logger.info(format("Received concept sync event for %s with conent %s ", event.getFeedUri(), event.getContent()));
         try {
-            SimpleObject concept = httpClient.get(properties.getTerminologyUrl(event.getContent()), SimpleObject.class);
+            Map concept = httpClient.get(properties.getTerminologyUrl(event.getContent()), HashMap.class);
             conceptRestService.save(concept);
         } catch (IOException e) {
             logger.error(format("Error while syncing concept %s , reason : %s", event.getId(), e.getMessage()));
