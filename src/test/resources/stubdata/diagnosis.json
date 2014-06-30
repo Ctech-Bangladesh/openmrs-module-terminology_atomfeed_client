@@ -1,0 +1,127 @@
+{
+    "uuid": "cebe4ed6-3f86-49a6-98fd-46c01e40a771",
+    "name": {
+        "uuid": "248aa9c1-2ffe-437d-862c-f8b4a96213b6",
+        "name": "samplediagnosis",
+        "locale": "en",
+        "conceptNameType": "FULLY_SPECIFIED"
+    },
+    "datatype": {
+        "uuid": "8d4a4ab4-c2cc-11de-8d13-0010c6dffd0f",
+        "display": "Text",
+        "name": "Text",
+        "description": "Free text",
+        "hl7Abbreviation": "ST",
+        "retired": false,
+        "links": [
+            {
+                "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/conceptdatatype/8d4a4ab4-c2cc-11de-8d13-0010c6dffd0f",
+                "rel": "self"
+            },
+            {
+                "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/conceptdatatype/8d4a4ab4-c2cc-11de-8d13-0010c6dffd0f?v=full",
+                "rel": "full"
+            }
+        ],
+        "resourceVersion": "1.8"
+    },
+    "set": false,
+    "version": null,
+    "retired": false,
+    "names": [
+        {
+            "display": "samplediagnosis",
+            "uuid": "248aa9c1-2ffe-437d-862c-f8b4a96213b6",
+            "name": "samplediagnosis",
+            "locale": "en",
+            "localePreferred": true,
+            "conceptNameType": "FULLY_SPECIFIED",
+            "links": [
+                {
+                    "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/concept/cebe4ed6-3f86-49a6-98fd-46c01e40a771/name/248aa9c1-2ffe-437d-862c-f8b4a96213b6",
+                    "rel": "self"
+                },
+                {
+                    "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/concept/cebe4ed6-3f86-49a6-98fd-46c01e40a771/name/248aa9c1-2ffe-437d-862c-f8b4a96213b6?v=full",
+                    "rel": "full"
+                }
+            ],
+            "resourceVersion": "1.9"
+        },
+        {
+            "display": "sd",
+            "uuid": "d39c2df9-4512-4b9e-9c7d-c297f4a8eead",
+            "name": "sd",
+            "locale": "en",
+            "localePreferred": false,
+            "conceptNameType": "SHORT",
+            "links": [
+                {
+                    "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/concept/cebe4ed6-3f86-49a6-98fd-46c01e40a771/name/d39c2df9-4512-4b9e-9c7d-c297f4a8eead",
+                    "rel": "self"
+                },
+                {
+                    "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/concept/cebe4ed6-3f86-49a6-98fd-46c01e40a771/name/d39c2df9-4512-4b9e-9c7d-c297f4a8eead?v=full",
+                    "rel": "full"
+                }
+            ],
+            "resourceVersion": "1.9"
+        }
+    ],
+    "answers": [],
+    "setMembers": [],
+    "mappings": [
+        {
+            "uuid": "75c2efca-8a13-4774-a03e-f59ac8fb85cc",
+            "conceptReferenceTerm": {
+                "uuid": "25c517e6-4bb1-41ad-b8b8-01c315a452d9",
+                "display": "ICD10-BD: A00 (Cholera)",
+                "name": "Cholera",
+                "conceptSource": {
+                    "uuid": "30601597-21d1-4bcd-a617-71955219276b",
+                    "display": "ICD10-BD",
+                    "links": [
+                        {
+                            "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/conceptsource/30601597-21d1-4bcd-a617-71955219276b",
+                            "rel": "self"
+                        }
+                    ]
+                },
+                "description": "Cholera",
+                "code": "A00",
+                "version": "0.9",
+                "retired": false,
+                "links": [
+                    {
+                        "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/conceptreferenceterm/25c517e6-4bb1-41ad-b8b8-01c315a452d9",
+                        "rel": "self"
+                    },
+                    {
+                        "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/conceptreferenceterm/25c517e6-4bb1-41ad-b8b8-01c315a452d9?v=full",
+                        "rel": "full"
+                    }
+                ],
+                "resourceVersion": "1.9"
+            },
+            "conceptMapType": {
+                "uuid": "35543629-7d8c-11e1-909d-c80aa9edcf4e",
+                "display": "SAME-AS",
+                "name": "SAME-AS",
+                "description": null,
+                "isHidden": false,
+                "retired": false,
+                "links": [
+                    {
+                        "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/conceptmaptype/35543629-7d8c-11e1-909d-c80aa9edcf4e",
+                        "rel": "self"
+                    },
+                    {
+                        "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/conceptmaptype/35543629-7d8c-11e1-909d-c80aa9edcf4e?v=full",
+                        "rel": "full"
+                    }
+                ],
+                "resourceVersion": "1.9"
+            }
+        }
+    ]
+}

@@ -1,38 +1,37 @@
 package org.bahmni.module.terminology.infrastructure.config;
 
-import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Properties;
+import org.openmrs.web.test.BaseModuleWebContextSensitiveTest;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class TRFeedPropertiesTest {
+@org.springframework.test.context.ContextConfiguration(locations = {"classpath:TestingApplicationContext.xml"}, inheritLocations = true)
+public class TRFeedPropertiesTest extends BaseModuleWebContextSensitiveTest {
 
-    private Properties properties;
+    @Autowired
+    private TRFeedProperties feedProperties;
 
-    @Before
-    public void setUp() {
-        properties = new Properties();
-        properties.setProperty("terminology.feed.url", "http://127.0.0.1:9080/openmrs/ws/atomfeed/concept/recent");
-    }
 
     @Test
     public void shouldIdentifyTerminologyFeedUrl() {
-        TRFeedProperties trFeedProperties = new TRFeedProperties(properties);
-        assertThat(trFeedProperties.terminologyFeedUri(), is("http://127.0.0.1:9080/openmrs/ws/atomfeed/concept/recent"));
+        assertThat(feedProperties.terminologyFeedUri(), is("http://localhost:9999/openmrs/ws/atomfeed/concept/recent"));
     }
 
     @Test
-    public void shouldIdentifyTerminologyServerPrefix() {
-        TRFeedProperties trFeedProperties = new TRFeedProperties(properties);
-        assertThat(trFeedProperties.getTerminologyUrl(null), is("http://127.0.0.1:9080"));
+    public void shouldBuildTheTerminologyResourceUrl() {
+        assertThat(feedProperties.getTerminologyUrl("/uuid"), is("http://localhost:9999/uuid"));
     }
 
     @Test
-    public void shouldAppendTheContentToThePrefix() {
-        TRFeedProperties trFeedProperties = new TRFeedProperties(properties);
-        assertThat(trFeedProperties.getTerminologyUrl("/uuid"), is("http://127.0.0.1:9080/uuid"));
+    public void shouldIdentifyDiagnosisFeedUrl(){
+        assertThat(feedProperties.getDiagnosisFeedUrl(), is("http://localhost:9999/openmrs/ws/atomfeed/diagnosis/recent"));
     }
+
+    @Test
+    public void shouldBuildTheDiagnosisResourceUrl(){
+        assertThat(feedProperties.getDiagnosisUrl("/diagnosis_id"), is("http://localhost:9999/diagnosis_id"));
+    }
+
 }

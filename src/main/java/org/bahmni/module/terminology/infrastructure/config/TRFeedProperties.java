@@ -77,4 +77,8 @@ public class TRFeedProperties extends AtomFeedProperties {
     public String getDiagnosisFeedUrl() {
         return atomFeedProperties.getProperty(DIAGNOSIS_FEED_URI);
     }
+
+    public String getDiagnosisUrl(String content) {
+        return join(subarray(getDiagnosisFeedUrl().split("/"), 0, 3), "/") + ((null == content) ? "" : content);
+    }
 }

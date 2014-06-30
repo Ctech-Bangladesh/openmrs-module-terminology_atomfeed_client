@@ -6,7 +6,6 @@ import org.openmrs.api.ConceptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.Map;
 
 @Component
@@ -21,7 +20,7 @@ public class ConceptRestService {
         this.conceptService = conceptService;
     }
 
-    public void save(Map conceptData) throws IOException {
+    public void save(Map conceptData) {
         Concept concept = conceptMapper.map((Map<String, Object>) conceptData, conceptService);
         conceptService.saveConcept(concept);
     }

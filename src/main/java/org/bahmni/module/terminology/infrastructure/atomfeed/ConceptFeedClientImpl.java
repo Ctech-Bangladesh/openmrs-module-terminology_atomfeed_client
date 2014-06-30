@@ -14,24 +14,25 @@ import java.net.URISyntaxException;
 @Component("conceptFeedClient")
 public class ConceptFeedClientImpl implements ConceptFeedClient {
 
-    private ConceptRestService conceptRestService;
+    private final Logger logger = Logger.getLogger(ConceptFeedClientImpl.class);
+
+    private ConceptRestService conceptService;
     private FeedProcessor feedProcessor;
     private AuthenticatedHttpClient httpClient;
     private TRFeedProperties properties;
 
-    private final Logger logger = Logger.getLogger(ConceptFeedClientImpl.class);
-
     @Autowired
-    public ConceptFeedClientImpl(ConceptRestService conceptRestService, FeedProcessor feedProcessor,  AuthenticatedHttpClient httpClient, TRFeedProperties properties) {
-        this.conceptRestService = conceptRestService;
+    public ConceptFeedClientImpl(ConceptRestService conceptService, FeedProcessor feedProcessor, AuthenticatedHttpClient httpClient, TRFeedProperties properties) {
+        this.conceptService = conceptService;
         this.feedProcessor = feedProcessor;
         this.httpClient = httpClient;
         this.properties = properties;
     }
 
     @Override
-    public void syncConcepts() throws URISyntaxException {
+    public void syncAllConcepts() throws URISyntaxException {
         logger.info("Terminology atom feed started!");
-        feedProcessor.process(properties.terminologyFeedUri(), new ConceptFeedWorker(httpClient, properties, conceptRestService), properties);
+        feedProcessor.process(properties.terminologyFeedUri(), new ConceptFeedWorker(httpClient, properties, conceptService), properties);
     }
+
 }

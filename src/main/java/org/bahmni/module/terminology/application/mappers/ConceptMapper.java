@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
+import org.openmrs.ConceptMap;
 import org.openmrs.ConceptName;
 import org.openmrs.api.ConceptService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,13 @@ import static org.bahmni.module.terminology.util.CollectionUtils.safeGet;
 @Component
 public class ConceptMapper {
     private ConceptNameMapper nameMapper;
+    private ReferenceTermMapper referenceTermMapper;
 
 
     @Autowired
-    public ConceptMapper(ConceptNameMapper nameMapper) {
+    public ConceptMapper(ConceptNameMapper nameMapper, ReferenceTermMapper referenceTermMapper) {
         this.nameMapper = nameMapper;
+        this.referenceTermMapper = referenceTermMapper;
     }
 
     public Concept map(Map<String, Object> data, ConceptService conceptService) {
@@ -34,7 +37,18 @@ public class ConceptMapper {
         concept.setVersion(safeGet(data, "resourceVersion", StringUtils.EMPTY).toString());
         concept.setDatatype(toDataType(data, conceptService));
         concept.setConceptClass(toConceptClass(data, conceptService));
+        //concept.setConceptMappings(toConceptMappings(data, conceptService));
         return concept;
+    }
+
+    private Collection<ConceptMap> toConceptMappings(Map<String, Object> data, ConceptService conceptService) {
+        Set<ConceptMap> conceptMappings = new HashSet<ConceptMap>();
+        if (data.containsKey("mappings")) {
+            for (Object mapping : (Collection) data.get("mappings")) {
+                conceptMappings.add(referenceTermMapper.map((Map) mapping, conceptService));
+            }
+        }
+        return conceptMappings;
     }
 
     private ConceptClass toConceptClass(Map<String, Object> data, ConceptService conceptService) {

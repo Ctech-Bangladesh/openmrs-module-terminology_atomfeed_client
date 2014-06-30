@@ -4,5 +4,6 @@ import java.net.URISyntaxException;
 
 public interface ConceptFeedClient {
 
-    public void syncConcepts() throws URISyntaxException;
+    public void syncAllConcepts() throws URISyntaxException;
+
 }

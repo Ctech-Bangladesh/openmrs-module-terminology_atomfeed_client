@@ -1,6 +1,7 @@
 package org.bahmni.module.terminology.infrastructure.atomfeed.workers;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import org.bahmni.module.terminology.application.mappers.ConceptMapper;
 import org.bahmni.module.terminology.application.service.ConceptRestService;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
@@ -23,7 +24,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
 @org.springframework.test.context.ContextConfiguration(locations = {"classpath:TestingApplicationContext.xml"}, inheritLocations = true)
-public class ConceptFeedWorkerIT extends BaseModuleWebContextSensitiveTest {
+public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensitiveTest {
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(9999);
@@ -33,7 +34,7 @@ public class ConceptFeedWorkerIT extends BaseModuleWebContextSensitiveTest {
     @Autowired
     private TRFeedProperties trFeedProperties;
     @Autowired
-    private ConceptRestService conceptRestService;
+    private ConceptRestService conceptService;
 
     @Test
     public void shouldSyncConcepts() {
@@ -42,7 +43,7 @@ public class ConceptFeedWorkerIT extends BaseModuleWebContextSensitiveTest {
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/concept.json"))));
-        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, trFeedProperties, conceptRestService);
+        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, trFeedProperties, conceptService);
 
         worker.process(new Event("eventId", "/openmrs/ws/rest/v1/concept/ec0f4153-3f7f-446a-b82d-7756f0fdcac1?v=full", "title", "feedUri"));
 
