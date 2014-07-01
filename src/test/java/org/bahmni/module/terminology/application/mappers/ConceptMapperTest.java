@@ -7,23 +7,18 @@ import org.mockito.MockitoAnnotations;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
-import org.openmrs.ConceptMap;
-import org.openmrs.ConceptSource;
 import org.openmrs.api.ConceptService;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
-import static org.bahmni.module.terminology.util.CollectionUtils.first;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
 public class ConceptMapperTest {
-
-    private final String CONCEPT_SOURCE_CODE = "ICD10-BD";
     @Mock
     private ConceptService conceptService;
     private String DATA_TYPE_NAME = "test-data-type";
@@ -40,48 +35,15 @@ public class ConceptMapperTest {
         when(conceptService.getConceptClassByName(CLASS_NAME)).thenReturn(new ConceptClass());
         Map<String, Object> data = basicConceptData();
 
-        Concept concept = new ConceptMapper(new ConceptNameMapper(), new ReferenceTermMapper()).map(data, conceptService);
+        Concept concept = new ConceptMapper(new ConceptNameMapper(),
+                new ConceptReferenceTermMapper(new ConceptSourceMapper(conceptService), conceptService),
+                new ConceptDataTypeMapper(conceptService),
+                new ConceptClassMapper(conceptService))
+                .map(data);
 
         assertThat(concept.getNames().size(), is(1));
         assertThat(concept.getConceptClass(), is(notNullValue()));
         assertThat(concept.getDatatype(), is(notNullValue()));
-    }
-
-    @Test
-    public void shouldMapDataWithRefTermToConcept() {
-        ConceptSource conceptSource = new ConceptSource();
-        conceptSource.setName(CONCEPT_SOURCE_CODE);
-        when(conceptService.getConceptSourceByName(CONCEPT_SOURCE_CODE)).thenReturn(conceptSource);
-        Map<String, Object> data = basicConceptData();
-        data.put("mappings", asList(mapping()));
-
-        Concept concept = new ConceptMapper(new ConceptNameMapper(), new ReferenceTermMapper()).map(data, conceptService);
-
-        ConceptMap mappings = first(concept.getConceptMappings());
-        assertThat(mappings.getConceptReferenceTerm().getCode(), is("A00"));
-        assertThat(mappings.getConceptReferenceTerm().getName(), is("Cholera"));
-        assertThat(mappings.getConceptReferenceTerm().getConceptSource().getName(), is("ICD10-BD"));
-
-    }
-
-    private Map<String, Object> mapping() {
-        HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("conceptReferenceTerm", referenceTerm());
-        return data;
-    }
-
-    private Map<String, Object> referenceTerm() {
-        HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("conceptSource", conceptSource());
-        data.put("code", "A00");
-        data.put("name", "Cholera");
-        return data;
-    }
-
-    private Object conceptSource() {
-        HashMap<String, Object> data = new HashMap<String, Object>();
-        data.put("display", CONCEPT_SOURCE_CODE);
-        return data;
     }
 
     private Map<String, Object> basicConceptData() {

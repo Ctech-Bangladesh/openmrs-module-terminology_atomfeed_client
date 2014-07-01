@@ -6,4 +6,6 @@ public interface ConceptFeedClient {
 
     public void syncAllConcepts() throws URISyntaxException;
 
+    public void syncDiangosis() throws URISyntaxException;
+
 }

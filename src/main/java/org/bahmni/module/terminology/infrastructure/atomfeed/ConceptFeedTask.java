@@ -12,7 +12,7 @@ public class ConceptFeedTask extends AbstractTask {
     public void execute() {
         ConceptFeedClient conceptFeedClient = Context.getService(ConceptFeedClient.class);
         try {
-            conceptFeedClient.syncAllConcepts();
+            conceptFeedClient.syncDiangosis();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

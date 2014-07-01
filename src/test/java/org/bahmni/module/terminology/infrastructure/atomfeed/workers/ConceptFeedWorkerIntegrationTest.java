@@ -1,10 +1,11 @@
 package org.bahmni.module.terminology.infrastructure.atomfeed.workers;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import org.bahmni.module.terminology.application.mappers.ConceptMapper;
-import org.bahmni.module.terminology.application.service.ConceptRestService;
+import org.bahmni.module.terminology.application.mappers.BasicConceptMapper;
+import org.bahmni.module.terminology.application.mappers.DiagnosisMapper;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
+import org.hamcrest.CoreMatchers;
 import org.ict4h.atomfeed.client.domain.Event;
 import org.junit.Rule;
 import org.junit.Test;
@@ -34,7 +35,11 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
     @Autowired
     private TRFeedProperties trFeedProperties;
     @Autowired
-    private ConceptRestService conceptService;
+    private ConceptService conceptService;
+    @Autowired
+    private BasicConceptMapper conceptMapper;
+    @Autowired
+    private DiagnosisMapper diagnosisMapper;
 
     @Test
     public void shouldSyncConcepts() {
@@ -43,11 +48,34 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/concept.json"))));
-        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, trFeedProperties, conceptService);
+        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, trFeedProperties, conceptService, conceptMapper);
 
         worker.process(new Event("eventId", "/openmrs/ws/rest/v1/concept/ec0f4153-3f7f-446a-b82d-7756f0fdcac1?v=full", "title", "feedUri"));
 
         Concept concept = Context.getService(ConceptService.class).getConceptByName("tbtest");
         assertThat(concept, is(notNullValue()));
+        assertThat(concept.getName().getName(), is("tbtest"));
+        assertThat(concept.getDatatype().getName(), is("Text"));
+        assertThat(concept.getConceptClass().getName(), is("Diagnosis"));
+
+    }
+
+    @Test
+    public void shouldSyncDiagnosis() {
+        givenThat(get(urlEqualTo("/openmrs/ws/rest/v1/concept/cebe4ed6-3f86-49a6-98fd-46c01e40a771?v=full"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(asString("stubdata/diagnosis.json"))));
+        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, trFeedProperties, conceptService, diagnosisMapper);
+
+        worker.process(new Event("eventId", "/openmrs/ws/rest/v1/concept/cebe4ed6-3f86-49a6-98fd-46c01e40a771?v=full", "title", "feedUri"));
+
+        Concept concept = Context.getService(ConceptService.class).getConceptByName("samplediagnosis");
+        assertThat(concept, is(notNullValue()));
+        assertThat(concept.getName().getName(), is("samplediagnosis"));
+        assertThat(concept.getDatatype().getName(), is("Text"));
+        assertThat(concept.getConceptClass(), is(CoreMatchers.notNullValue()));
+        assertThat(concept.getConceptClass().getName(), is("Diagnosis"));
     }
 }

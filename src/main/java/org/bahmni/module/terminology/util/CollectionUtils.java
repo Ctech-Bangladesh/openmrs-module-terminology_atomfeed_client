@@ -14,6 +14,9 @@ public class CollectionUtils {
         return map.containsKey(key) ? map.get(key) : defaultValue;
     }
 
+    public static <K> Map safeGetMap(Map<K, Object> map, K key) {
+        return map.containsKey(key) ? (Map) map.get(key) : null;
+    }
 
     public static <T> T first(Collection<T> xs) {
         ArrayList<T> list = new ArrayList<T>();

@@ -6,65 +6,52 @@ import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
 import org.openmrs.ConceptMap;
 import org.openmrs.ConceptName;
-import org.openmrs.api.ConceptService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static org.apache.commons.collections.CollectionUtils.addIgnoreNull;
 import static org.bahmni.module.terminology.util.CollectionUtils.safeGet;
+import static org.bahmni.module.terminology.util.CollectionUtils.safeGetMap;
 
-@Component
 public class ConceptMapper {
-    private ConceptNameMapper nameMapper;
-    private ReferenceTermMapper referenceTermMapper;
+    private Mapper<ConceptDatatype> dataTypeMapper;
+    private Mapper<ConceptName> nameMapper;
+    private Mapper<ConceptMap> referenceTermMapper;
+    private Mapper<ConceptClass> conceptClassMapper;
 
-
-    @Autowired
-    public ConceptMapper(ConceptNameMapper nameMapper, ReferenceTermMapper referenceTermMapper) {
+    public ConceptMapper(Mapper<ConceptName> nameMapper,
+                         Mapper<ConceptMap> referenceTermMapper,
+                         Mapper<ConceptDatatype> dataTypeMapper,
+                         Mapper<ConceptClass> conceptClassMapper) {
         this.nameMapper = nameMapper;
         this.referenceTermMapper = referenceTermMapper;
+        this.dataTypeMapper = dataTypeMapper;
+        this.conceptClassMapper = conceptClassMapper;
     }
 
-    public Concept map(Map<String, Object> data, ConceptService conceptService) {
+    public Concept map(Map<String, Object> data) {
         Concept concept = new Concept();
         concept.setFullySpecifiedName(nameMapper.map((Map) data.get("name")));
-        concept.setNames(toNames(data.get("names")));
         concept.setSet(Boolean.valueOf(safeGet(data, "set", "false").toString()));
         concept.setVersion(safeGet(data, "resourceVersion", StringUtils.EMPTY).toString());
-        concept.setDatatype(toDataType(data, conceptService));
-        concept.setConceptClass(toConceptClass(data, conceptService));
-        //concept.setConceptMappings(toConceptMappings(data, conceptService));
+        concept.setDatatype(dataTypeMapper.map(safeGetMap(data, "datatype")));
+        concept.setConceptClass(conceptClassMapper.map(safeGetMap(data, "conceptClass")));
+        concept.setNames(toNames(data.get("names")));
+        concept.setConceptMappings(toConceptMappings(data));
         return concept;
     }
 
-    private Collection<ConceptMap> toConceptMappings(Map<String, Object> data, ConceptService conceptService) {
+    private Collection<ConceptMap> toConceptMappings(Map<String, Object> data) {
         Set<ConceptMap> conceptMappings = new HashSet<ConceptMap>();
         if (data.containsKey("mappings")) {
             for (Object mapping : (Collection) data.get("mappings")) {
-                conceptMappings.add(referenceTermMapper.map((Map) mapping, conceptService));
+                addIgnoreNull(conceptMappings, referenceTermMapper.map((Map) mapping));
             }
         }
         return conceptMappings;
-    }
-
-    private ConceptClass toConceptClass(Map<String, Object> data, ConceptService conceptService) {
-        if (data.containsKey("conceptClass")) {
-            Map conceptClass = (Map) data.get("conceptClass");
-            return conceptService.getConceptClassByName(conceptClass.get("name").toString());
-        }
-        return null;
-    }
-
-    private ConceptDatatype toDataType(Map<String, Object> data, ConceptService conceptService) {
-        if (data.containsKey("datatype")) {
-            Map dataType = (Map) data.get("datatype");
-            return conceptService.getConceptDatatypeByName(dataType.get("name").toString());
-        }
-        return null;
     }
 
     private Set<ConceptName> toNames(Object names) {
