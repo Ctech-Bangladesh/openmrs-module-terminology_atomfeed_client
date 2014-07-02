@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
-public class ConceptSourceMapper implements Mapper<ConceptSource>{
+public class ConceptSourceMapper implements Mapper<ConceptSource> {
 
     private ConceptService conceptService;
 
     @Autowired
-    public ConceptSourceMapper(ConceptService conceptService){
+    public ConceptSourceMapper(ConceptService conceptService) {
         this.conceptService = conceptService;
     }
 

@@ -1,11 +1,7 @@
 package org.bahmni.module.terminology.application.mappers;
 
 import org.apache.commons.lang.StringUtils;
-import org.openmrs.Concept;
-import org.openmrs.ConceptClass;
-import org.openmrs.ConceptDatatype;
-import org.openmrs.ConceptMap;
-import org.openmrs.ConceptName;
+import org.openmrs.*;
 
 import java.util.Collection;
 import java.util.HashSet;

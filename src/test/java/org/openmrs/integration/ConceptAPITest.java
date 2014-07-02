@@ -10,9 +10,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.web.test.BaseModuleWebContextSensitiveTest;
 
 import static org.junit.Assert.assertNotNull;
-import static org.openmrs.integration.ConceptReferenceData.concept;
-import static org.openmrs.integration.ConceptReferenceData.conceptSource;
-import static org.openmrs.integration.ConceptReferenceData.referenceTerm;
+import static org.openmrs.integration.ConceptReferenceData.*;
 
 @org.springframework.test.context.ContextConfiguration(locations = {"classpath:TestingApplicationContext.xml"}, inheritLocations = true)
 public class ConceptAPITest extends BaseModuleWebContextSensitiveTest {

@@ -1,7 +1,6 @@
 package org.bahmni.module.terminology.infrastructure.atomfeed.workers;
 
 import org.apache.log4j.Logger;
-import org.bahmni.module.terminology.application.mappers.ConceptMapper;
 import org.bahmni.module.terminology.application.mappers.Mapper;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;

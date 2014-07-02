@@ -16,13 +16,13 @@ public class ConceptReferenceData {
         return conceptSource;
     }
 
-    public static Concept concept(String name){
+    public static Concept concept(String name) {
         Concept concept = new Concept();
         concept.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
         return concept;
     }
 
-    public static ConceptReferenceTerm referenceTerm(String code, ConceptSource conceptSource){
+    public static ConceptReferenceTerm referenceTerm(String code, ConceptSource conceptSource) {
         ConceptReferenceTerm referenceTerm = new ConceptReferenceTerm();
         referenceTerm.setConceptSource(conceptSource);
         referenceTerm.setCode(code);

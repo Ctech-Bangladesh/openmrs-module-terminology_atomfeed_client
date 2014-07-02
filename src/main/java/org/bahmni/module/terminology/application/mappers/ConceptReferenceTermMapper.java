@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
-public class ConceptReferenceTermMapper implements Mapper<ConceptMap>{
+public class ConceptReferenceTermMapper implements Mapper<ConceptMap> {
 
     private ConceptSourceMapper sourceMapper;
     private ConceptService conceptService;
@@ -24,7 +24,7 @@ public class ConceptReferenceTermMapper implements Mapper<ConceptMap>{
     public ConceptMap map(Map mappingData) {
         Map<String, Object> referenceTermData = (Map<String, Object>) mappingData.get("conceptReferenceTerm");
         Map<String, Object> conceptSourceData = (Map<String, Object>) referenceTermData.get("conceptSource");
-        if (conceptSourceData == null){
+        if (conceptSourceData == null) {
             return null;
         }
         ConceptMap conceptMap = new ConceptMap();

@@ -30,7 +30,7 @@ public class TRFeedProperties extends AtomFeedProperties {
     private Properties atomFeedProperties;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         try {
             Properties feedProperties = new Properties();
             FileInputStream file = new FileInputStream(System.getProperty("user.home") + PATH_TO_PROPERTIES);

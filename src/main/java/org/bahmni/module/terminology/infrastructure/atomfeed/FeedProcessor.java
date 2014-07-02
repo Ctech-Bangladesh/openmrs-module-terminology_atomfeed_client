@@ -22,7 +22,7 @@ public class FeedProcessor {
     private PlatformTransactionManager transactionManager;
 
     @Autowired
-    public FeedProcessor(PlatformTransactionManager transactionManager){
+    public FeedProcessor(PlatformTransactionManager transactionManager) {
         this.transactionManager = transactionManager;
     }
 

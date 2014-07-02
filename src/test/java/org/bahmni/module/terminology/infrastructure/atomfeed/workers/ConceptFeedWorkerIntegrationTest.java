@@ -15,10 +15,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.web.test.BaseModuleWebContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.givenThat;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.bahmni.module.terminology.util.FileUtil.asString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -28,7 +25,7 @@ import static org.junit.Assert.assertThat;
 public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensitiveTest {
 
     @Rule
-    public WireMockRule wireMockRule = new WireMockRule(9999);
+    public WireMockRule wireMockRule = new WireMockRule(9997);
 
     @Autowired
     private AuthenticatedHttpClient httpClient;
@@ -57,6 +54,7 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
         assertThat(concept.getName().getName(), is("tbtest"));
         assertThat(concept.getDatatype().getName(), is("Text"));
         assertThat(concept.getConceptClass().getName(), is("Diagnosis"));
+
 
     }
 

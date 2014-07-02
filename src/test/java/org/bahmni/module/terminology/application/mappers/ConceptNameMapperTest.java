@@ -2,18 +2,14 @@ package org.bahmni.module.terminology.application.mappers;
 
 import org.junit.Test;
 import org.openmrs.ConceptName;
-import org.openmrs.api.ConceptNameType;
 
 import java.util.HashMap;
 import java.util.Locale;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.openmrs.api.ConceptNameType.*;
+import static org.openmrs.api.ConceptNameType.FULLY_SPECIFIED;
 
 public class ConceptNameMapperTest {
 
@@ -30,7 +26,6 @@ public class ConceptNameMapperTest {
         assertThat(conceptName.getLocale(), is(new Locale("en")));
         assertThat(conceptName.getConceptNameType(), is(FULLY_SPECIFIED));
     }
-
 
 
     @Test

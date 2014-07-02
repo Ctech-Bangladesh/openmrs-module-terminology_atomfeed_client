@@ -52,5 +52,4 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
     }
 
 
-
 }

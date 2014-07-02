@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
-public class DiagnosisConceptClassMapper implements Mapper<ConceptClass>{
+public class DiagnosisConceptClassMapper implements Mapper<ConceptClass> {
 
     @Autowired
     private ConceptService conceptService;

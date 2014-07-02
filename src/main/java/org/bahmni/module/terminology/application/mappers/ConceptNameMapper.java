@@ -12,7 +12,7 @@ import static org.apache.commons.lang.StringUtils.isNotEmpty;
 import static org.bahmni.module.terminology.util.CollectionUtils.safeGet;
 
 @Component
-public class ConceptNameMapper implements Mapper<ConceptName>{
+public class ConceptNameMapper implements Mapper<ConceptName> {
 
     public ConceptName map(Map<String, Object> data) {
         ConceptName conceptName = new ConceptName();

@@ -35,7 +35,8 @@
 
     <changeSet id="terminology-atomfeed-client-4" author="John, Utsab">
         <update tableName="scheduler_task_config">
-            <column name="schedulable_class" value="org.bahmni.module.terminology.infrastructure.atomfeed.ConceptFeedTask"/>
+            <column name="schedulable_class"
+                    value="org.bahmni.module.terminology.infrastructure.atomfeed.ConceptFeedTask"/>
             <where>name = "Terminology Feed Task"</where>
         </update>
     </changeSet>
