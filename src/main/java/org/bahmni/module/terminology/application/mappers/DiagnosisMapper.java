@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-@Component
+@Component("terminologyDiagnosisMapper")
 public class DiagnosisMapper implements Mapper<Concept> {
     @Autowired
     private ConceptDataTypeMapper dataTypeMapper;

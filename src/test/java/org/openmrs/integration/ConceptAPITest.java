@@ -29,7 +29,7 @@ public class ConceptAPITest extends BaseModuleWebContextSensitiveTest {
     @Test
     public void shouldInitializeConceptService() {
         ConceptService service = Context.getService(ConceptService.class);
-        System.out.println("concept service:" + service);
+        assertNotNull(service);
     }
 
     @Test

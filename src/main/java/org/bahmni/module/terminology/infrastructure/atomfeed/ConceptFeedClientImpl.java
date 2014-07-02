@@ -8,6 +8,7 @@ import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
 import org.openmrs.api.ConceptService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.net.URISyntaxException;
@@ -30,7 +31,7 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
                                  AuthenticatedHttpClient httpClient,
                                  TRFeedProperties properties,
                                  BasicConceptMapper conceptMapper,
-                                 DiagnosisMapper diagnosisMapper) {
+                                 @Qualifier("terminologyDiagnosisMapper") DiagnosisMapper diagnosisMapper) {
         this.conceptService = conceptService;
         this.feedProcessor = feedProcessor;
         this.httpClient = httpClient;
