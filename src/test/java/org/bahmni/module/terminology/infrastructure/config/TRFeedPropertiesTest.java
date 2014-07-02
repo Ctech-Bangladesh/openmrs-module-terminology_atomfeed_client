@@ -16,22 +16,22 @@ public class TRFeedPropertiesTest extends BaseModuleWebContextSensitiveTest {
 
     @Test
     public void shouldIdentifyTerminologyFeedUrl() {
-        assertThat(feedProperties.terminologyFeedUri(), is("http://localhost:9999/openmrs/ws/atomfeed/concept/recent"));
+        assertThat(feedProperties.terminologyFeedUri(), is("http://localhost:9997/openmrs/ws/atomfeed/concept/recent"));
     }
 
     @Test
     public void shouldBuildTheTerminologyResourceUrl() {
-        assertThat(feedProperties.getTerminologyUrl("/uuid"), is("http://localhost:9999/uuid"));
+        assertThat(feedProperties.getTerminologyUrl("/uuid"), is("http://localhost:9997/uuid"));
     }
 
     @Test
     public void shouldIdentifyDiagnosisFeedUrl() {
-        assertThat(feedProperties.getDiagnosisFeedUrl(), is("http://localhost:9999/openmrs/ws/atomfeed/diagnosis/recent"));
+        assertThat(feedProperties.getDiagnosisFeedUrl(), is("http://localhost:9997/openmrs/ws/atomfeed/diagnosis/recent"));
     }
 
     @Test
     public void shouldBuildTheDiagnosisResourceUrl() {
-        assertThat(feedProperties.getDiagnosisUrl("/diagnosis_id"), is("http://localhost:9999/diagnosis_id"));
+        assertThat(feedProperties.getDiagnosisUrl("/diagnosis_id"), is("http://localhost:9997/diagnosis_id"));
     }
 
 }
