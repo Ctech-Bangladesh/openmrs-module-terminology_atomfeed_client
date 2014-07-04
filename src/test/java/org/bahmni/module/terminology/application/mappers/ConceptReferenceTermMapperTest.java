@@ -39,6 +39,7 @@ public class ConceptReferenceTermMapperTest {
         Map<String, Object> refTermData = new HashMap<String, Object>();
         refTermData.put("code", "refcode");
         refTermData.put("name", "refname");
+        refTermData.put("description","refdescription");
         refTermData.put("conceptSource", sourceData);
         mappingData.put("conceptReferenceTerm", refTermData);
         when(sourceMapper.map(sourceData)).thenReturn(conceptSource);

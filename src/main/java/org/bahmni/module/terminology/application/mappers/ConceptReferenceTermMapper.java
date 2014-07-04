@@ -35,15 +35,17 @@ public class ConceptReferenceTermMapper implements Mapper<ConceptMap> {
     private ConceptReferenceTerm toReferenceTerm(Map data, ConceptSource source) {
         String code = data.get("code").toString();
         String name = data.get("name").toString();
+        String description = data.get("description").toString();
 
         ConceptReferenceTerm referenceTerm = conceptService.getConceptReferenceTermByCode(code, source);
-        return referenceTerm != null ? referenceTerm : createNew(code, name, source);
+        return referenceTerm != null ? referenceTerm : createNew(code, name, description, source);
     }
 
-    private ConceptReferenceTerm createNew(String code, String name, ConceptSource source) {
+    private ConceptReferenceTerm createNew(String code, String name, String description, ConceptSource source) {
         ConceptReferenceTerm referenceTerm = new ConceptReferenceTerm();
         referenceTerm.setName(name);
         referenceTerm.setCode(code);
+        referenceTerm.setDescription(description);
         referenceTerm.setConceptSource(source);
         return conceptService.saveConceptReferenceTerm(referenceTerm);
     }
