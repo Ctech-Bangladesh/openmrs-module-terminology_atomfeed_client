@@ -41,4 +41,16 @@
         </update>
     </changeSet>
 
+    <changeSet id="terminology-atomfeed-client-5" author="BalajiN, Utsab">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                select count(*) from chunking_history;
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            truncate chunking_history;
+            insert into chunking_history (chunk_length, start) values (100, 1);
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
