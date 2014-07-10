@@ -1,6 +1,7 @@
 package org.bahmni.module.terminology.application.mappers;
 
 import org.openmrs.ConceptMap;
+import org.openmrs.ConceptMapType;
 import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.ConceptSource;
 import org.openmrs.api.ConceptService;
@@ -23,13 +24,22 @@ public class ConceptReferenceTermMapper implements Mapper<ConceptMap> {
 
     public ConceptMap map(Map mappingData) {
         Map<String, Object> referenceTermData = (Map<String, Object>) mappingData.get("conceptReferenceTerm");
+        Map<String, Object> conceptMapType = (Map<String, Object>) mappingData.get("conceptMapType");
         Map<String, Object> conceptSourceData = (Map<String, Object>) referenceTermData.get("conceptSource");
         if (conceptSourceData == null) {
             return null;
         }
         ConceptMap conceptMap = new ConceptMap();
+        mapConceptMapType(conceptMapType, conceptMap);
         conceptMap.setConceptReferenceTerm(toReferenceTerm(referenceTermData, sourceMapper.map(conceptSourceData)));
         return conceptMap;
+    }
+
+    private void mapConceptMapType(Map<String, Object> conceptMapType, ConceptMap conceptMap) {
+        if (conceptMapType != null && conceptMapType.get("name") != null) {
+            Object name = conceptMapType.get("name");
+            conceptMap.setConceptMapType(conceptService.getConceptMapTypeByName(name.toString()));
+        }
     }
 
     private ConceptReferenceTerm toReferenceTerm(Map data, ConceptSource source) {

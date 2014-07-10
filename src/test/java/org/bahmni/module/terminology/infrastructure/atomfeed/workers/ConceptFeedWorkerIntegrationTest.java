@@ -3,6 +3,7 @@ package org.bahmni.module.terminology.infrastructure.atomfeed.workers;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.bahmni.module.terminology.application.mappers.BasicConceptMapper;
 import org.bahmni.module.terminology.application.mappers.DiagnosisMapper;
+import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.NOPPostProcessor;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
 import org.hamcrest.CoreMatchers;
@@ -45,7 +46,7 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/concept.json"))));
-        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, trFeedProperties, conceptService, conceptMapper);
+        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, trFeedProperties, conceptService, conceptMapper, new NOPPostProcessor());
 
         worker.process(new Event("eventId", "/openmrs/ws/rest/v1/concept/ec0f4153-3f7f-446a-b82d-7756f0fdcac1?v=full", "title", "feedUri"));
 
@@ -65,7 +66,7 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/diagnosis.json"))));
-        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, trFeedProperties, conceptService, diagnosisMapper);
+        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, trFeedProperties, conceptService, diagnosisMapper, new NOPPostProcessor());
 
         worker.process(new Event("eventId", "/openmrs/ws/rest/v1/concept/cebe4ed6-3f86-49a6-98fd-46c01e40a771?v=full", "title", "feedUri"));
 

@@ -3,6 +3,8 @@ package org.bahmni.module.terminology.infrastructure.atomfeed;
 import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.application.mappers.BasicConceptMapper;
 import org.bahmni.module.terminology.application.mappers.DiagnosisMapper;
+import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.DiagnosisPostProcessor;
+import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.NOPPostProcessor;
 import org.bahmni.module.terminology.infrastructure.atomfeed.workers.ConceptFeedWorker;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
@@ -25,31 +27,36 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
     private TRFeedProperties properties;
     private BasicConceptMapper conceptMapper;
     private DiagnosisMapper diagnosisMapper;
+    private DiagnosisPostProcessor diagnosisPostProcessor;
 
     @Autowired
     public ConceptFeedClientImpl(ConceptService conceptService, FeedProcessor feedProcessor,
                                  AuthenticatedHttpClient httpClient,
                                  TRFeedProperties properties,
                                  BasicConceptMapper conceptMapper,
-                                 @Qualifier("terminologyDiagnosisMapper") DiagnosisMapper diagnosisMapper) {
+                                 @Qualifier("terminologyDiagnosisMapper") DiagnosisMapper diagnosisMapper,
+                                 DiagnosisPostProcessor diagnosisPostProcessor) {
         this.conceptService = conceptService;
         this.feedProcessor = feedProcessor;
         this.httpClient = httpClient;
         this.properties = properties;
         this.conceptMapper = conceptMapper;
         this.diagnosisMapper = diagnosisMapper;
+        this.diagnosisPostProcessor = diagnosisPostProcessor;
     }
 
     @Override
     public void syncAllConcepts() throws URISyntaxException {
-        logger.info("Terminology atom feed started!");
-        feedProcessor.process(properties.terminologyFeedUri(), new ConceptFeedWorker(httpClient, properties, conceptService, conceptMapper), properties);
+        logger.info("Sync Start: All Terminology Concepts ..... ");
+        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, properties, conceptService, conceptMapper, new NOPPostProcessor());
+        feedProcessor.process(properties.terminologyFeedUri(), worker, properties);
     }
 
     @Override
     public void syncDiangosis() throws URISyntaxException {
-        logger.info("Terminology atom feed started!");
-        feedProcessor.process(properties.getDiagnosisFeedUrl(), new ConceptFeedWorker(httpClient, properties, conceptService, diagnosisMapper), properties);
+        logger.info("Sync Start: Diagnosis Terminology Concepts ..... ");
+        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, properties, conceptService, diagnosisMapper, diagnosisPostProcessor);
+        feedProcessor.process(properties.getDiagnosisFeedUrl(), worker, properties);
     }
 
 

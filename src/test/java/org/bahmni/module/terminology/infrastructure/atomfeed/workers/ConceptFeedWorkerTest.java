@@ -1,6 +1,7 @@
 package org.bahmni.module.terminology.infrastructure.atomfeed.workers;
 
 import org.bahmni.module.terminology.application.mappers.BasicConceptMapper;
+import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.NOPPostProcessor;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
 import org.ict4h.atomfeed.client.domain.Event;
@@ -46,7 +47,7 @@ public class ConceptFeedWorkerTest {
         initMocks(this);
         event = new Event("eventId", "/content", "title", "feedUri");
         properties = createProperties();
-        conceptFeedWorker = new ConceptFeedWorker(httpClient, properties, conceptService, mapper);
+        conceptFeedWorker = new ConceptFeedWorker(httpClient, properties, conceptService, mapper, new NOPPostProcessor());
     }
 
     private TRFeedProperties createProperties() {
