@@ -1,24 +1,25 @@
 package org.bahmni.module.terminology.infrastructure.atomfeed.workers;
 
-import org.bahmni.module.terminology.application.mappers.BasicConceptMapper;
+import org.bahmni.module.terminology.application.model.ConceptNameRequest;
+import org.bahmni.module.terminology.application.model.ConceptRequest;
+import org.bahmni.module.terminology.application.model.ConceptType;
+import org.bahmni.module.terminology.application.service.SHRConceptService;
 import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.NOPPostProcessor;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
+import org.bahmni.module.terminology.infrastructure.mapper.ConceptRequestMapper;
 import org.ict4h.atomfeed.client.domain.Event;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.openmrs.Concept;
-import org.openmrs.ConceptName;
-import org.openmrs.api.ConceptService;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Properties;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -29,10 +30,10 @@ public class ConceptFeedWorkerTest {
     private ArgumentCaptor<Concept> argumentCaptor = ArgumentCaptor.forClass(Concept.class);
 
     @Mock
-    private ConceptService conceptService;
+    private SHRConceptService SHRConceptService;
 
     @Mock
-    private BasicConceptMapper mapper;
+    private ConceptRequestMapper mapper;
 
     @Mock
     private AuthenticatedHttpClient httpClient;
@@ -49,7 +50,7 @@ public class ConceptFeedWorkerTest {
         initMocks(this);
         event = new Event("eventId", "/content", "title", "feedUri");
         properties = createProperties();
-        conceptFeedWorker = new ConceptFeedWorker(httpClient, properties, conceptService, mapper, new NOPPostProcessor());
+        conceptFeedWorker = new ConceptFeedWorker(httpClient, properties, SHRConceptService, mapper, new NOPPostProcessor(), ConceptType.Diagnosis);
     }
 
     private TRFeedProperties createProperties() {
@@ -61,30 +62,19 @@ public class ConceptFeedWorkerTest {
     @Test
     public void shouldSaveTheConceptFetched() throws IOException {
         HashMap<String, Object> response = new HashMap<String, Object>();
-        Concept concept = mock(Concept.class);
-        when(concept.getName()).thenReturn(new ConceptName("concept", Locale.CANADA));
+
+        ConceptRequest concept = new ConceptRequest();
+        ConceptNameRequest name = new ConceptNameRequest();
+        name.setConceptNameType("concept");
+        name.setLocale(Locale.CANADA.getDisplayName());
+        concept.setFullySpecifiedName(name);
 
         when(mapper.map(response)).thenReturn(concept);
         when(httpClient.get("http://localhost/content", HashMap.class)).thenReturn(response);
-        when(conceptService.getConceptByName(anyString())).thenReturn(null);
+        when(SHRConceptService.saveConcept(concept, ConceptType.Diagnosis)).thenReturn(null);
 
         conceptFeedWorker.process(event);
 
-        verify(conceptService, times(1)).saveConcept(argumentCaptor.capture());
-        assertEquals(concept, argumentCaptor.getValue());
-    }
-
-    @Test
-    public void shouldNotTryToSaveConceptThatIsSavedAlready() {
-        HashMap<String, Object> response = new HashMap<String, Object>();
-        Concept concept = mock(Concept.class);
-        when(concept.getName()).thenReturn(new ConceptName("concept", Locale.CANADA));
-
-        when(mapper.map(response)).thenReturn(concept);
-        when(httpClient.get("http://localhost/content", HashMap.class)).thenReturn(response);
-        when(conceptService.getConceptByName(anyString())).thenReturn(new Concept());
-
-        conceptFeedWorker.process(event);
-        verify(conceptService, never()).saveConcept(any(Concept.class));
+        verify(SHRConceptService, times(1)).saveConcept(concept, ConceptType.Diagnosis);
     }
 }
