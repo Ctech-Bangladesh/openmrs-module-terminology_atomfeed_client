@@ -14,6 +14,7 @@ import java.util.List;
 
 @Component("diagnosisPostProcessor")
 public class DiagnosisPostProcessor implements ConceptPostProcessor {
+
     @Autowired
     ConceptService conceptService;
 
@@ -22,29 +23,37 @@ public class DiagnosisPostProcessor implements ConceptPostProcessor {
     protected AdministrationService administrationService;
 
     private static final String GP_DIAGNOSIS_SET_OF_SETS = "emr.concept.diagnosisSetOfSets";
+    public static final String UNCATEGORIZED_DIAGNOSES_NAME = "uncategorized diagnoses";
 
     private final Logger logger = Logger.getLogger(DiagnosisPostProcessor.class);
 
     @Override
     public void process(Concept concept) {
-        String rootDiagnosisSetUuid = getGlobalProperty(GP_DIAGNOSIS_SET_OF_SETS, false);
-        Concept rootDiagnosisConcept = conceptService.getConceptByUuid(rootDiagnosisSetUuid);
-        if (rootDiagnosisConcept == null) {
-            logger.info(String.format("Configuration required:%s. Not grouping diagnosis",GP_DIAGNOSIS_SET_OF_SETS));
-            //throw new IllegalStateException("Configuration required: " + EmrApiConstants.GP_DIAGNOSIS_SET_OF_SETS);
-            return;
-        }
-        List<Concept> diagnosesCategories = rootDiagnosisConcept.getSetMembers();
-        Concept diagnosisSet = null;
-        for (Concept conceptSet : diagnosesCategories) {
-            if (conceptSet.getName().getName().equalsIgnoreCase("uncategorized diagnoses")) {
-                diagnosisSet = conceptSet;
-                break;
-            }
-        }
-        if ((diagnosisSet == null) || !diagnosisSet.isSet()) {
-            logger.info("Configuration required: Could not find uncategorized diagnosis ConvSet.");
-            //throw new IllegalStateException("Configuration required: " + EmrApiConstants.GP_DIAGNOSIS_SET_OF_SETS);
+//        String rootDiagnosisSetUuid = getGlobalProperty(GP_DIAGNOSIS_SET_OF_SETS, false);
+//        Concept rootDiagnosisConcept = conceptService.getConceptByUuid(rootDiagnosisSetUuid);
+//        if (rootDiagnosisConcept == null) {
+//            logger.info(String.format("Configuration required:%s. Not grouping diagnosis",GP_DIAGNOSIS_SET_OF_SETS));
+//            //throw new IllegalStateException("Configuration required: " + EmrApiConstants.GP_DIAGNOSIS_SET_OF_SETS);
+//            return;
+//        }
+//        List<Concept> diagnosesCategories = rootDiagnosisConcept.getSetMembers();
+//        Concept diagnosisSet = null;
+//        for (Concept conceptSet : diagnosesCategories) {
+//            if (conceptSet.getName().getName().equalsIgnoreCase(UNCATEGORIZED_DIAGNOSES_NAME)) {
+//                diagnosisSet = conceptSet;
+//                break;
+//            }
+//        }
+//        if ((diagnosisSet == null) || !diagnosisSet.isSet()) {
+//            logger.info("Configuration required: Could not find uncategorized diagnosis ConvSet.");
+//            //throw new IllegalStateException("Configuration required: " + EmrApiConstants.GP_DIAGNOSIS_SET_OF_SETS);
+//            return;
+//        }
+
+        Concept diagnosisSet = conceptService.getConceptByName(UNCATEGORIZED_DIAGNOSES_NAME);
+        if (diagnosisSet == null) {
+            logger.info("Configuration required: Could not find ConvSet - uncategorized diagnoses");
+            //throw new IllegalStateException("Configuration required: uncategorized diagnoses");
             return;
         }
 
@@ -52,7 +61,7 @@ public class DiagnosisPostProcessor implements ConceptPostProcessor {
             diagnosisSet.addSetMember(concept);
             conceptService.saveConcept(diagnosisSet);
         } else {
-            logger.info("Concept is already a member of existing uncategorized diagnoses");
+            logger.info("Concept is already a member of existing " + UNCATEGORIZED_DIAGNOSES_NAME);
         }
 
     }
