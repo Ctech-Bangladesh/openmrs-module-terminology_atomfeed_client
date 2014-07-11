@@ -38,8 +38,11 @@ public class ConceptFeedWorker implements EventWorker {
     public void process(final Event event) {
         logger.info(format("Received concept sync event for %s with conent %s ", event.getFeedUri(), event.getContent()));
         Map conceptMap = httpClient.get(properties.getTerminologyUrl(event.getContent()), HashMap.class);
-        Concept concept = conceptService.saveConcept(conceptMapper.map((Map<String, Object>) conceptMap));
-        postProcessor.process(concept);
+        Concept concept = conceptMapper.map((Map<String, Object>) conceptMap);
+        if (conceptService.getConceptByName(concept.getName().getName()) == null) {
+            conceptService.saveConcept(concept);
+            postProcessor.process(concept);
+        }
     }
 
     @Override

@@ -10,10 +10,12 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.openmrs.Concept;
+import org.openmrs.ConceptName;
 import org.openmrs.api.ConceptService;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
@@ -59,13 +61,30 @@ public class ConceptFeedWorkerTest {
     @Test
     public void shouldSaveTheConceptFetched() throws IOException {
         HashMap<String, Object> response = new HashMap<String, Object>();
-        Concept concept = new Concept();
+        Concept concept = mock(Concept.class);
+        when(concept.getName()).thenReturn(new ConceptName("concept", Locale.CANADA));
+
         when(mapper.map(response)).thenReturn(concept);
         when(httpClient.get("http://localhost/content", HashMap.class)).thenReturn(response);
+        when(conceptService.getConceptByName(anyString())).thenReturn(null);
 
         conceptFeedWorker.process(event);
 
         verify(conceptService, times(1)).saveConcept(argumentCaptor.capture());
         assertEquals(concept, argumentCaptor.getValue());
+    }
+
+    @Test
+    public void shouldNotTryToSaveConceptThatIsSavedAlready() {
+        HashMap<String, Object> response = new HashMap<String, Object>();
+        Concept concept = mock(Concept.class);
+        when(concept.getName()).thenReturn(new ConceptName("concept", Locale.CANADA));
+
+        when(mapper.map(response)).thenReturn(concept);
+        when(httpClient.get("http://localhost/content", HashMap.class)).thenReturn(response);
+        when(conceptService.getConceptByName(anyString())).thenReturn(new Concept());
+
+        conceptFeedWorker.process(event);
+        verify(conceptService, never()).saveConcept(any(Concept.class));
     }
 }
