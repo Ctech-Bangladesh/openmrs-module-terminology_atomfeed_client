@@ -4,16 +4,13 @@ import org.bahmni.module.terminology.application.model.ConceptNameRequest;
 import org.bahmni.module.terminology.application.model.ConceptRequest;
 import org.bahmni.module.terminology.application.model.ConceptType;
 import org.bahmni.module.terminology.application.service.SHRConceptService;
-import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.NOPPostProcessor;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
 import org.bahmni.module.terminology.infrastructure.mapper.ConceptRequestMapper;
 import org.ict4h.atomfeed.client.domain.Event;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.openmrs.Concept;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,8 +23,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class ConceptFeedWorkerTest {
 
     public static final String CONCEPT_BASE_URL = "http://localhost/";
-
-    private ArgumentCaptor<Concept> argumentCaptor = ArgumentCaptor.forClass(Concept.class);
 
     @Mock
     private SHRConceptService SHRConceptService;
@@ -50,7 +45,7 @@ public class ConceptFeedWorkerTest {
         initMocks(this);
         event = new Event("eventId", "/content", "title", "feedUri");
         properties = createProperties();
-        conceptFeedWorker = new ConceptFeedWorker(httpClient, properties, SHRConceptService, mapper, new NOPPostProcessor(), ConceptType.Diagnosis);
+        conceptFeedWorker = new ConceptFeedWorker(httpClient, properties, SHRConceptService, mapper, ConceptType.Diagnosis);
     }
 
     private TRFeedProperties createProperties() {
@@ -61,7 +56,7 @@ public class ConceptFeedWorkerTest {
 
     @Test
     public void shouldSaveTheConceptFetched() throws IOException {
-        HashMap<String, Object> response = new HashMap<String, Object>();
+        HashMap<String, Object> response = new HashMap<>();
 
         ConceptRequest concept = new ConceptRequest();
         ConceptNameRequest name = new ConceptNameRequest();
@@ -71,7 +66,6 @@ public class ConceptFeedWorkerTest {
 
         when(mapper.map(response)).thenReturn(concept);
         when(httpClient.get("http://localhost/content", HashMap.class)).thenReturn(response);
-        when(SHRConceptService.saveConcept(concept, ConceptType.Diagnosis)).thenReturn(null);
 
         conceptFeedWorker.process(event);
 
