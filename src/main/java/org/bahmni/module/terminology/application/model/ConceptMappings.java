@@ -18,7 +18,7 @@ public class ConceptMappings implements Iterable<ConceptMap> {
     @Override
     public Iterator<ConceptMap> iterator() {
         if (conceptMaps != null) {
-            return conceptMaps.iterator();
+            return new ArrayList<>(conceptMaps).iterator();
         } else {
             return new ArrayList<ConceptMap>().iterator();
         }
@@ -29,18 +29,14 @@ public class ConceptMappings implements Iterable<ConceptMap> {
             return null;
         }
         for (ConceptMap map : conceptMaps) {
-            if (hasSameCode(conceptMap, map) && hasSameSource(conceptMap, map)) {
+            if (hasSameUuid(conceptMap, map)) {
                 return map;
             }
         }
         return null;
     }
 
-    private boolean hasSameSource(ConceptMap conceptMap, ConceptMap map) {
-        return StringUtils.equals(map.getConceptReferenceTerm().getConceptSource().getName(), conceptMap.getConceptReferenceTerm().getConceptSource().getName());
-    }
-
-    private boolean hasSameCode(ConceptMap conceptMap, ConceptMap map) {
-        return map.getConceptReferenceTerm().getCode().equals(conceptMap.getConceptReferenceTerm().getCode());
+    private boolean hasSameUuid(ConceptMap conceptMap, ConceptMap map) {
+        return StringUtils.equals(map.getConceptReferenceTerm().getUuid(), conceptMap.getConceptReferenceTerm().getUuid());
     }
 }

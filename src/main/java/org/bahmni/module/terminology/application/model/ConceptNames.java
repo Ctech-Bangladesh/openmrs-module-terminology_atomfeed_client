@@ -17,7 +17,7 @@ public class ConceptNames implements Iterable<ConceptName> {
     @Override
     public Iterator<ConceptName> iterator() {
         if (conceptNames != null) {
-            return conceptNames.iterator();
+            return new ArrayList<>(conceptNames).iterator();
         } else {
             return new ArrayList<ConceptName>().iterator();
         }

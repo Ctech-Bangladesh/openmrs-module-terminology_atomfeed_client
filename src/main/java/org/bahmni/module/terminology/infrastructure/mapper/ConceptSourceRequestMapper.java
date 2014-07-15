@@ -5,6 +5,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+import static org.bahmni.module.terminology.util.CollectionUtil.safeGet;
+import static org.bahmni.module.terminology.util.TypeUtil.asString;
+
 @Component
 public class ConceptSourceRequestMapper {
 
@@ -15,6 +18,7 @@ public class ConceptSourceRequestMapper {
             conceptSourceRequest.setName(display);
             conceptSourceRequest.setHl7Code(display);
             conceptSourceRequest.setDescription(display);
+            conceptSourceRequest.setUuid(asString(safeGet(data, "uuid")));
             return conceptSourceRequest;
         } else {
             return null;

@@ -10,6 +10,7 @@ public class ConceptRequest {
     private ConceptNameRequests conceptNameRequests;
     private ConceptReferenceTermRequests conceptReferenceTermRequests;
     private String uuid;
+    private ConceptDescriptionRequest conceptDescriptionRequest;
 
     public boolean isSet() {
         return isSet;
@@ -73,5 +74,13 @@ public class ConceptRequest {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public ConceptDescriptionRequest getConceptDescriptionRequest() {
+        return conceptDescriptionRequest;
+    }
+
+    public void setConceptDescriptionRequest(ConceptDescriptionRequest conceptDescriptionRequest) {
+        this.conceptDescriptionRequest = conceptDescriptionRequest;
     }
 }

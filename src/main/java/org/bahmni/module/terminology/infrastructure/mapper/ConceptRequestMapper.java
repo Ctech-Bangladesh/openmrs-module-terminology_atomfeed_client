@@ -16,11 +16,13 @@ public class ConceptRequestMapper {
 
     private ConceptNameRequestMapper conceptNameRequestMapper;
     private ConceptReferenceTermRequestMapper conceptReferenceTermRequestMapper;
+    private ConceptDescriptionRequestMapper conceptDescriptionRequestMapper;
 
     @Autowired
-    public ConceptRequestMapper(ConceptNameRequestMapper conceptNameRequestMapper, ConceptReferenceTermRequestMapper conceptReferenceTermRequestMapper) {
+    public ConceptRequestMapper(ConceptNameRequestMapper conceptNameRequestMapper, ConceptReferenceTermRequestMapper conceptReferenceTermRequestMapper, ConceptDescriptionRequestMapper conceptDescriptionRequestMapper) {
         this.conceptNameRequestMapper = conceptNameRequestMapper;
         this.conceptReferenceTermRequestMapper = conceptReferenceTermRequestMapper;
+        this.conceptDescriptionRequestMapper = conceptDescriptionRequestMapper;
     }
 
     public ConceptRequest map(Map<String, Object> data) {
@@ -33,6 +35,7 @@ public class ConceptRequestMapper {
         request.setConceptNameRequests(conceptNameRequestMapper.map(data.get("names")));
         request.setConceptReferenceTermRequests(conceptReferenceTermRequestMapper.map(data.get("mappings")));
         request.setUuid(asString(safeGet(data, "uuid")));
+        request.setConceptDescriptionRequest(conceptDescriptionRequestMapper.map(safeGet(data, "description")));
         return request;
     }
 }

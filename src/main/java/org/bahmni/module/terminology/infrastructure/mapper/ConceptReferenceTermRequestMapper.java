@@ -36,10 +36,12 @@ public class ConceptReferenceTermRequestMapper {
     private ConceptReferenceTermRequest mapReferenceTerm(Map name) {
         ConceptReferenceTermRequest conceptReferenceTermRequest = new ConceptReferenceTermRequest();
         conceptReferenceTermRequest.setCode(asString(safeGet(safeGetMap(name, "conceptReferenceTerm"), "code")));
+        conceptReferenceTermRequest.setUuid(asString(safeGet(safeGetMap(name, "conceptReferenceTerm"), "uuid")));
         conceptReferenceTermRequest.setName(asString(safeGet(safeGetMap(name, "conceptReferenceTerm"), "name")));
         conceptReferenceTermRequest.setDescription(asString(safeGet(safeGetMap(name, "conceptReferenceTerm"), "description")));
         conceptReferenceTermRequest.setMapType(asString(safeGet(safeGetMap(name, "conceptMapType"), "name")));
         conceptReferenceTermRequest.setConceptSourceRequest(conceptSourceRequestMapper.map(safeGetMap(safeGetMap(name, "conceptReferenceTerm"), "conceptSource")));
+
         return conceptReferenceTermRequest;
     }
 }

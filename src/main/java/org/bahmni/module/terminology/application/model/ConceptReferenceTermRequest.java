@@ -7,6 +7,7 @@ public class ConceptReferenceTermRequest {
     private String description;
     private ConceptSourceRequest conceptSourceRequest;
     private String mapType;
+    private String uuid;
 
     public String getName() {
         return name;
@@ -50,5 +51,13 @@ public class ConceptReferenceTermRequest {
 
     public void setMapType(String mapType) {
         this.mapType = mapType;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

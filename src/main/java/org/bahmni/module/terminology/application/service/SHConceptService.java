@@ -11,40 +11,26 @@ import org.openmrs.Concept;
 import org.openmrs.api.ConceptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
-public class SHRConceptService {
-
-    private ConceptMapper conceptMapper;
-    private ConceptService conceptService;
-    private SHRConceptSourceService shrConceptSourceService;
-    private DiagnosisPostProcessor diagnosisPostProcessor;
-    private SHRConceptReferenceTermService shrConceptReferenceTermService;
-    private IdMappingsRepository idMappingsRepository;
+public class SHConceptService {
 
     @Autowired
-    public SHRConceptService(ConceptMapper conceptMapper,
-                             ConceptService conceptService,
-                             SHRConceptSourceService shrConceptSourceService,
-                             DiagnosisPostProcessor diagnosisPostProcessor,
-                             SHRConceptReferenceTermService shrConceptReferenceTermService,
-                             IdMappingsRepository idMappingsRepository) {
-        this.conceptMapper = conceptMapper;
-        this.conceptService = conceptService;
-        this.shrConceptSourceService = shrConceptSourceService;
-        this.diagnosisPostProcessor = diagnosisPostProcessor;
-        this.shrConceptReferenceTermService = shrConceptReferenceTermService;
-        this.idMappingsRepository = idMappingsRepository;
-    }
+    private DiagnosisPostProcessor diagnosisPostProcessor;
+    @Autowired
+    private ConceptService conceptService;
+    @Autowired
+    private IdMappingsRepository idMappingsRepository;
+    @Autowired
+    private ConceptMapper conceptMapper;
 
-    public void saveConcept(ConceptRequest conceptRequest, ConceptType conceptType) {
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void sync(ConceptRequest conceptRequest, ConceptType conceptType) {
         IdMapping idMapping = idMappingsRepository.findByExternalId(conceptRequest.getUuid());
         Concept newConcept = conceptMapper.map(conceptRequest, conceptType);
-
         if (idMapping == null) {
-            shrConceptSourceService.createNonExistentSources(newConcept);
-            shrConceptReferenceTermService.mergeExistingConceptReferenceTerms(newConcept);
             Concept savedConcept = conceptService.saveConcept(newConcept);
             diagnosisPostProcessor.process(savedConcept);
             idMappingsRepository.saveMapping(new IdMapping(savedConcept.getUuid(), conceptRequest.getUuid()));

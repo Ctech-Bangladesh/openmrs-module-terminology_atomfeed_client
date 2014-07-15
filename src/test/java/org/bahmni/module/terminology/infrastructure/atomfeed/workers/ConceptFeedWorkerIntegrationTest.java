@@ -2,7 +2,7 @@ package org.bahmni.module.terminology.infrastructure.atomfeed.workers;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.bahmni.module.terminology.application.model.ConceptType;
-import org.bahmni.module.terminology.application.service.SHRConceptService;
+import org.bahmni.module.terminology.application.service.ConceptSyncService;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
 import org.bahmni.module.terminology.infrastructure.mapper.ConceptRequestMapper;
@@ -33,7 +33,7 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
     @Autowired
     private TRFeedProperties trFeedProperties;
     @Autowired
-    private SHRConceptService SHRConceptService;
+    private ConceptSyncService ConceptSyncService;
     @Autowired
     private ConceptRequestMapper conceptMapper;
 
@@ -44,7 +44,7 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/concept.json"))));
-        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, trFeedProperties, SHRConceptService, conceptMapper, ConceptType.Diagnosis);
+        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, trFeedProperties, ConceptSyncService, conceptMapper, ConceptType.Diagnosis);
 
         worker.process(new Event("eventId", "/openmrs/ws/rest/v1/concept/ec0f4153-3f7f-446a-b82d-7756f0fdcac1?v=full", "title", "feedUri"));
 
@@ -62,7 +62,7 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/diagnosis.json"))));
-        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, trFeedProperties, SHRConceptService, conceptMapper, ConceptType.Diagnosis);
+        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, trFeedProperties, ConceptSyncService, conceptMapper, ConceptType.Diagnosis);
 
         worker.process(new Event("eventId", "/openmrs/ws/rest/v1/concept/cebe4ed6-3f86-49a6-98fd-46c01e40a771?v=full", "title", "feedUri"));
 

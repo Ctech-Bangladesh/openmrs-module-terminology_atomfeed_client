@@ -1,5 +1,6 @@
 package org.bahmni.module.terminology.application.model;
 
+import org.apache.commons.lang.StringUtils;
 import org.openmrs.Concept;
 import org.openmrs.ConceptMap;
 import org.openmrs.ConceptName;
@@ -22,7 +23,21 @@ public class PersistedConcept {
         mergeFullySpecifiedName(existingConcept, newConcept);
         mergeConceptNames(existingConcept, new ConceptNames(newConcept.getNames()));
         mergeConceptMappings(existingConcept, new ConceptMappings(newConcept.getConceptMappings()));
+        mergeConceptDescriptions(existingConcept, newConcept);
         return existingConcept;
+    }
+
+    private void mergeConceptDescriptions(Concept existingConcept, Concept newConcept) {
+        if (existingConcept.getDescription() == null && newConcept.getDescription() == null) {
+            return;
+        } else if (existingConcept.getDescription() == null) {
+            existingConcept.addDescription(newConcept.getDescription());
+        } else if (newConcept.getDescription() == null) {
+            existingConcept.removeDescription(existingConcept.getDescription());
+        } else if (!StringUtils.equals(existingConcept.getDescription().getUuid(), newConcept.getDescription().getUuid())) {
+            existingConcept.removeDescription(existingConcept.getDescription());
+            existingConcept.addDescription(newConcept.getDescription());
+        }
     }
 
     /*Assumes that locale does not change*/
@@ -62,7 +77,7 @@ public class PersistedConcept {
         for (ConceptName existingName : existingNames) {
             ConceptName conceptName = newNames.findConceptName(existingName);
             if (null == conceptName) {
-                existingConcept.removeName(existingName);
+                existingName.setVoided(Boolean.TRUE);
             }
         }
     }

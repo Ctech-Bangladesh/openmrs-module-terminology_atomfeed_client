@@ -2,7 +2,7 @@ package org.bahmni.module.terminology.infrastructure.atomfeed;
 
 import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.application.model.ConceptType;
-import org.bahmni.module.terminology.application.service.SHRConceptService;
+import org.bahmni.module.terminology.application.service.ConceptSyncService;
 import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.DiagnosisPostProcessor;
 import org.bahmni.module.terminology.infrastructure.atomfeed.workers.ConceptFeedWorker;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
@@ -19,7 +19,7 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
 
     private final Logger logger = Logger.getLogger(ConceptFeedClientImpl.class);
 
-    private SHRConceptService SHRConceptService;
+    private ConceptSyncService ConceptSyncService;
     private FeedProcessor feedProcessor;
     private AuthenticatedHttpClient httpClient;
     private TRFeedProperties properties;
@@ -27,12 +27,12 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
     private DiagnosisPostProcessor diagnosisPostProcessor;
 
     @Autowired
-    public ConceptFeedClientImpl(SHRConceptService SHRConceptService, FeedProcessor feedProcessor,
+    public ConceptFeedClientImpl(ConceptSyncService ConceptSyncService, FeedProcessor feedProcessor,
                                  AuthenticatedHttpClient httpClient,
                                  TRFeedProperties properties,
                                  ConceptRequestMapper conceptRequestMapper,
                                  DiagnosisPostProcessor diagnosisPostProcessor) {
-        this.SHRConceptService = SHRConceptService;
+        this.ConceptSyncService = ConceptSyncService;
         this.feedProcessor = feedProcessor;
         this.httpClient = httpClient;
         this.properties = properties;
@@ -43,7 +43,7 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
     @Override
     public void syncDiangosis() throws URISyntaxException {
         logger.info("Sync Start: Diagnosis Terminology Concepts ..... ");
-        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, properties, SHRConceptService, conceptRequestMapper, ConceptType.Diagnosis);
+        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, properties, ConceptSyncService, conceptRequestMapper, ConceptType.Diagnosis);
         feedProcessor.process(properties.getDiagnosisFeedUrl(), worker, properties);
     }
 }

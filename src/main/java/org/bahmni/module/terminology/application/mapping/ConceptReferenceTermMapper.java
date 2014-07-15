@@ -2,6 +2,8 @@ package org.bahmni.module.terminology.application.mapping;
 
 import org.bahmni.module.terminology.application.model.ConceptReferenceTermRequest;
 import org.bahmni.module.terminology.application.model.ConceptReferenceTermRequests;
+import org.bahmni.module.terminology.application.model.IdMapping;
+import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
 import org.openmrs.ConceptMap;
 import org.openmrs.ConceptMapType;
 import org.openmrs.ConceptReferenceTerm;
@@ -10,7 +12,8 @@ import org.openmrs.api.ConceptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 
@@ -19,11 +22,13 @@ public class ConceptReferenceTermMapper {
 
     private ConceptService conceptService;
     private ConceptSourceMapper conceptSourceMapper;
+    private IdMappingsRepository idMappingsRepository;
 
     @Autowired
-    public ConceptReferenceTermMapper(ConceptService conceptService, ConceptSourceMapper conceptSourceMapper) {
+    public ConceptReferenceTermMapper(ConceptService conceptService, ConceptSourceMapper conceptSourceMapper, IdMappingsRepository idMappingsRepository) {
         this.conceptService = conceptService;
         this.conceptSourceMapper = conceptSourceMapper;
+        this.idMappingsRepository = idMappingsRepository;
     }
 
     public Set<ConceptMap> map(ConceptReferenceTermRequests requests) {
@@ -40,18 +45,31 @@ public class ConceptReferenceTermMapper {
         }
     }
 
+    public ConceptReferenceTerm map(ConceptReferenceTermRequest conceptReferenceTermRequest) {
+        ConceptReferenceTerm existingReferenceTerm = findExistingConceptReferenceTerm(conceptReferenceTermRequest);
+        return (null != existingReferenceTerm) ? existingReferenceTerm : createNew(
+                conceptReferenceTermRequest.getCode(),
+                conceptReferenceTermRequest.getName(),
+                conceptReferenceTermRequest.getDescription(),
+                conceptSourceMapper.map(conceptReferenceTermRequest.getConceptSourceRequest())
+        );
+    }
+
     private ConceptMap mapConceptReferenceTerm(ConceptReferenceTermRequest conceptReferenceTermRequest) {
         ConceptMap conceptMap = new ConceptMap();
         conceptMap.setConceptMapType(mapConceptMapType(conceptReferenceTermRequest.getMapType()));
         conceptMap.setConceptReferenceTerm(
-                createNew(
-                        conceptReferenceTermRequest.getCode(),
-                        conceptReferenceTermRequest.getName(),
-                        conceptReferenceTermRequest.getDescription(),
-                        conceptSourceMapper.map(conceptReferenceTermRequest.getConceptSourceRequest())
-                )
+                map(conceptReferenceTermRequest)
         );
         return conceptMap;
+    }
+
+    private ConceptReferenceTerm findExistingConceptReferenceTerm(ConceptReferenceTermRequest request) {
+        IdMapping mapping = idMappingsRepository.findByExternalId(request.getUuid());
+        if (null != mapping) {
+            return conceptService.getConceptReferenceTermByUuid(mapping.getInternalId());
+        }
+        return null;
     }
 
     private ConceptMapType mapConceptMapType(String mapType) {
