@@ -53,4 +53,11 @@
         </sql>
     </changeSet>
 
+    <changeSet id="terminology-atomfeed-client-6" author="BalajiN, Utsab">
+        <sql>
+            create table shr_concept_id_mapping(id MEDIUMINT AUTO_INCREMENT PRIMARY KEY, internal_id varchar(50),
+            external_id varchar(50));
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

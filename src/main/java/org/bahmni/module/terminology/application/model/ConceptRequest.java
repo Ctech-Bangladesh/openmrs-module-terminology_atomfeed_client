@@ -9,6 +9,7 @@ public class ConceptRequest {
     private ConceptNameRequest fullySpecifiedName;
     private ConceptNameRequests conceptNameRequests;
     private ConceptReferenceTermRequests conceptReferenceTermRequests;
+    private String uuid;
 
     public boolean isSet() {
         return isSet;
@@ -64,5 +65,13 @@ public class ConceptRequest {
 
     public void setFullySpecifiedName(ConceptNameRequest fullySpecifiedName) {
         this.fullySpecifiedName = fullySpecifiedName;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

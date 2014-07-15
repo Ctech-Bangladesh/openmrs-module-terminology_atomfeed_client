@@ -32,6 +32,7 @@ public class ConceptRequestMapper {
         request.setVersion(asString(safeGet(data, "resourceVersion", StringUtils.EMPTY)));
         request.setConceptNameRequests(conceptNameRequestMapper.map(data.get("names")));
         request.setConceptReferenceTermRequests(conceptReferenceTermRequestMapper.map(data.get("mappings")));
+        request.setUuid(asString(safeGet(data, "uuid")));
         return request;
     }
 }
