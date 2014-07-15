@@ -4,6 +4,8 @@ import org.openmrs.Concept;
 import org.openmrs.ConceptMap;
 import org.openmrs.ConceptName;
 
+import java.util.Locale;
+
 public class PersistedConcept {
 
     private Concept existingConcept;
@@ -17,9 +19,17 @@ public class PersistedConcept {
         existingConcept.setVersion(newConcept.getVersion());
         existingConcept.setDatatype(newConcept.getDatatype());
         existingConcept.setConceptClass(newConcept.getConceptClass());
+        mergeFullySpecifiedName(existingConcept, newConcept);
         mergeConceptNames(existingConcept, new ConceptNames(newConcept.getNames()));
         mergeConceptMappings(existingConcept, new ConceptMappings(newConcept.getConceptMappings()));
         return existingConcept;
+    }
+
+    /*Assumes that locale does not change*/
+    private void mergeFullySpecifiedName(Concept existingConcept, Concept newConcept) {
+        for (Locale locale : existingConcept.getAllConceptNameLocales()) {
+            existingConcept.getFullySpecifiedName(locale).setName(newConcept.getFullySpecifiedName(locale).getName());
+        }
     }
 
     private void mergeConceptMappings(Concept existingConcept, ConceptMappings conceptMappings) {

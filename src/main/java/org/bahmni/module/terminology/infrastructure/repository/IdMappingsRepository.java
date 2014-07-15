@@ -69,4 +69,34 @@ public class IdMappingsRepository {
         }
         return result;
     }
+
+    public IdMapping findByExternalId(String uuid) {
+        String query = "select distinct map.internal_id from shr_concept_id_mapping map where map.external_id=?";
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        IdMapping result = null;
+        try {
+            conn = DatabaseUpdater.getConnection();
+            statement = conn.prepareStatement(query);
+            statement.setString(1, uuid);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                if (StringUtils.isNotBlank(resultSet.getString(1))) {
+                    result = new IdMapping(resultSet.getString(1), uuid);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error occurred while querying id mapping", e);
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+            } catch (SQLException e) {
+                logger.warn("Could not close db statement or result set", e);
+            }
+        }
+        return result;
+    }
 }

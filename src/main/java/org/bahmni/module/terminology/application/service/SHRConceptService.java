@@ -39,15 +39,17 @@ public class SHRConceptService {
     }
 
     public void saveConcept(ConceptRequest conceptRequest, ConceptType conceptType) {
-        Concept existingConcept = conceptService.getConceptByName(conceptRequest.getFullySpecifiedName().getConceptName());
+        IdMapping idMapping = idMappingsRepository.findByExternalId(conceptRequest.getUuid());
         Concept newConcept = conceptMapper.map(conceptRequest, conceptType);
-        if (existingConcept == null) {
+
+        if (idMapping == null) {
             shrConceptSourceService.createNonExistentSources(newConcept);
             shrConceptReferenceTermService.mergeExistingConceptReferenceTerms(newConcept);
             Concept savedConcept = conceptService.saveConcept(newConcept);
             diagnosisPostProcessor.process(savedConcept);
             idMappingsRepository.saveMapping(new IdMapping(savedConcept.getUuid(), conceptRequest.getUuid()));
         } else {
+            Concept existingConcept = conceptService.getConceptByUuid(idMapping.getInternalId());
             Concept updatedConcept = new PersistedConcept(existingConcept).merge(newConcept);
             conceptService.saveConcept(updatedConcept);
         }
