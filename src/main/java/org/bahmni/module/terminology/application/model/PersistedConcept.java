@@ -34,9 +34,8 @@ public class PersistedConcept {
             existingConcept.addDescription(newConcept.getDescription());
         } else if (newConcept.getDescription() == null) {
             existingConcept.removeDescription(existingConcept.getDescription());
-        } else if (!StringUtils.equals(existingConcept.getDescription().getUuid(), newConcept.getDescription().getUuid())) {
-            existingConcept.removeDescription(existingConcept.getDescription());
-            existingConcept.addDescription(newConcept.getDescription());
+        } else if (!StringUtils.equals(existingConcept.getDescription().getDescription(), newConcept.getDescription().getDescription())) {
+            existingConcept.getDescription().setDescription(newConcept.getDescription().getDescription());
         }
     }
 

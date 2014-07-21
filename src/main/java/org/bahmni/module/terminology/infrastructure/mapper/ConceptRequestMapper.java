@@ -31,7 +31,7 @@ public class ConceptRequestMapper {
         request.setConceptClass(asString(safeGet(safeGetMap(data, "conceptClass"), "name")));
         request.setDatatypeName(asString(safeGet(safeGetMap(data, "datatype"), "name")));
         request.setSet(Boolean.valueOf(asString(safeGet(data, "set", "false"))));
-        request.setVersion(asString(safeGet(data, "resourceVersion", StringUtils.EMPTY)));
+        request.setVersion(asString(safeGet(data, "version", StringUtils.EMPTY)));
         request.setConceptNameRequests(conceptNameRequestMapper.map(data.get("names")));
         request.setConceptReferenceTermRequests(conceptReferenceTermRequestMapper.map(data.get("mappings")));
         request.setUuid(asString(safeGet(data, "uuid")));
