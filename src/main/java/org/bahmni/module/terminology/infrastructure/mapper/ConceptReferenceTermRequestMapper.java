@@ -22,26 +22,26 @@ public class ConceptReferenceTermRequestMapper {
         this.conceptSourceRequestMapper = conceptSourceRequestMapper;
     }
 
-    public ConceptReferenceTermRequests map(Object data) {
+    public ConceptReferenceTermRequests mapFromConceptRequest(Object data) {
         ConceptReferenceTermRequests result = new ConceptReferenceTermRequests();
         Collection conceptNames = (Collection) data;
         if (null != conceptNames) {
             for (Object name : conceptNames) {
-                result.add(mapReferenceTerm((Map) name));
+                ConceptReferenceTermRequest referenceTermRequest = mapReferenceTerm(safeGetMap((Map) name, "conceptReferenceTerm"));
+                referenceTermRequest.setMapType(asString(safeGet(safeGetMap((Map) name, "conceptMapType"), "name")));
+                result.add(referenceTermRequest);
             }
         }
         return result;
     }
 
-    private ConceptReferenceTermRequest mapReferenceTerm(Map name) {
+    public ConceptReferenceTermRequest mapReferenceTerm(Map conceptReferenceTermMap) {
         ConceptReferenceTermRequest conceptReferenceTermRequest = new ConceptReferenceTermRequest();
-        conceptReferenceTermRequest.setCode(asString(safeGet(safeGetMap(name, "conceptReferenceTerm"), "code")));
-        conceptReferenceTermRequest.setUuid(asString(safeGet(safeGetMap(name, "conceptReferenceTerm"), "uuid")));
-        conceptReferenceTermRequest.setName(asString(safeGet(safeGetMap(name, "conceptReferenceTerm"), "name")));
-        conceptReferenceTermRequest.setDescription(asString(safeGet(safeGetMap(name, "conceptReferenceTerm"), "description")));
-        conceptReferenceTermRequest.setMapType(asString(safeGet(safeGetMap(name, "conceptMapType"), "name")));
-        conceptReferenceTermRequest.setConceptSourceRequest(conceptSourceRequestMapper.map(safeGetMap(safeGetMap(name, "conceptReferenceTerm"), "conceptSource")));
-
+        conceptReferenceTermRequest.setCode(asString(safeGet(conceptReferenceTermMap, "code")));
+        conceptReferenceTermRequest.setUuid(asString(safeGet(conceptReferenceTermMap, "uuid")));
+        conceptReferenceTermRequest.setName(asString(safeGet(conceptReferenceTermMap, "name")));
+        conceptReferenceTermRequest.setDescription(asString(safeGet(conceptReferenceTermMap, "description")));
+        conceptReferenceTermRequest.setConceptSourceRequest(conceptSourceRequestMapper.map(safeGetMap(conceptReferenceTermMap, "conceptSource")));
         return conceptReferenceTermRequest;
     }
 }

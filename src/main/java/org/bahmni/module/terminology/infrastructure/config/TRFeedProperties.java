@@ -22,7 +22,9 @@ public class TRFeedProperties extends AtomFeedProperties {
     private Properties defaultProperties;
 
     public static final String TERMINOLOGY_FEED_URI = "terminology.feed.url";
-    private static final String DIAGNOSIS_FEED_URI = "diagnosis.feed.url";
+
+    public static final String DIAGNOSIS_FEED_URI = "diagnosis.feed.url";
+    public static final java.lang.String REFERENCE_FEED_URI = "reference.term.feed.url";
     public static final String CONNECT_TIMEOUT = "feed.connectionTimeoutInMilliseconds";
     public static final String MAX_FAILED_EVENTS = "feed.maxFailedEvents";
     public static final String READ_TIMEOUT = "feed.replyTimeoutInMilliseconds";
@@ -78,7 +80,15 @@ public class TRFeedProperties extends AtomFeedProperties {
         return atomFeedProperties.getProperty(DIAGNOSIS_FEED_URI);
     }
 
+    public String getReferenceTermFeedUrl() {
+        return atomFeedProperties.getProperty(REFERENCE_FEED_URI);
+    }
+
     public String getDiagnosisUrl(String content) {
         return join(subarray(getDiagnosisFeedUrl().split("/"), 0, 3), "/") + ((null == content) ? "" : content);
+    }
+
+    public String getReferenceTermUrl(String content) {
+        return join(subarray(getReferenceTermFeedUrl().split("/"), 0, 3), "/") + ((null == content) ? "" : content);
     }
 }

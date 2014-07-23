@@ -27,20 +27,25 @@ public class SHReferenceTermService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void sync(ConceptReferenceTermRequests conceptReferenceTermRequests) {
         for (ConceptReferenceTermRequest request : conceptReferenceTermRequests.getConceptReferenceTermRequests()) {
-            if (request.isHasSource()) {
-                shConceptSourceService.sync(request.getConceptSourceRequest());
-                IdMapping mapping = idMappingsRepository.findByExternalId(request.getUuid());
-                if (null == mapping) {
-                    ConceptReferenceTerm referenceTerm = conceptReferenceTermMapper.map(request);
-                    ConceptReferenceTerm savedReferenceTerm = conceptService.saveConceptReferenceTerm(referenceTerm);
-                    idMappingsRepository.saveMapping(new IdMapping(savedReferenceTerm.getUuid(), request.getUuid()));
-                } else {
-                    ConceptReferenceTerm existingTerm = conceptService.getConceptReferenceTermByUuid(mapping.getInternalId());
-                    existingTerm.setName(request.getName());
-                    existingTerm.setCode(request.getCode());
-                    existingTerm.setDescription(request.getDescription());
-                    conceptService.saveConceptReferenceTerm(existingTerm);
-                }
+            syncReferenceTerm(request);
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void syncReferenceTerm(ConceptReferenceTermRequest request) {
+        if (request.isHasSource()) {
+            shConceptSourceService.sync(request.getConceptSourceRequest());
+            IdMapping mapping = idMappingsRepository.findByExternalId(request.getUuid());
+            if (null == mapping) {
+                ConceptReferenceTerm referenceTerm = conceptReferenceTermMapper.map(request);
+                ConceptReferenceTerm savedReferenceTerm = conceptService.saveConceptReferenceTerm(referenceTerm);
+                idMappingsRepository.saveMapping(new IdMapping(savedReferenceTerm.getUuid(), request.getUuid()));
+            } else {
+                ConceptReferenceTerm existingTerm = conceptService.getConceptReferenceTermByUuid(mapping.getInternalId());
+                existingTerm.setName(request.getName());
+                existingTerm.setCode(request.getCode());
+                existingTerm.setDescription(request.getDescription());
+                conceptService.saveConceptReferenceTerm(existingTerm);
             }
         }
     }

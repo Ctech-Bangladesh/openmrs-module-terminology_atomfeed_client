@@ -1,6 +1,12 @@
 package org.bahmni.module.terminology.infrastructure.atomfeed;
 
 import org.apache.log4j.Logger;
+import org.bahmni.module.terminology.application.service.SHReferenceTermService;
+import org.bahmni.module.terminology.infrastructure.atomfeed.workers.ConceptReferenceTermFeedWorker;
+import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
+import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
+import org.bahmni.module.terminology.infrastructure.mapper.ConceptReferenceTermRequestMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.URISyntaxException;
@@ -11,8 +17,29 @@ public class ConceptReferenceTermFeedClientImpl implements ConceptReferenceTermF
 
     private final Logger logger = Logger.getLogger(ConceptReferenceTermFeedClientImpl.class);
 
+    private AuthenticatedHttpClient httpClient;
+    private TRFeedProperties properties;
+    private SHReferenceTermService shReferenceTermService;
+    private ConceptReferenceTermRequestMapper conceptReferenceTermRequestMapper;
+    private FeedProcessor feedProcessor;
+
+    @Autowired
+    public ConceptReferenceTermFeedClientImpl(AuthenticatedHttpClient httpClient,
+                                              TRFeedProperties properties,
+                                              SHReferenceTermService shReferenceTermService,
+                                              ConceptReferenceTermRequestMapper conceptReferenceTermRequestMapper,
+                                              FeedProcessor feedProcessor) {
+        this.httpClient = httpClient;
+        this.properties = properties;
+        this.shReferenceTermService = shReferenceTermService;
+        this.conceptReferenceTermRequestMapper = conceptReferenceTermRequestMapper;
+        this.feedProcessor = feedProcessor;
+    }
+
     @Override
     public void sync() throws URISyntaxException {
-        logger.info("Sync Start: Diagnosis Terminology Concepts ..... ");
+        logger.info("Sync Start: Concept Reference Terms ..... ");
+        ConceptReferenceTermFeedWorker worker = new ConceptReferenceTermFeedWorker(httpClient, properties, shReferenceTermService, conceptReferenceTermRequestMapper);
+        feedProcessor.process(properties.getReferenceTermFeedUrl(), worker, properties);
     }
 }
