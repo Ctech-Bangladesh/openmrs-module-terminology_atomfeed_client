@@ -60,4 +60,19 @@
         </sql>
     </changeSet>
 
+    <changeSet id="terminology-atomfeed-client-7" author="Sumit, Balaji">
+        <insert tableName="scheduler_task_config">
+            <column name="name" value="Concept Reference Term Feed Feed Task"/>
+            <column name="schedulable_class" value="org.bahmni.module.terminology.infrastructure.atomfeed.ConceptReferenceTermFeedTask"/>
+            <column name="start_time" valueDate=" now() "/>
+            <column name="start_time_pattern" value="MM/dd/yyyy HH:mm:ss"/>
+            <column name="repeat_interval" value="15"/>
+            <column name="start_on_startup" value="1"/>
+            <column name="started" value="1"/>
+            <column name="created_by" value="1"/>
+            <column name="date_created" valueDate=" now() "/>
+            <column name="uuid" valueComputed=" uuid() "/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>
