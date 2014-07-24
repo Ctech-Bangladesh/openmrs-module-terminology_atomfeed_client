@@ -16,10 +16,12 @@ import static org.bahmni.module.terminology.util.TypeUtil.asString;
 public class ConceptReferenceTermRequestMapper {
 
     private ConceptSourceRequestMapper conceptSourceRequestMapper;
+    private ConceptReferenceTermMapRequestMapper conceptReferenceTermMapRequestMapper;
 
     @Autowired
-    public ConceptReferenceTermRequestMapper(ConceptSourceRequestMapper conceptSourceRequestMapper) {
+    public ConceptReferenceTermRequestMapper(ConceptSourceRequestMapper conceptSourceRequestMapper, ConceptReferenceTermMapRequestMapper conceptReferenceTermMapRequestMapper) {
         this.conceptSourceRequestMapper = conceptSourceRequestMapper;
+        this.conceptReferenceTermMapRequestMapper = conceptReferenceTermMapRequestMapper;
     }
 
     public ConceptReferenceTermRequests mapFromConceptRequest(Object data) {
@@ -33,6 +35,14 @@ public class ConceptReferenceTermRequestMapper {
             }
         }
         return result;
+    }
+
+    public ConceptReferenceTermRequest mapFromConceptReferenceTermRequest(Map conceptReferenceTermRequestMap) {
+        ConceptReferenceTermRequest conceptReferenceTermRequest = mapReferenceTerm(conceptReferenceTermRequestMap);
+        if (null != conceptReferenceTermRequestMap.get("conceptReferenceTermMaps")) {
+            conceptReferenceTermRequest.setConceptReferenceTermMapRequests(conceptReferenceTermMapRequestMapper.map((Collection<Object>) safeGet(conceptReferenceTermRequestMap, "conceptReferenceTermMaps")));
+        }
+        return conceptReferenceTermRequest;
     }
 
     public ConceptReferenceTermRequest mapReferenceTerm(Map conceptReferenceTermMap) {

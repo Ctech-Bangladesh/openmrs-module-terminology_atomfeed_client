@@ -34,7 +34,7 @@ public class ConceptReferenceTermFeedWorker implements EventWorker {
     public void process(final Event event) {
         logger.info(format("Received concept reference term sync event for %s with conent %s ", event.getFeedUri(), event.getContent()));
         Map conceptReferenceTermMap = httpClient.get(properties.getReferenceTermUrl(event.getContent()), HashMap.class);
-        shReferenceTermService.syncReferenceTerm(referenceTermRequestMapper.mapReferenceTerm(conceptReferenceTermMap));
+        shReferenceTermService.syncReferenceTerm(referenceTermRequestMapper.mapFromConceptReferenceTermRequest(conceptReferenceTermMap));
     }
 
     @Override

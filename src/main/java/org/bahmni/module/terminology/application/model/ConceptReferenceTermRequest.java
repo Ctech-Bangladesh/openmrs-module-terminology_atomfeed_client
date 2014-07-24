@@ -6,6 +6,7 @@ public class ConceptReferenceTermRequest {
     private String code;
     private String description;
     private ConceptSourceRequest conceptSourceRequest;
+    private ConceptReferenceTermMapRequests conceptReferenceTermMapRequests;
     private String mapType;
     private String uuid;
 
@@ -59,5 +60,13 @@ public class ConceptReferenceTermRequest {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public ConceptReferenceTermMapRequests getConceptReferenceTermMapRequests() {
+        return conceptReferenceTermMapRequests;
+    }
+
+    public void setConceptReferenceTermMapRequests(ConceptReferenceTermMapRequests conceptReferenceTermMapRequests) {
+        this.conceptReferenceTermMapRequests = conceptReferenceTermMapRequests;
     }
 }
