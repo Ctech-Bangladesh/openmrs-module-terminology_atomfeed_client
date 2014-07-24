@@ -21,6 +21,7 @@ public class ConceptReferenceTermMapRequestMapper {
             request.setDisplay(asString(safeGet((Map) datum, "display")));
             request.setTermA(mapTerm((Map) safeGet((Map) datum, "termA")));
             request.setTermB(mapTerm((Map) safeGet((Map) datum, "termB")));
+            request.setConceptMapType(asString(safeGet((Map) safeGet((Map) datum, "conceptMapType"), "display")));
             result.add(request);
         }
         return result;

@@ -50,7 +50,7 @@ public class ReferenceTermMapsMapper {
 
     private ConceptReferenceTermMap mapReferenceTermMap(ConceptReferenceTerm referenceTerm, ConceptReferenceTermMapRequest request, ConceptReferenceTermMap map) {
         map.setUuid(request.getUuid());
-        map.setConceptMapType(conceptService.getConceptMapTypeByName("SAME-AS"));
+        map.setConceptMapType(conceptService.getConceptMapTypeByName(request.getConceptMapType()));
         map.setTermA(referenceTerm);
         map.setTermB(conceptService.getConceptReferenceTermByUuid(idMappingsRepository.findByExternalId(request.getTermB().getUuid()).getInternalId()));
         return map;

@@ -4,6 +4,7 @@ public class ConceptReferenceTermMapRequest {
 
     private String uuid;
     private String display;
+    private String conceptMapType;
     private ConceptMapTerm termA;
     private ConceptMapTerm termB;
 
@@ -37,6 +38,14 @@ public class ConceptReferenceTermMapRequest {
 
     public void setTermB(ConceptMapTerm termB) {
         this.termB = termB;
+    }
+
+    public String getConceptMapType() {
+        return conceptMapType;
+    }
+
+    public void setConceptMapType(String conceptMapType) {
+        this.conceptMapType = conceptMapType;
     }
 
     public static class ConceptMapTerm {

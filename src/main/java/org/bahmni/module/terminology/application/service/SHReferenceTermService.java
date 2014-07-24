@@ -36,16 +36,10 @@ public class SHReferenceTermService {
         if (request.isHasSource()) {
             shConceptSourceService.sync(request.getConceptSourceRequest());
             IdMapping mapping = idMappingsRepository.findByExternalId(request.getUuid());
+            ConceptReferenceTerm referenceTerm = conceptReferenceTermMapper.map(request);
+            ConceptReferenceTerm savedReferenceTerm = conceptService.saveConceptReferenceTerm(referenceTerm);
             if (null == mapping) {
-                ConceptReferenceTerm referenceTerm = conceptReferenceTermMapper.map(request);
-                ConceptReferenceTerm savedReferenceTerm = conceptService.saveConceptReferenceTerm(referenceTerm);
                 idMappingsRepository.saveMapping(new IdMapping(savedReferenceTerm.getUuid(), request.getUuid()));
-            } else {
-                ConceptReferenceTerm existingTerm = conceptService.getConceptReferenceTermByUuid(mapping.getInternalId());
-                existingTerm.setName(request.getName());
-                existingTerm.setCode(request.getCode());
-                existingTerm.setDescription(request.getDescription());
-                conceptService.saveConceptReferenceTerm(existingTerm);
             }
         }
     }
