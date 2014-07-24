@@ -9,6 +9,8 @@ public class ConceptReferenceTermRequest {
     private ConceptReferenceTermMapRequests conceptReferenceTermMapRequests;
     private String mapType;
     private String uuid;
+    private String version;
+    private boolean retired;
 
     public String getName() {
         return name;
@@ -68,5 +70,21 @@ public class ConceptReferenceTermRequest {
 
     public void setConceptReferenceTermMapRequests(ConceptReferenceTermMapRequests conceptReferenceTermMapRequests) {
         this.conceptReferenceTermMapRequests = conceptReferenceTermMapRequests;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public boolean isRetired() {
+        return retired;
+    }
+
+    public void setRetired(boolean retired) {
+        this.retired = retired;
     }
 }

@@ -48,6 +48,8 @@ public class ConceptReferenceTermRequestMapper {
     public ConceptReferenceTermRequest mapReferenceTerm(Map conceptReferenceTermMap) {
         ConceptReferenceTermRequest conceptReferenceTermRequest = new ConceptReferenceTermRequest();
         conceptReferenceTermRequest.setCode(asString(safeGet(conceptReferenceTermMap, "code")));
+        conceptReferenceTermRequest.setRetired(Boolean.valueOf(asString(safeGet(conceptReferenceTermMap, "retired"))));
+        conceptReferenceTermRequest.setVersion(asString(safeGet(conceptReferenceTermMap, "version")));
         conceptReferenceTermRequest.setUuid(asString(safeGet(conceptReferenceTermMap, "uuid")));
         conceptReferenceTermRequest.setName(asString(safeGet(conceptReferenceTermMap, "name")));
         conceptReferenceTermRequest.setDescription(asString(safeGet(conceptReferenceTermMap, "description")));
