@@ -7,7 +7,6 @@ import org.bahmni.module.terminology.infrastructure.repository.IdMappingsReposit
 import org.openmrs.ConceptMap;
 import org.openmrs.ConceptMapType;
 import org.openmrs.ConceptReferenceTerm;
-import org.openmrs.ConceptSource;
 import org.openmrs.api.ConceptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,12 +21,14 @@ public class ConceptReferenceTermMapper {
 
     private ConceptService conceptService;
     private ConceptSourceMapper conceptSourceMapper;
+    private ReferenceTermMapsMapper referenceTermMapsMapper;
     private IdMappingsRepository idMappingsRepository;
 
     @Autowired
-    public ConceptReferenceTermMapper(ConceptService conceptService, ConceptSourceMapper conceptSourceMapper, IdMappingsRepository idMappingsRepository) {
+    public ConceptReferenceTermMapper(ConceptService conceptService, ConceptSourceMapper conceptSourceMapper, ReferenceTermMapsMapper referenceTermMapsMapper, IdMappingsRepository idMappingsRepository) {
         this.conceptService = conceptService;
         this.conceptSourceMapper = conceptSourceMapper;
+        this.referenceTermMapsMapper = referenceTermMapsMapper;
         this.idMappingsRepository = idMappingsRepository;
     }
 
@@ -36,7 +37,7 @@ public class ConceptReferenceTermMapper {
             Set<ConceptMap> mappings = new HashSet<>();
             for (ConceptReferenceTermRequest conceptReferenceTermRequest : requests.getConceptReferenceTermRequests()) {
                 if (conceptReferenceTermRequest.isHasSource()) {
-                    mappings.add(mapConceptReferenceTerm(conceptReferenceTermRequest));
+                    mappings.add(mapTermMappings(conceptReferenceTermRequest));
                 }
             }
             return mappings;
@@ -47,15 +48,20 @@ public class ConceptReferenceTermMapper {
 
     public ConceptReferenceTerm map(ConceptReferenceTermRequest conceptReferenceTermRequest) {
         ConceptReferenceTerm existingReferenceTerm = findExistingConceptReferenceTerm(conceptReferenceTermRequest);
-        return (null != existingReferenceTerm) ? existingReferenceTerm : createNew(
-                conceptReferenceTermRequest.getCode(),
-                conceptReferenceTermRequest.getName(),
-                conceptReferenceTermRequest.getDescription(),
-                conceptSourceMapper.map(conceptReferenceTermRequest.getConceptSourceRequest())
-        );
+        return (null != existingReferenceTerm) ? mapReferenceTerm(conceptReferenceTermRequest, existingReferenceTerm) : mapReferenceTerm(conceptReferenceTermRequest, new ConceptReferenceTerm());
     }
 
-    private ConceptMap mapConceptReferenceTerm(ConceptReferenceTermRequest conceptReferenceTermRequest) {
+    private ConceptReferenceTerm mapReferenceTerm(ConceptReferenceTermRequest conceptReferenceTermRequest, ConceptReferenceTerm referenceTerm) {
+        referenceTerm.setUuid(conceptReferenceTermRequest.getUuid());
+        referenceTerm.setName(conceptReferenceTermRequest.getName());
+        referenceTerm.setCode(conceptReferenceTermRequest.getCode());
+        referenceTerm.setDescription(conceptReferenceTermRequest.getDescription());
+        referenceTerm.setConceptSource(conceptSourceMapper.map(conceptReferenceTermRequest.getConceptSourceRequest()));
+        referenceTerm = referenceTermMapsMapper.map(referenceTerm, conceptReferenceTermRequest.getConceptReferenceTermMapRequests());
+        return referenceTerm;
+    }
+
+    private ConceptMap mapTermMappings(ConceptReferenceTermRequest conceptReferenceTermRequest) {
         ConceptMap conceptMap = new ConceptMap();
         conceptMap.setConceptMapType(mapConceptMapType(conceptReferenceTermRequest.getMapType()));
         conceptMap.setConceptReferenceTerm(
@@ -79,12 +85,4 @@ public class ConceptReferenceTermMapper {
         return null;
     }
 
-    private ConceptReferenceTerm createNew(String code, String name, String description, ConceptSource source) {
-        ConceptReferenceTerm referenceTerm = new ConceptReferenceTerm();
-        referenceTerm.setName(name);
-        referenceTerm.setCode(code);
-        referenceTerm.setDescription(description);
-        referenceTerm.setConceptSource(source);
-        return referenceTerm;
-    }
 }
