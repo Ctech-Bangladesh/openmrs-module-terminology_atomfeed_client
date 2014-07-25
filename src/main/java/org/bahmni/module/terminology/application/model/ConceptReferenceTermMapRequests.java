@@ -11,10 +11,6 @@ public class ConceptReferenceTermMapRequests {
 
     private Set<ConceptReferenceTermMapRequest> referenceTermMapRequests = new HashSet<>();
 
-    public Set<ConceptReferenceTermMapRequest> getReferenceTermMapRequests() {
-        return referenceTermMapRequests;
-    }
-
     public void add(ConceptReferenceTermMapRequest request) {
         referenceTermMapRequests.add(request);
     }
@@ -37,6 +33,15 @@ public class ConceptReferenceTermMapRequests {
             }
         }
         return result;
+    }
+
+    public boolean findMapping(ConceptReferenceTermMap map) {
+        for (ConceptReferenceTermMapRequest referenceTermMapRequest : referenceTermMapRequests) {
+            if (StringUtils.equals(referenceTermMapRequest.getUuid(), map.getUuid())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean find(ConceptReferenceTermMapRequest request, Collection<ConceptReferenceTermMap> existingMaps) {

@@ -10,6 +10,7 @@ import org.openmrs.api.ConceptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Component
@@ -35,8 +36,19 @@ public class ReferenceTermMapsMapper {
             for (ConceptReferenceTermMapRequest request : conceptReferenceTermMapRequests.selectExistingMappings(conceptReferenceTermMaps)) {
                 mapReferenceTermMap(referenceTerm, request, find(conceptReferenceTermMaps, request));
             }
+            removeNonExistingMapping(referenceTerm, conceptReferenceTermMapRequests);
             return referenceTerm;
         }
+    }
+
+    private ConceptReferenceTerm removeNonExistingMapping(ConceptReferenceTerm referenceTerm, ConceptReferenceTermMapRequests request) {
+        Set<ConceptReferenceTermMap> maps = referenceTerm.getConceptReferenceTermMaps();
+        for (ConceptReferenceTermMap map : new HashSet<>(referenceTerm.getConceptReferenceTermMaps())) {
+            if (!request.findMapping(map)) {
+                maps.remove(map);
+            }
+        }
+        return referenceTerm;
     }
 
     private ConceptReferenceTermMap find(Set<ConceptReferenceTermMap> conceptReferenceTermMaps, ConceptReferenceTermMapRequest request) {
