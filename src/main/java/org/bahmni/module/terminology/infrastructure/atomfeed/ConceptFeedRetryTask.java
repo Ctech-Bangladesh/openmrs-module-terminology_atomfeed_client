@@ -1,20 +1,25 @@
 package org.bahmni.module.terminology.infrastructure.atomfeed;
 
 
+import org.apache.log4j.Logger;
 import org.openmrs.api.context.Context;
 import org.openmrs.scheduler.tasks.AbstractTask;
 
-import java.net.URISyntaxException;
-
 public class ConceptFeedRetryTask extends AbstractTask {
+
+    private Logger logger = Logger.getLogger(ConceptFeedRetryTask.class);
 
     @Override
     public void execute() {
-        DiagnosisFeedClient diagnosisFeedClient = Context.getService(DiagnosisFeedClient.class);
+        retry(Context.getService(DiagnosisFeedClient.class));
+        retry(Context.getService(ChiefComplaintFeedClient.class));
+    }
+
+    private void retry(ConceptFeedClient conceptFeedClient) {
         try {
-            diagnosisFeedClient.retrySync();
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
+            conceptFeedClient.retrySync();
+        } catch (RuntimeException exception) {
+            logger.error(exception);
         }
     }
 }

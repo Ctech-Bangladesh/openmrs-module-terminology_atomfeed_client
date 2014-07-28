@@ -1,6 +1,7 @@
 package org.bahmni.module.terminology.infrastructure.http;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
@@ -30,7 +31,13 @@ public class AuthenticatedHttpClient {
 
     public <T> T get(String url, Class<T> clazz) {
         try {
-            return new Gson().fromJson(EntityUtils.toString(httpClient.execute(new HttpGet(url)).getEntity()), clazz);
+            String json = EntityUtils.toString(httpClient.execute(new HttpGet(url)).getEntity());
+            try {
+                T object = new Gson().fromJson(json, clazz);
+                return object;
+            } catch (JsonSyntaxException e) {
+                throw new RuntimeException("Error while parsing json. The Json is " + json);
+            }
         } catch (IOException ex) {
             throw new RuntimeException(format("Error while accessing url %s for class %s", url, clazz.getName()), ex);
         }

@@ -6,7 +6,9 @@ import org.openmrs.ConceptName;
 import org.openmrs.api.ConceptNameType;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 
@@ -15,7 +17,7 @@ public class ConceptNameMapper {
 
     public ConceptName map(ConceptNameRequest name) {
         ConceptName conceptName = new ConceptName();
-        if (name != null) {
+        if (name != null && isNotBlank(name.getConceptName()) && isNotBlank(name.getLocale())) {
             conceptName.setName(name.getConceptName());
             conceptName.setLocale(new Locale(name.getLocale()));
             if (isNotBlank(name.getConceptNameType())) {

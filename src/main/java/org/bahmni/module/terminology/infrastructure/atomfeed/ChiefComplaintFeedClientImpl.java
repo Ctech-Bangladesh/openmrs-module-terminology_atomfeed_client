@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
 import java.net.URISyntaxException;
 
 
-@Component("diagnosisFeedClient")
-public class DiagnosisFeedClientImpl implements DiagnosisFeedClient {
+@Component("chiefComplaintFeedClient")
+public class ChiefComplaintFeedClientImpl implements ChiefComplaintFeedClient {
 
-    private final Logger logger = Logger.getLogger(DiagnosisFeedClientImpl.class);
+    private final Logger logger = Logger.getLogger(ChiefComplaintFeedClientImpl.class);
 
     private ConceptSyncService ConceptSyncService;
     private FeedProcessor feedProcessor;
@@ -24,10 +24,10 @@ public class DiagnosisFeedClientImpl implements DiagnosisFeedClient {
     private ConceptRequestMapper conceptRequestMapper;
 
     @Autowired
-    public DiagnosisFeedClientImpl(ConceptSyncService ConceptSyncService, FeedProcessor feedProcessor,
-                                   AuthenticatedHttpClient httpClient,
-                                   TRFeedProperties properties,
-                                   ConceptRequestMapper conceptRequestMapper) {
+    public ChiefComplaintFeedClientImpl(ConceptSyncService ConceptSyncService, FeedProcessor feedProcessor,
+                                        AuthenticatedHttpClient httpClient,
+                                        TRFeedProperties properties,
+                                        ConceptRequestMapper conceptRequestMapper) {
         this.ConceptSyncService = ConceptSyncService;
         this.feedProcessor = feedProcessor;
         this.httpClient = httpClient;
@@ -38,24 +38,28 @@ public class DiagnosisFeedClientImpl implements DiagnosisFeedClient {
     @Override
     public void sync() {
         logger.info("Sync Start: Diagnosis Terminology Concepts ..... ");
-        try {
-            feedProcessor.process(properties.getDiagnosisFeedUrl(), diagnosisWorker(), properties);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
+        for (String url : properties.getChiefComplaintFeedUrls()) {
+            try {
+                feedProcessor.process(url, worker(), properties);
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
     @Override
     public void retrySync() {
         logger.info("Retrying failed concepts/diagnosis...");
-        try {
-            feedProcessor.retry(properties.getDiagnosisFeedUrl(), diagnosisWorker(), properties);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
+        for (String url : properties.getChiefComplaintFeedUrls()) {
+            try {
+                feedProcessor.retry(url, worker(), properties);
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    private ConceptFeedWorker diagnosisWorker() {
+    private ConceptFeedWorker worker() {
         return new ConceptFeedWorker(httpClient, properties, ConceptSyncService, conceptRequestMapper);
     }
 }

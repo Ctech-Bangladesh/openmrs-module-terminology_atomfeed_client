@@ -8,8 +8,10 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.io.FileInputStream;
+import java.util.List;
 import java.util.Properties;
 
+import static java.util.Arrays.asList;
 import static org.apache.commons.lang.ArrayUtils.subarray;
 import static org.apache.commons.lang.StringUtils.join;
 
@@ -78,6 +80,14 @@ public class TRFeedProperties extends AtomFeedProperties {
 
     public String getDiagnosisFeedUrl() {
         return atomFeedProperties.getProperty(DIAGNOSIS_FEED_URI);
+    }
+
+    public List<String> getChiefComplaintFeedUrls() {
+        return asList(
+                atomFeedProperties.getProperty("findings.feed.url"),
+                atomFeedProperties.getProperty("symptoms.feed.url"),
+                atomFeedProperties.getProperty("symptoms.or.findings.feed.url")
+        );
     }
 
     public String getReferenceTermFeedUrl() {
