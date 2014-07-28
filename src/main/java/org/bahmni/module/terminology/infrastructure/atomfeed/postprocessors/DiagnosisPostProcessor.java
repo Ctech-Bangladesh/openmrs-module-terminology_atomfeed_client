@@ -21,8 +21,6 @@ public class DiagnosisPostProcessor implements ConceptPostProcessor {
     @Qualifier("adminService")
     protected AdministrationService administrationService;
 
-    private static final String GP_DIAGNOSIS_SET_OF_SETS = "emr.concept.diagnosisSetOfSets";
-
     public static final String UNCATEGORIZED_DIAGNOSES_NAME = "uncategorized diagnoses";
 
     private final Logger logger = Logger.getLogger(DiagnosisPostProcessor.class);
