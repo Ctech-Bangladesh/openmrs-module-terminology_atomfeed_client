@@ -27,8 +27,16 @@ public class FeedProcessor {
     }
 
     public void process(String url, EventWorker worker, AtomFeedProperties properties) throws URISyntaxException {
+        atomFeedClient(url, worker, properties).processEvents();
+    }
+
+    public void retry(String url, EventWorker worker, AtomFeedProperties properties) throws URISyntaxException {
+        atomFeedClient(url, worker, properties).processFailedEvents();
+    }
+
+    private AtomFeedClient atomFeedClient(String url, EventWorker worker, AtomFeedProperties properties) throws URISyntaxException {
         AtomFeedSpringTransactionManager txManager = new AtomFeedSpringTransactionManager(transactionManager);
-        AtomFeedClient atomFeedClient = new AtomFeedClient(
+        return new AtomFeedClient(
                 new AllFeeds(properties, new HashMap<String, String>()),
                 new AllMarkersJdbcImpl(txManager),
                 new AllFailedEventsJdbcImpl(txManager),
@@ -36,6 +44,5 @@ public class FeedProcessor {
                 txManager,
                 new URI(url),
                 worker);
-        atomFeedClient.processEvents();
     }
 }

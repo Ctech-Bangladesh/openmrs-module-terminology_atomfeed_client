@@ -43,7 +43,16 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
     @Override
     public void syncDiangosis() throws URISyntaxException {
         logger.info("Sync Start: Diagnosis Terminology Concepts ..... ");
-        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, properties, ConceptSyncService, conceptRequestMapper, ConceptType.Diagnosis);
-        feedProcessor.process(properties.getDiagnosisFeedUrl(), worker, properties);
+        feedProcessor.process(properties.getDiagnosisFeedUrl(), diagnosisWorker(), properties);
+    }
+
+    @Override
+    public void retrySync() throws URISyntaxException {
+        logger.info("Retrying failed concepts/diagnosis...");
+        feedProcessor.retry(properties.getDiagnosisFeedUrl(), diagnosisWorker(), properties);
+    }
+
+    private ConceptFeedWorker diagnosisWorker() {
+        return new ConceptFeedWorker(httpClient, properties, ConceptSyncService, conceptRequestMapper, ConceptType.Diagnosis);
     }
 }
