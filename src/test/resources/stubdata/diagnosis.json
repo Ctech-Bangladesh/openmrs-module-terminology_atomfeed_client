@@ -24,6 +24,23 @@
             }
         ],
         "resourceVersion": "1.8"
+    },"conceptClass": {
+          "uuid": "8d4918b0-c2cc-11de-8d13-0010c6dffd0f",
+          "display": "Diagnosis",
+          "name": "Diagnosis",
+          "description": "Conclusion drawn through findings",
+          "retired": false,
+          "links": [
+              {
+                  "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/conceptclass/8d4918b0-c2cc-11de-8d13-0010c6dffd0f",
+                  "rel": "self"
+              },
+              {
+                  "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/conceptclass/8d4918b0-c2cc-11de-8d13-0010c6dffd0f?v=full",
+                  "rel": "full"
+              }
+          ],
+          "resourceVersion": "1.8"
     },
     "set": false,
     "version": null,

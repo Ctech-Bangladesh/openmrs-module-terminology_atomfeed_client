@@ -2,7 +2,6 @@ package org.bahmni.module.terminology.application.service;
 
 import org.bahmni.module.terminology.application.mapping.ConceptMapper;
 import org.bahmni.module.terminology.application.model.ConceptRequest;
-import org.bahmni.module.terminology.application.model.ConceptType;
 import org.bahmni.module.terminology.application.model.IdMapping;
 import org.bahmni.module.terminology.application.model.PersistedConcept;
 import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.DiagnosisPostProcessor;
@@ -27,9 +26,9 @@ public class SHConceptService {
     private ConceptMapper conceptMapper;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void sync(ConceptRequest conceptRequest, ConceptType conceptType) {
+    public void sync(ConceptRequest conceptRequest) {
         IdMapping idMapping = idMappingsRepository.findByExternalId(conceptRequest.getUuid());
-        Concept newConcept = conceptMapper.map(conceptRequest, conceptType);
+        Concept newConcept = conceptMapper.map(conceptRequest);
         if (idMapping == null) {
             Concept savedConcept = conceptService.saveConcept(newConcept);
             diagnosisPostProcessor.process(savedConcept);

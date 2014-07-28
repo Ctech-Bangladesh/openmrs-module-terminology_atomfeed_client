@@ -2,7 +2,6 @@ package org.bahmni.module.terminology.infrastructure.atomfeed.workers;
 
 import org.bahmni.module.terminology.application.model.ConceptNameRequest;
 import org.bahmni.module.terminology.application.model.ConceptRequest;
-import org.bahmni.module.terminology.application.model.ConceptType;
 import org.bahmni.module.terminology.application.service.ConceptSyncService;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
@@ -45,7 +44,7 @@ public class ConceptFeedWorkerTest {
         initMocks(this);
         event = new Event("eventId", "/content", "title", "feedUri");
         properties = createProperties();
-        conceptFeedWorker = new ConceptFeedWorker(httpClient, properties, ConceptSyncService, mapper, ConceptType.Diagnosis);
+        conceptFeedWorker = new ConceptFeedWorker(httpClient, properties, ConceptSyncService, mapper);
     }
 
     private TRFeedProperties createProperties() {
@@ -69,6 +68,6 @@ public class ConceptFeedWorkerTest {
 
         conceptFeedWorker.process(event);
 
-        verify(ConceptSyncService, times(1)).sync(concept, ConceptType.Diagnosis);
+        verify(ConceptSyncService, times(1)).sync(concept);
     }
 }

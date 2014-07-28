@@ -3,7 +3,6 @@ package org.bahmni.module.terminology.application.mapping;
 import org.apache.commons.lang.StringUtils;
 import org.bahmni.module.terminology.application.model.ConceptDescriptionRequest;
 import org.bahmni.module.terminology.application.model.ConceptRequest;
-import org.bahmni.module.terminology.application.model.ConceptType;
 import org.openmrs.Concept;
 import org.openmrs.ConceptDescription;
 import org.openmrs.api.ConceptService;
@@ -26,13 +25,13 @@ public class ConceptMapper {
         this.conceptReferenceTermMapper = conceptReferenceTermMapper;
     }
 
-    public Concept map(ConceptRequest conceptRequest, ConceptType conceptType) {
+    public Concept map(ConceptRequest conceptRequest) {
         Concept concept = new Concept();
         concept.setFullySpecifiedName(conceptNameMapper.map(conceptRequest.getFullySpecifiedName()));
         concept.setSet(conceptRequest.isSet());
         concept.setVersion(conceptRequest.getVersion());
         mapConceptDatatype(concept, conceptRequest.getDatatypeName());
-        mapConceptClass(concept, conceptType);
+        mapConceptClass(concept, conceptRequest);
         concept.addDescription(mapDescriptions(conceptRequest.getConceptDescriptionRequest()));
         concept.setNames(conceptNameMapper.map(conceptRequest.getConceptNameRequests()));
         concept.setConceptMappings(conceptReferenceTermMapper.map(conceptRequest.getConceptReferenceTermRequests()));
@@ -50,8 +49,8 @@ public class ConceptMapper {
         return description;
     }
 
-    private void mapConceptClass(Concept concept, ConceptType conceptClass) {
-        concept.setConceptClass(conceptService.getConceptClassByName(conceptClass.getConceptName()));
+    private void mapConceptClass(Concept concept, ConceptRequest conceptRequest) {
+        concept.setConceptClass(conceptService.getConceptClassByName(conceptRequest.getConceptClass()));
     }
 
     private void mapConceptDatatype(Concept concept, String datatypeName) {

@@ -1,9 +1,7 @@
 package org.bahmni.module.terminology.infrastructure.atomfeed;
 
 import org.apache.log4j.Logger;
-import org.bahmni.module.terminology.application.model.ConceptType;
 import org.bahmni.module.terminology.application.service.ConceptSyncService;
-import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.DiagnosisPostProcessor;
 import org.bahmni.module.terminology.infrastructure.atomfeed.workers.ConceptFeedWorker;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
@@ -24,20 +22,17 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
     private AuthenticatedHttpClient httpClient;
     private TRFeedProperties properties;
     private ConceptRequestMapper conceptRequestMapper;
-    private DiagnosisPostProcessor diagnosisPostProcessor;
 
     @Autowired
     public ConceptFeedClientImpl(ConceptSyncService ConceptSyncService, FeedProcessor feedProcessor,
                                  AuthenticatedHttpClient httpClient,
                                  TRFeedProperties properties,
-                                 ConceptRequestMapper conceptRequestMapper,
-                                 DiagnosisPostProcessor diagnosisPostProcessor) {
+                                 ConceptRequestMapper conceptRequestMapper) {
         this.ConceptSyncService = ConceptSyncService;
         this.feedProcessor = feedProcessor;
         this.httpClient = httpClient;
         this.properties = properties;
         this.conceptRequestMapper = conceptRequestMapper;
-        this.diagnosisPostProcessor = diagnosisPostProcessor;
     }
 
     @Override
@@ -53,6 +48,6 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
     }
 
     private ConceptFeedWorker diagnosisWorker() {
-        return new ConceptFeedWorker(httpClient, properties, ConceptSyncService, conceptRequestMapper, ConceptType.Diagnosis);
+        return new ConceptFeedWorker(httpClient, properties, ConceptSyncService, conceptRequestMapper);
     }
 }

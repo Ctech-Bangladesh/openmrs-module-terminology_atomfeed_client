@@ -1,7 +1,6 @@
 package org.bahmni.module.terminology.infrastructure.atomfeed.workers;
 
 import org.apache.log4j.Logger;
-import org.bahmni.module.terminology.application.model.ConceptType;
 import org.bahmni.module.terminology.application.service.ConceptSyncService;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
@@ -20,24 +19,22 @@ public class ConceptFeedWorker implements EventWorker {
     private static Logger logger = Logger.getLogger(ConceptFeedWorker.class);
 
     private ConceptRequestMapper conceptRequestMapper;
-    private ConceptType conceptType;
     private TRFeedProperties properties;
     private ConceptSyncService ConceptSyncService;
     private AuthenticatedHttpClient httpClient;
 
-    public ConceptFeedWorker(AuthenticatedHttpClient httpClient, TRFeedProperties properties, ConceptSyncService ConceptSyncService, ConceptRequestMapper conceptRequestMapper, ConceptType conceptType) {
+    public ConceptFeedWorker(AuthenticatedHttpClient httpClient, TRFeedProperties properties, ConceptSyncService ConceptSyncService, ConceptRequestMapper conceptRequestMapper) {
         this.httpClient = httpClient;
         this.properties = properties;
         this.ConceptSyncService = ConceptSyncService;
         this.conceptRequestMapper = conceptRequestMapper;
-        this.conceptType = conceptType;
     }
 
     @Override
     public void process(final Event event) {
         logger.info(format("Received concept sync event for %s with conent %s ", event.getFeedUri(), event.getContent()));
         Map conceptMap = httpClient.get(properties.getTerminologyUrl(event.getContent()), HashMap.class);
-        ConceptSyncService.sync(conceptRequestMapper.map(conceptMap), conceptType);
+        ConceptSyncService.sync(conceptRequestMapper.map(conceptMap));
     }
 
     @Override

@@ -1,7 +1,6 @@
 package org.bahmni.module.terminology.application.service;
 
 import org.bahmni.module.terminology.application.model.ConceptRequest;
-import org.bahmni.module.terminology.application.model.ConceptType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +17,8 @@ public class ConceptSyncService {
         this.shReferenceTermService = shReferenceTermService;
     }
 
-    public void sync(ConceptRequest conceptRequest, ConceptType conceptType) {
+    public void sync(ConceptRequest conceptRequest) {
         shReferenceTermService.sync(conceptRequest.getConceptReferenceTermRequests());
-        shConceptService.sync(conceptRequest, conceptType);
+        shConceptService.sync(conceptRequest);
     }
 }
