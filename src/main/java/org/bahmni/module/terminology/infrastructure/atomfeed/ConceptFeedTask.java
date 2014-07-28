@@ -10,9 +10,9 @@ public class ConceptFeedTask extends AbstractTask {
 
     @Override
     public void execute() {
-        ConceptFeedClient conceptFeedClient = Context.getService(ConceptFeedClient.class);
+        DiagnosisFeedClient diagnosisFeedClient = Context.getService(DiagnosisFeedClient.class);
         try {
-            conceptFeedClient.syncDiangosis();
+            diagnosisFeedClient.syncDiangosis();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

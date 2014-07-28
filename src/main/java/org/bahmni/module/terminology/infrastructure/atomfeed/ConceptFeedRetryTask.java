@@ -10,9 +10,9 @@ public class ConceptFeedRetryTask extends AbstractTask {
 
     @Override
     public void execute() {
-        ConceptFeedClient conceptFeedClient = Context.getService(ConceptFeedClient.class);
+        DiagnosisFeedClient diagnosisFeedClient = Context.getService(DiagnosisFeedClient.class);
         try {
-            conceptFeedClient.retrySync();
+            diagnosisFeedClient.retrySync();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

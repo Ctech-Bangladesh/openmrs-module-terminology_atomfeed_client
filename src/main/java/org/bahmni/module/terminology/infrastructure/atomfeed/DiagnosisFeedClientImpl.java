@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
 import java.net.URISyntaxException;
 
 
-@Component("conceptFeedClient")
-public class ConceptFeedClientImpl implements ConceptFeedClient {
+@Component("diagnosisFeedClient")
+public class DiagnosisFeedClientImpl implements DiagnosisFeedClient {
 
-    private final Logger logger = Logger.getLogger(ConceptFeedClientImpl.class);
+    private final Logger logger = Logger.getLogger(DiagnosisFeedClientImpl.class);
 
     private ConceptSyncService ConceptSyncService;
     private FeedProcessor feedProcessor;
@@ -24,10 +24,10 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
     private ConceptRequestMapper conceptRequestMapper;
 
     @Autowired
-    public ConceptFeedClientImpl(ConceptSyncService ConceptSyncService, FeedProcessor feedProcessor,
-                                 AuthenticatedHttpClient httpClient,
-                                 TRFeedProperties properties,
-                                 ConceptRequestMapper conceptRequestMapper) {
+    public DiagnosisFeedClientImpl(ConceptSyncService ConceptSyncService, FeedProcessor feedProcessor,
+                                   AuthenticatedHttpClient httpClient,
+                                   TRFeedProperties properties,
+                                   ConceptRequestMapper conceptRequestMapper) {
         this.ConceptSyncService = ConceptSyncService;
         this.feedProcessor = feedProcessor;
         this.httpClient = httpClient;
