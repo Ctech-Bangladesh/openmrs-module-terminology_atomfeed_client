@@ -27,13 +27,13 @@ public class ConceptRequestMapper {
 
     public ConceptRequest map(Map<String, Object> data) {
         ConceptRequest request = new ConceptRequest();
-        request.setFullySpecifiedName(conceptNameRequestMapper.mapNameRequest(safeGetMap(data, "name")));
-        request.setConceptClass(asString(safeGet(safeGetMap(data, "conceptClass"), "name")));
-        request.setDatatypeName(asString(safeGet(safeGetMap(data, "datatype"), "name")));
+        request.setFullySpecifiedName(conceptNameRequestMapper.mapNameRequest(safeGetMap(data, "fullySpecifiedName")));
+        request.setConceptClass(asString(safeGet(data, "conceptClass", StringUtils.EMPTY)));
+        request.setDatatypeName(asString(safeGet(data, "datatypeName", StringUtils.EMPTY)));
         request.setSet(Boolean.valueOf(asString(safeGet(data, "set", "false"))));
         request.setVersion(asString(safeGet(data, "version", StringUtils.EMPTY)));
         request.setConceptNameRequests(conceptNameRequestMapper.map(data.get("names")));
-        request.setConceptReferenceTermRequests(conceptReferenceTermRequestMapper.mapFromConceptRequest(data.get("mappings")));
+        request.setConceptReferenceTermRequests(conceptReferenceTermRequestMapper.mapFromConceptRequest(data.get("referenceTerms")));
         request.setUuid(asString(safeGet(data, "uuid")));
         request.setConceptDescriptionRequest(conceptDescriptionRequestMapper.map(safeGet(data, "description")));
         return request;

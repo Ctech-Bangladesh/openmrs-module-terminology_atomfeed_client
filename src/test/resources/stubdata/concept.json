@@ -1,175 +1,55 @@
-{"uuid": "ec0f4153-3f7f-446a-b82d-7756f0fdcac1", "display": "tbtest", "name": {
-    "display": "tbtest",
-    "uuid": "01e66cff-0466-40cc-97ab-bcecb608f35c",
-    "name": "tbtest",
-    "locale": "en",
-    "localePreferred": true,
+{
+  "names": [
+    {
+      "conceptNameType": "INDEX_TERM",
+      "conceptName": "search",
+      "locale": "en"
+    },
+    {
+      "conceptNameType": "SHORT",
+      "conceptName": "test",
+      "locale": "en"
+    },
+    {
+      "conceptNameType": "FULLY_SPECIFIED",
+      "conceptName": "tbtest",
+      "locale": "en"
+    },
+    {
+      "conceptNameType": null,
+      "conceptName": "syn",
+      "locale": "en"
+    }
+  ],
+  "conceptClass": "Diagnosis",
+  "fullySpecifiedName": {
     "conceptNameType": "FULLY_SPECIFIED",
-    "links": [
-        {
-            "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/concept/ec0f4153-3f7f-446a-b82d-7756f0fdcac1/name/01e66cff-0466-40cc-97ab-bcecb608f35c",
-            "rel": "self"
-        },
-        {
-            "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/concept/ec0f4153-3f7f-446a-b82d-7756f0fdcac1/name/01e66cff-0466-40cc-97ab-bcecb608f35c?v=full",
-            "rel": "full"
-        }
-    ],
-    "resourceVersion": "1.9"
-}, "datatype": {
-    "uuid": "8d4a4ab4-c2cc-11de-8d13-0010c6dffd0f",
-    "display": "Text",
-    "name": "Text",
-    "description": "Free text",
-    "hl7Abbreviation": "ST",
-    "retired": false,
-    "links": [
-        {
-            "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/conceptdatatype/8d4a4ab4-c2cc-11de-8d13-0010c6dffd0f",
-            "rel": "self"
-        },
-        {
-            "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/conceptdatatype/8d4a4ab4-c2cc-11de-8d13-0010c6dffd0f?v=full",
-            "rel": "full"
-        }
-    ],
-    "resourceVersion": "1.8"
-}, "conceptClass": {
-    "uuid": "8d4918b0-c2cc-11de-8d13-0010c6dffd0f",
-    "display": "Diagnosis",
-    "name": "Diagnosis",
-    "description": "Conclusion drawn through findings",
-    "retired": false,
-    "links": [
-        {
-            "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/conceptclass/8d4918b0-c2cc-11de-8d13-0010c6dffd0f",
-            "rel": "self"
-        },
-        {
-            "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/conceptclass/8d4918b0-c2cc-11de-8d13-0010c6dffd0f?v=full",
-            "rel": "full"
-        }
-    ],
-    "resourceVersion": "1.8"
-}, "set": false, "version": null, "retired": false, "names": [
+    "conceptName": "tbtest",
+    "locale": "en"
+  },
+  "uuid": "216c8246-202c-4376-bfa8-3278d1049630",
+  "datatypeName": "Text",
+  "referenceTerms": [
     {
-        "display": "tbtest",
-        "uuid": "01e66cff-0466-40cc-97ab-bcecb608f35c",
-        "name": "tbtest",
-        "locale": "en",
-        "localePreferred": true,
-        "conceptNameType": "FULLY_SPECIFIED",
-        "links": [
-            {
-                "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/concept/ec0f4153-3f7f-446a-b82d-7756f0fdcac1/name/01e66cff-0466-40cc-97ab-bcecb608f35c",
-                "rel": "self"
-            },
-            {
-                "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/concept/ec0f4153-3f7f-446a-b82d-7756f0fdcac1/name/01e66cff-0466-40cc-97ab-bcecb608f35c?v=full",
-                "rel": "full"
-            }
-        ],
-        "resourceVersion": "1.9"
-    },
-    {
-        "display": "tb",
-        "uuid": "9068b35d-0d4a-46e6-a79a-3c88dc407afb",
-        "name": "tb",
-        "locale": "en",
-        "localePreferred": false,
-        "conceptNameType": "SHORT",
-        "links": [
-            {
-                "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/concept/ec0f4153-3f7f-446a-b82d-7756f0fdcac1/name/9068b35d-0d4a-46e6-a79a-3c88dc407afb",
-                "rel": "self"
-            },
-            {
-                "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/concept/ec0f4153-3f7f-446a-b82d-7756f0fdcac1/name/9068b35d-0d4a-46e6-a79a-3c88dc407afb?v=full",
-                "rel": "full"
-            }
-        ],
-        "resourceVersion": "1.9"
+      "code": "ICD101",
+      "retired": false,
+      "uuid": "565496c2-bdfe-4cce-87d4-92091ab1f67a",
+      "conceptSource": {
+        "uuid": "ab587e35-dc14-494e-ac38-d79145670b3b",
+        "hl7Code": "ICD10",
+        "description": "ICD10",
+        "name": "ICD10"
+      },
+      "mapType": "SAME-AS",
+      "version": "1.0",
+      "description": "ICD100 description",
+      "name": "ICD101"
     }
-], "descriptions": [
-    {
-        "display": "tb test",
-        "uuid": "4bd3752f-e785-496f-9f3d-c584d52de15c",
-        "description": "tb test",
-        "locale": "en",
-        "links": [
-            {
-                "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/concept/ec0f4153-3f7f-446a-b82d-7756f0fdcac1/description/4bd3752f-e785-496f-9f3d-c584d52de15c",
-                "rel": "self"
-            },
-            {
-                "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/concept/ec0f4153-3f7f-446a-b82d-7756f0fdcac1/description/4bd3752f-e785-496f-9f3d-c584d52de15c?v=full",
-                "rel": "full"
-            }
-        ],
-        "resourceVersion": "1.9"
-    }
-], "mappings": [
-    {
-        "display": "ICD10-BD: A00 (Cholera)",
-        "uuid": "0db2b484-76d0-44b4-9377-80e6d0d34fd0",
-        "conceptReferenceTerm": {
-            "uuid": "25c517e6-4bb1-41ad-b8b8-01c315a452d9",
-            "display": "ICD10-BD: A00 (Cholera)",
-            "links": [
-                {
-                    "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/conceptreferenceterm/25c517e6-4bb1-41ad-b8b8-01c315a452d9",
-                    "rel": "self"
-                }
-            ]
-        },
-        "conceptMapType": {
-            "uuid": "35543629-7d8c-11e1-909d-c80aa9edcf4e",
-            "display": "SAME-AS",
-            "links": [
-                {
-                    "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/conceptmaptype/35543629-7d8c-11e1-909d-c80aa9edcf4e",
-                    "rel": "self"
-                }
-            ]
-        },
-        "links": [
-            {
-                "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/concept/ec0f4153-3f7f-446a-b82d-7756f0fdcac1/mapping/0db2b484-76d0-44b4-9377-80e6d0d34fd0",
-                "rel": "self"
-            },
-            {
-                "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/concept/ec0f4153-3f7f-446a-b82d-7756f0fdcac1/mapping/0db2b484-76d0-44b4-9377-80e6d0d34fd0?v=full",
-                "rel": "full"
-            }
-        ],
-        "resourceVersion": "1.9"
-    }
-], "answers": [], "setMembers": [], "auditInfo": {
-    "creator": {
-        "uuid": "e21b6452-ec97-11e3-a368-005056820c09",
-        "display": "admin",
-        "links": [
-            {
-                "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/user/e21b6452-ec97-11e3-a368-005056820c09",
-                "rel": "self"
-            }
-        ]
-    },
-    "dateCreated": "2014-06-25T15:51:08.000+0530",
-    "changedBy": {
-        "uuid": "e21b6452-ec97-11e3-a368-005056820c09",
-        "display": "admin",
-        "links": [
-            {
-                "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/user/e21b6452-ec97-11e3-a368-005056820c09",
-                "rel": "self"
-            }
-        ]
-    },
-    "dateChanged": "2014-06-25T15:51:08.000+0530"
-}, "links": [
-    {
-        "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/concept/ec0f4153-3f7f-446a-b82d-7756f0fdcac1",
-        "rel": "self"
-    }
-], "resourceVersion": "1.9"}
+  ],
+  "version": "1.1.1",
+  "description": {
+    "uuid" : "ab587e35-dc14-494e-ac38-d79145670b3b",
+    "description": "description123"
+  },
+  "set": false
+}

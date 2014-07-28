@@ -1,5 +1,6 @@
 package org.bahmni.module.terminology.infrastructure.mapper;
 
+import org.apache.commons.lang.StringUtils;
 import org.bahmni.module.terminology.application.model.ConceptReferenceTermRequest;
 import org.bahmni.module.terminology.application.model.ConceptReferenceTermRequests;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,11 @@ public class ConceptReferenceTermRequestMapper {
 
     public ConceptReferenceTermRequests mapFromConceptRequest(Object data) {
         ConceptReferenceTermRequests result = new ConceptReferenceTermRequests();
-        Collection conceptNames = (Collection) data;
-        if (null != conceptNames) {
-            for (Object name : conceptNames) {
-                ConceptReferenceTermRequest referenceTermRequest = mapReferenceTerm(safeGetMap((Map) name, "conceptReferenceTerm"));
-                referenceTermRequest.setMapType(asString(safeGet(safeGetMap((Map) name, "conceptMapType"), "name")));
+        Collection conceptReferenceTerms = (Collection) data;
+        if (null != conceptReferenceTerms) {
+            for (Object conceptReferenceTerm : conceptReferenceTerms) {
+                ConceptReferenceTermRequest referenceTermRequest = mapReferenceTerm((Map) conceptReferenceTerm);
+                referenceTermRequest.setMapType(asString(safeGet((Map) conceptReferenceTerm, "mapType", StringUtils.EMPTY)));
                 result.add(referenceTermRequest);
             }
         }

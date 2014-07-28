@@ -28,7 +28,7 @@ public class ConceptNameRequestMapper {
     public ConceptNameRequest mapNameRequest(Map nameRequest) {
         ConceptNameRequest conceptName = new ConceptNameRequest();
         if (nameRequest != null) {
-            conceptName.setConceptName(safeGet(nameRequest, "name", EMPTY).toString());
+            conceptName.setConceptName(safeGet(nameRequest, "conceptName", EMPTY).toString());
             conceptName.setLocale(safeGet(nameRequest, "locale", "en").toString());
             conceptName.setConceptNameType(asString(safeGet(nameRequest, "conceptNameType", null)));
         }
