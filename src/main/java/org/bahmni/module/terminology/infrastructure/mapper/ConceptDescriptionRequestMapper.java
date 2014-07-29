@@ -18,8 +18,6 @@ public class ConceptDescriptionRequestMapper {
         }
         ConceptDescriptionRequest request = new ConceptDescriptionRequest();
         request.setDescription(asString(safeGet((Map) conceptDescriptionRequest, "description")));
-        request.setDisplay(asString(safeGet((Map) conceptDescriptionRequest, "display")));
-        request.setUuid(asString(safeGet((Map) conceptDescriptionRequest, "uuid")));
         return request;
     }
 }

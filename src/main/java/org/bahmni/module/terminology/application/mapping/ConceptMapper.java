@@ -44,7 +44,6 @@ public class ConceptMapper {
         }
         ConceptDescription description = new ConceptDescription();
         description.setDescription(conceptDescriptionRequest.getDescription());
-        description.setUuid(conceptDescriptionRequest.getUuid());
         description.setLocale(Locale.ENGLISH);
         return description;
     }

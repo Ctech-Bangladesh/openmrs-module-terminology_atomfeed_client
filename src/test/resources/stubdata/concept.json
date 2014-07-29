@@ -29,6 +29,7 @@
   },
   "uuid": "216c8246-202c-4376-bfa8-3278d1049630",
   "datatypeName": "Text",
+  "retired": false,
   "referenceTerms": [
     {
       "code": "ICD101",
@@ -42,13 +43,13 @@
       },
       "mapType": "SAME-AS",
       "version": "1.0",
-      "description": "ICD100 description",
+      "description": "ICD100description",
       "name": "ICD101"
     }
   ],
   "version": "1.1.1",
   "description": {
-    "uuid" : "ab587e35-dc14-494e-ac38-d79145670b3b",
+    "locale": "en",
     "description": "description123"
   },
   "set": false

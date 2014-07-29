@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Locale;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static java.util.Locale.ENGLISH;
 import static org.bahmni.module.terminology.util.FileUtil.asString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -53,7 +54,7 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
 
         Concept concept = Context.getService(ConceptService.class).getConceptByName("tbtest");
         assertBasicConcept(concept);
-        assertFullySpecifiedName(concept.getFullySpecifiedName(Locale.ENGLISH));
+        assertFullySpecifiedName(concept.getFullySpecifiedName(ENGLISH));
         assertConceptNames(concept.getNames());
         assertDescription(concept.getDescription());
         assertReferenceTerms(concept.getConceptMappings());
@@ -77,6 +78,7 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
     private void assertDescription(ConceptDescription description) {
         assertNotNull(description);
         assertThat(description.getDescription(), is("description123"));
+        assertThat(description.getLocale(), is(ENGLISH));
     }
 
     private void assertConceptNames(Collection<ConceptName> names) {
@@ -84,7 +86,7 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
         assertThat(names.size(), is(4));
         for (ConceptName name : names) {
             assertNotNull(name.getName());
-            assertThat(name.getLocale(), is(Locale.ENGLISH));
+            assertThat(name.getLocale(), is(ENGLISH));
             if (name.getConceptNameType() != null) {
                 assertTrue(Arrays.asList("INDEX_TERM", "SHORT", "FULLY_SPECIFIED").contains(name.getConceptNameType().name()));
             }
