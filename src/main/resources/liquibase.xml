@@ -90,4 +90,10 @@
         </insert>
     </changeSet>
 
+    <changeSet id="terminology-atomfeed-client-9" author="BalajiN, Utsab">
+        <sql>
+            drop table if exists shr_concept_id_mapping;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

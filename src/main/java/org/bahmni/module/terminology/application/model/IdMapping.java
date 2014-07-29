@@ -5,13 +5,15 @@ public class IdMapping {
     private long id;
     private String internalId;
     private String externalId;
+    private String type;
 
     public IdMapping() {
     }
 
-    public IdMapping(String internalId, String externalId) {
+    public IdMapping(String internalId, String externalId, String type) {
         this.internalId = internalId;
         this.externalId = externalId;
+        this.type = type;
     }
 
     public String getInternalId() {
@@ -36,5 +38,13 @@ public class IdMapping {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

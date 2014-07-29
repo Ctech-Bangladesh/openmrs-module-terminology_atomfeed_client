@@ -4,6 +4,7 @@ import org.bahmni.module.terminology.application.mapping.ConceptReferenceTermMap
 import org.bahmni.module.terminology.application.model.ConceptReferenceTermRequest;
 import org.bahmni.module.terminology.application.model.ConceptReferenceTermRequests;
 import org.bahmni.module.terminology.application.model.IdMapping;
+import org.bahmni.module.terminology.application.model.TerminologyClientConstants;
 import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
 import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.api.ConceptService;
@@ -39,7 +40,7 @@ public class SHReferenceTermService {
             ConceptReferenceTerm referenceTerm = conceptReferenceTermMapper.map(request);
             ConceptReferenceTerm savedReferenceTerm = conceptService.saveConceptReferenceTerm(referenceTerm);
             if (null == mapping) {
-                idMappingsRepository.saveMapping(new IdMapping(savedReferenceTerm.getUuid(), request.getUuid()));
+                idMappingsRepository.saveMapping(new IdMapping(savedReferenceTerm.getUuid(), request.getUuid(), TerminologyClientConstants.CONCEPT_REFERENCE_TERM));
             }
         }
     }
