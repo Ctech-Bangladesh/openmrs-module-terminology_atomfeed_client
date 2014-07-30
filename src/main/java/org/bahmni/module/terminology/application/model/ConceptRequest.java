@@ -8,6 +8,7 @@ public class ConceptRequest {
     private String conceptClass;
     private boolean isSet;
     private boolean isRetired;
+    private String retireReason;
     private ConceptNameRequest fullySpecifiedName;
     private ConceptNameRequests conceptNameRequests;
     private ConceptReferenceTermRequests conceptReferenceTermRequests;
@@ -27,6 +28,14 @@ public class ConceptRequest {
 
     public void setRetired(boolean isRetired) {
         this.isRetired = isRetired;
+    }
+
+    public String getRetireReason() {
+        return retireReason;
+    }
+
+    public void setRetireReason(String retireReason) {
+        this.retireReason = retireReason;
     }
 
     public String getVersion() {

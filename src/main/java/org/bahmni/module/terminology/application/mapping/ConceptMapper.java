@@ -30,6 +30,7 @@ public class ConceptMapper {
         concept.setFullySpecifiedName(conceptNameMapper.map(conceptRequest.getFullySpecifiedName()));
         concept.setSet(conceptRequest.isSet());
         concept.setRetired(conceptRequest.isRetired());
+        concept.setRetireReason(conceptRequest.getRetireReason());
         concept.setVersion(conceptRequest.getVersion());
         mapConceptDatatype(concept, conceptRequest.getDatatypeName());
         mapConceptClass(concept, conceptRequest);

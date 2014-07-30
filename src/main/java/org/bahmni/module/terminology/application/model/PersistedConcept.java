@@ -16,6 +16,8 @@ public class PersistedConcept {
     }
 
     public Concept merge(Concept newConcept) {
+        existingConcept.setRetired(newConcept.isRetired());
+        existingConcept.setRetireReason(newConcept.getRetireReason());
         existingConcept.setSet(newConcept.isSet());
         existingConcept.setVersion(newConcept.getVersion());
         existingConcept.setDatatype(newConcept.getDatatype());
