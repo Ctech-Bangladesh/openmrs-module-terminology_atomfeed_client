@@ -2,14 +2,15 @@ package org.bahmni.module.terminology.application.model;
 
 public class ConceptRequest {
 
-    private boolean isSet;
+    private String uuid;
     private String version;
     private String datatypeName;
     private String conceptClass;
+    private boolean isSet;
+    private boolean isRetired;
     private ConceptNameRequest fullySpecifiedName;
     private ConceptNameRequests conceptNameRequests;
     private ConceptReferenceTermRequests conceptReferenceTermRequests;
-    private String uuid;
     private ConceptDescriptionRequest conceptDescriptionRequest;
 
     public boolean isSet() {
@@ -18,6 +19,14 @@ public class ConceptRequest {
 
     public void setSet(boolean isSet) {
         this.isSet = isSet;
+    }
+
+    public boolean isRetired() {
+        return isRetired;
+    }
+
+    public void setRetired(boolean isRetired) {
+        this.isRetired = isRetired;
     }
 
     public String getVersion() {

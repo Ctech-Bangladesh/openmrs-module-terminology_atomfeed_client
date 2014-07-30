@@ -52,7 +52,7 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
 
         worker.process(new Event("eventId", "/openmrs/ws/rest/v1/tr/concepts/216c8246-202c-4376-bfa8-3278d1049630", "title", "feedUri"));
 
-        Concept concept = Context.getService(ConceptService.class).getConceptByName("tbtest");
+        Concept concept = Context.getConceptService().getConceptByName("tbtest");
         assertBasicConcept(concept);
         assertFullySpecifiedName(concept.getFullySpecifiedName(ENGLISH));
         assertConceptNames(concept.getNames());
@@ -67,6 +67,7 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
         assertThat(concept.getDatatype().getName(), is("Text"));
         assertThat(concept.getConceptClass().getName(), is("Diagnosis"));
         assertThat(concept.isSet(), is(false));
+        assertThat(concept.isRetired(), is(false));
     }
 
     private void assertFullySpecifiedName(ConceptName fullySpecifiedName) {
