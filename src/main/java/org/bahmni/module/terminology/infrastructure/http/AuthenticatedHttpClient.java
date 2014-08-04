@@ -19,18 +19,9 @@ import static java.lang.String.format;
 @Component
 public class AuthenticatedHttpClient {
 
-    private final CloseableHttpClient httpClient;
-
-    public AuthenticatedHttpClient() {
-        CredentialsProvider provider = new BasicCredentialsProvider();
-        /*TODO: Use Bahmni's client which will cache the login session*/
-        UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("admin", "Admin123");
-        provider.setCredentials(AuthScope.ANY, credentials);
-        httpClient = HttpClientBuilder.create().setDefaultCredentialsProvider(provider).build();
-    }
-
     public <T> T get(String url, Class<T> clazz) {
         try {
+            CloseableHttpClient httpClient = buildClient();
             String json = EntityUtils.toString(httpClient.execute(new HttpGet(url)).getEntity());
             try {
                 T object = new Gson().fromJson(json, clazz);
@@ -41,6 +32,12 @@ public class AuthenticatedHttpClient {
         } catch (IOException ex) {
             throw new RuntimeException(format("Error while accessing url %s for class %s", url, clazz.getName()), ex);
         }
+    }
 
+    private CloseableHttpClient buildClient() {
+        CredentialsProvider provider = new BasicCredentialsProvider();
+        UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("admin", "Admin123");
+        provider.setCredentials(AuthScope.ANY, credentials);
+        return HttpClientBuilder.create().setDefaultCredentialsProvider(provider).build();
     }
 }

@@ -11,15 +11,11 @@ public class ConceptFeedRetryTask extends AbstractTask {
 
     @Override
     public void execute() {
-        retry(Context.getService(DiagnosisFeedClient.class));
-        retry(Context.getService(ChiefComplaintFeedClient.class));
-    }
-
-    private void retry(ConceptFeedClient conceptFeedClient) {
         try {
-            conceptFeedClient.retrySync();
+            Context.getService(ConceptFeedClient.class).retrySync();
         } catch (RuntimeException exception) {
             logger.error(exception);
         }
     }
+
 }

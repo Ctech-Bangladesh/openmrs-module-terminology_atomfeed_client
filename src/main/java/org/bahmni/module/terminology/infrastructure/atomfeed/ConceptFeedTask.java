@@ -11,15 +11,11 @@ public class ConceptFeedTask extends AbstractTask {
 
     @Override
     public void execute() {
-        sync(Context.getService(DiagnosisFeedClient.class));
-        sync(Context.getService(ChiefComplaintFeedClient.class));
-    }
-
-    private void sync(ConceptFeedClient feedClient) {
         try {
-            feedClient.sync();
+            Context.getService(ConceptFeedClient.class).sync();
         } catch (RuntimeException exception) {
             logger.error(exception);
         }
     }
+
 }

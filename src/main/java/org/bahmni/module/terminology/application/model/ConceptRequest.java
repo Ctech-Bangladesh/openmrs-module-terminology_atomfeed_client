@@ -1,5 +1,7 @@
 package org.bahmni.module.terminology.application.model;
 
+import java.util.List;
+
 public class ConceptRequest {
 
     private String uuid;
@@ -13,6 +15,7 @@ public class ConceptRequest {
     private ConceptNameRequests conceptNameRequests;
     private ConceptReferenceTermRequests conceptReferenceTermRequests;
     private ConceptDescriptionRequest conceptDescriptionRequest;
+    private List<String> setMembers;
 
     public boolean isSet() {
         return isSet;
@@ -100,5 +103,13 @@ public class ConceptRequest {
 
     public void setConceptDescriptionRequest(ConceptDescriptionRequest conceptDescriptionRequest) {
         this.conceptDescriptionRequest = conceptDescriptionRequest;
+    }
+
+    public List<String> getSetMembers() {
+        return setMembers;
+    }
+
+    public void setSetMembers(List<String> setMembers) {
+        this.setMembers = setMembers;
     }
 }

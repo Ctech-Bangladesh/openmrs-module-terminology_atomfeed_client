@@ -5,6 +5,8 @@ import org.bahmni.module.terminology.application.model.ConceptRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 import static org.bahmni.module.terminology.util.CollectionUtil.safeGet;
@@ -38,6 +40,14 @@ public class ConceptRequestMapper {
         request.setConceptReferenceTermRequests(conceptReferenceTermRequestMapper.mapFromConceptRequest(data.get("referenceTerms")));
         request.setUuid(asString(safeGet(data, "uuid")));
         request.setConceptDescriptionRequest(conceptDescriptionRequestMapper.map(safeGet(data, "description")));
+        mapSetMembers(request, data);
         return request;
+    }
+
+    private void mapSetMembers(ConceptRequest request, Map<String, Object> data) {
+        Collection setMembers = (Collection) safeGet(data, "setMembers");
+        if (null != setMembers) {
+            request.setSetMembers(new ArrayList<String>(setMembers));
+        }
     }
 }

@@ -6,6 +6,7 @@ import org.bahmni.module.terminology.application.model.IdMapping;
 import org.bahmni.module.terminology.application.model.PersistedConcept;
 import org.bahmni.module.terminology.application.model.TerminologyClientConstants;
 import org.bahmni.module.terminology.application.postprocessor.PostProcessorFactory;
+import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.ConceptPostProcessor;
 import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
 import org.openmrs.Concept;
 import org.openmrs.api.ConceptService;
@@ -32,7 +33,10 @@ public class SHConceptService {
         Concept newConcept = conceptMapper.map(conceptRequest);
         if (idMapping == null) {
             Concept savedConcept = conceptService.saveConcept(newConcept);
-            postProcessorFactory.getPostProcessor(savedConcept).process(savedConcept);
+            ConceptPostProcessor postProcessor = postProcessorFactory.getPostProcessor(savedConcept);
+            if (null != postProcessor) {
+                postProcessor.process(savedConcept);
+            }
             idMappingsRepository.saveMapping(new IdMapping(savedConcept.getUuid(), conceptRequest.getUuid(), TerminologyClientConstants.CONCEPT));
         } else {
             Concept existingConcept = conceptService.getConceptByUuid(idMapping.getInternalId());

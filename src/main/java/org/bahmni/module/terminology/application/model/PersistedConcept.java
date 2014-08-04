@@ -26,7 +26,32 @@ public class PersistedConcept {
         mergeConceptNames(existingConcept, new ConceptNames(newConcept.getNames()));
         mergeConceptMappings(existingConcept, new ConceptMappings(newConcept.getConceptMappings()));
         mergeConceptDescriptions(existingConcept, newConcept);
+        mergeConceptSets(existingConcept, newConcept);
         return existingConcept;
+    }
+
+    private void mergeConceptSets(Concept existingConcept, Concept newConcept) {
+        if (null != newConcept.getSetMembers()) {
+            for (Concept concept : newConcept.getSetMembers()) {
+                if (findSetMember(existingConcept, concept)) {
+                    existingConcept.addSetMember(newConcept);
+                } else {
+                    existingConcept.getSetMembers().remove(concept);
+                }
+            }
+        }
+    }
+
+    private boolean findSetMember(Concept existingConcept, Concept concept) {
+        if (null == existingConcept.getSetMembers()) {
+            return false;
+        }
+        for (Concept member : existingConcept.getSetMembers()) {
+            if (member.getUuid().equals(concept.getUuid())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void mergeConceptDescriptions(Concept existingConcept, Concept newConcept) {

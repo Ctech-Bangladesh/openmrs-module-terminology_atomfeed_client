@@ -3,6 +3,8 @@ package org.bahmni.module.terminology.application.mapping;
 import org.apache.commons.lang.StringUtils;
 import org.bahmni.module.terminology.application.model.ConceptDescriptionRequest;
 import org.bahmni.module.terminology.application.model.ConceptRequest;
+import org.bahmni.module.terminology.application.model.IdMapping;
+import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
 import org.openmrs.Concept;
 import org.openmrs.ConceptDescription;
 import org.openmrs.api.ConceptService;
@@ -17,12 +19,14 @@ public class ConceptMapper {
     private ConceptService conceptService;
     private ConceptNameMapper conceptNameMapper;
     private ConceptReferenceTermMapper conceptReferenceTermMapper;
+    private IdMappingsRepository idMappingsRepository;
 
     @Autowired
-    public ConceptMapper(ConceptService conceptService, ConceptNameMapper conceptNameMapper, ConceptReferenceTermMapper conceptReferenceTermMapper) {
+    public ConceptMapper(ConceptService conceptService, ConceptNameMapper conceptNameMapper, ConceptReferenceTermMapper conceptReferenceTermMapper, IdMappingsRepository idMappingsRepository) {
         this.conceptService = conceptService;
         this.conceptNameMapper = conceptNameMapper;
         this.conceptReferenceTermMapper = conceptReferenceTermMapper;
+        this.idMappingsRepository = idMappingsRepository;
     }
 
     public Concept map(ConceptRequest conceptRequest) {
@@ -37,7 +41,21 @@ public class ConceptMapper {
         concept.addDescription(mapDescriptions(conceptRequest.getConceptDescriptionRequest()));
         concept.setNames(conceptNameMapper.map(conceptRequest.getConceptNameRequests()));
         concept.setConceptMappings(conceptReferenceTermMapper.map(conceptRequest.getConceptReferenceTermRequests()));
+        mapSetMembers(concept, conceptRequest);
         return concept;
+    }
+
+    private void mapSetMembers(Concept concept, ConceptRequest conceptRequest) {
+        if (null != conceptRequest.getSetMembers()) {
+            for (String setMember : conceptRequest.getSetMembers()) {
+                IdMapping mapping = idMappingsRepository.findByExternalId(setMember);
+                if (null != mapping) {
+                    concept.addSetMember(conceptService.getConceptByUuid(mapping.getInternalId()));
+                } else {
+                    throw new RuntimeException("Unknown concept added as set member");
+                }
+            }
+        }
     }
 
     private ConceptDescription mapDescriptions(ConceptDescriptionRequest conceptDescriptionRequest) {

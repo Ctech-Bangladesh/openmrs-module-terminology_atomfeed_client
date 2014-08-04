@@ -17,19 +17,9 @@
     <bean parent="serviceContext">
         <property name="moduleService">
             <list>
-                <value>org.bahmni.module.terminology.infrastructure.atomfeed.DiagnosisFeedClient</value>
+                <value>org.bahmni.module.terminology.infrastructure.atomfeed.ConceptFeedClient</value>
                 <!-- service interface name -->
-                <ref bean="diagnosisFeedClient"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean parent="serviceContext">
-        <property name="moduleService">
-            <list>
-                <value>org.bahmni.module.terminology.infrastructure.atomfeed.ChiefComplaintFeedClient</value>
-                <!-- service interface name -->
-                <ref bean="chiefComplaintFeedClient"/>
+                <ref bean="conceptFeedClient"/>
             </list>
         </property>
     </bean>
