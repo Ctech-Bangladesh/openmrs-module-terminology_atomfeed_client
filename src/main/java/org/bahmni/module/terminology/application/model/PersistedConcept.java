@@ -4,8 +4,13 @@ import org.apache.commons.lang.StringUtils;
 import org.openmrs.Concept;
 import org.openmrs.ConceptMap;
 import org.openmrs.ConceptName;
+import org.openmrs.ConceptSet;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Locale;
+
+import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 
 public class PersistedConcept {
 
@@ -31,27 +36,41 @@ public class PersistedConcept {
     }
 
     private void mergeConceptSets(Concept existingConcept, Concept newConcept) {
-        if (null != newConcept.getSetMembers()) {
+        if (isNotEmpty(newConcept.getSetMembers())) {
             for (Concept concept : newConcept.getSetMembers()) {
-                if (findSetMember(existingConcept, concept)) {
+                Concept setMember = findSetMember(existingConcept, concept);
+                if (null == setMember) {
                     existingConcept.addSetMember(newConcept);
-                } else {
-                    existingConcept.getSetMembers().remove(concept);
+                }
+            }
+        } else if (isNotEmpty(existingConcept.getSetMembers())) {
+            for (Concept concept : existingConcept.getSetMembers()) {
+                Concept setMember = findSetMember(newConcept, concept);
+                if (null == setMember) {
+                    removeConceptSet(existingConcept.getConceptSets(), concept);
                 }
             }
         }
     }
 
-    private boolean findSetMember(Concept existingConcept, Concept concept) {
+    private void removeConceptSet(Collection<ConceptSet> conceptSets, Concept existingConcept) {
+        for (ConceptSet conceptSet : new ArrayList<>(conceptSets)) {
+            if (conceptSet.getConcept().getUuid().equals(existingConcept.getUuid())) {
+                conceptSets.remove(conceptSet);
+            }
+        }
+    }
+
+    private Concept findSetMember(Concept existingConcept, Concept concept) {
         if (null == existingConcept.getSetMembers()) {
-            return false;
+            return null;
         }
         for (Concept member : existingConcept.getSetMembers()) {
             if (member.getUuid().equals(concept.getUuid())) {
-                return true;
+                return member;
             }
         }
-        return false;
+        return null;
     }
 
     private void mergeConceptDescriptions(Concept existingConcept, Concept newConcept) {
