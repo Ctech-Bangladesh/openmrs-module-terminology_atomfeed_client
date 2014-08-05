@@ -42,8 +42,16 @@ public class ConceptRequestMapper {
         request.setUri(asString(safeGet(data, "uri")));
         request.setConceptDescriptionRequest(conceptDescriptionRequestMapper.map(safeGet(data, "description")));
         mapSetMembers(request, data);
+        mapConceptAnswers(request, data);
         mapNumericFields(request, data);
         return request;
+    }
+
+    private void mapConceptAnswers(ConceptRequest request, Map<String, Object> data) {
+        Collection conceptAnswers = (Collection) safeGet(data, "conceptAnswers");
+        if (null != conceptAnswers) {
+            request.setConceptAnswers(new ArrayList<String>(conceptAnswers));
+        }
     }
 
     private void mapNumericFields(ConceptRequest request, Map<String, Object> data) {

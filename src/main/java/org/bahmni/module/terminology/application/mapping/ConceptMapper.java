@@ -5,10 +5,7 @@ import org.bahmni.module.terminology.application.model.ConceptDescriptionRequest
 import org.bahmni.module.terminology.application.model.ConceptRequest;
 import org.bahmni.module.terminology.application.model.IdMapping;
 import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
-import org.openmrs.Concept;
-import org.openmrs.ConceptDatatype;
-import org.openmrs.ConceptDescription;
-import org.openmrs.ConceptNumeric;
+import org.openmrs.*;
 import org.openmrs.api.ConceptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -51,8 +48,19 @@ public class ConceptMapper {
         concept.addDescription(mapDescriptions(conceptRequest.getConceptDescriptionRequest()));
         concept.setNames(conceptNameMapper.map(conceptRequest.getConceptNameRequests()));
         concept.setConceptMappings(conceptReferenceTermMapper.map(conceptRequest.getConceptReferenceTermRequests()));
+        mapConceptAnswers(concept, conceptRequest);
         mapSetMembers(concept, conceptRequest);
         return concept;
+    }
+
+    private void mapConceptAnswers(Concept concept, ConceptRequest conceptRequest) {
+        if (null != conceptRequest.getConceptAnswers()) {
+            for (String conceptAnswer : conceptRequest.getConceptAnswers()) {
+                ConceptAnswer answer = new ConceptAnswer();
+                answer.setAnswerConcept(conceptService.getConceptByUuid(idMappingsRepository.findByExternalId(conceptAnswer).getInternalId()));
+                concept.addAnswer(answer);
+            }
+        }
     }
 
     private void mapSetMembers(Concept concept, ConceptRequest conceptRequest) {

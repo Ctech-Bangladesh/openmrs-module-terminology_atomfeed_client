@@ -25,6 +25,7 @@ public class ConceptRequest {
     private Double absoluteLow;
     private Boolean precise;
     private String units;
+    private List<String> conceptAnswers;
 
     public boolean isSet() {
         return isSet;
@@ -192,5 +193,13 @@ public class ConceptRequest {
 
     public void setUnits(String units) {
         this.units = units;
+    }
+
+    public List<String> getConceptAnswers() {
+        return conceptAnswers;
+    }
+
+    public void setConceptAnswers(List<String> conceptAnswers) {
+        this.conceptAnswers = conceptAnswers;
     }
 }

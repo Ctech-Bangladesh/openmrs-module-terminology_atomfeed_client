@@ -29,7 +29,35 @@ public class PersistedConcept {
         mergeConceptMappings(existingConcept, new ConceptMappings(newConcept.getConceptMappings()));
         mergeConceptDescriptions(existingConcept, newConcept);
         mergeConceptSets(existingConcept, newConcept);
+        mergeConceptAnswers(existingConcept, newConcept);
         return existingConcept;
+    }
+
+    private void mergeConceptAnswers(Concept existingConcept, Concept newConcept) {
+        if (isNotEmpty(newConcept.getAnswers())) {
+            for (ConceptAnswer conceptAnswer : new ArrayList<>(newConcept.getAnswers())) {
+                if (!foundAnswer(existingConcept, conceptAnswer)) {
+                    existingConcept.addAnswer(conceptAnswer);
+                }
+            }
+        } else if (isNotEmpty(existingConcept.getAnswers())) {
+            for (ConceptAnswer conceptAnswer : new ArrayList<>(existingConcept.getAnswers())) {
+                if (!foundAnswer(newConcept, conceptAnswer)) {
+                    existingConcept.removeAnswer(conceptAnswer);
+                }
+            }
+        }
+    }
+
+    private boolean foundAnswer(Concept newConcept, ConceptAnswer conceptAnswer) {
+        if (null != newConcept.getAnswers()) {
+            for (ConceptAnswer answer : newConcept.getAnswers()) {
+                if (StringUtils.equals(answer.getAnswerConcept().getUuid(), conceptAnswer.getAnswerConcept().getUuid())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void mapConceptDataType(Concept newConcept) {
