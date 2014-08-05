@@ -18,8 +18,8 @@ public class IdMappingsRepository {
 
     public void saveMapping(IdMapping idMapping) {
         if (!mappingExists(idMapping)) {
-            String query = "insert into shr_id_mapping (internal_id, external_id, type) values (?,?,?)";
-            Connection conn = null;
+            String query = "insert into shr_id_mapping (internal_id, external_id, type, uri) values (?,?,?,?)";
+            Connection conn;
             PreparedStatement statement = null;
             try {
                 conn = DatabaseUpdater.getConnection();
@@ -27,6 +27,7 @@ public class IdMappingsRepository {
                 statement.setString(1, idMapping.getInternalId());
                 statement.setString(2, idMapping.getExternalId());
                 statement.setString(3, idMapping.getType());
+                statement.setString(4, idMapping.getUri());
                 statement.execute();
             } catch (Exception e) {
                 throw new RuntimeException("Error occurred while creating id mapping", e);
@@ -34,7 +35,7 @@ public class IdMappingsRepository {
                 try {
                     if (statement != null) statement.close();
                 } catch (SQLException e) {
-                    logger.warn("Could not close db statement or resultset", e);
+                    logger.warn("Could not close db statement or result set", e);
                 }
             }
         }
@@ -72,8 +73,8 @@ public class IdMappingsRepository {
     }
 
     public IdMapping findByExternalId(String uuid) {
-        String query = "select distinct map.internal_id, map.type from shr_id_mapping map where map.external_id=?";
-        Connection conn = null;
+        String query = "select map.internal_id, map.type, map.uri from shr_id_mapping map where map.external_id=?";
+        Connection conn;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         IdMapping result = null;
@@ -84,7 +85,7 @@ public class IdMappingsRepository {
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 if (StringUtils.isNotBlank(resultSet.getString(1))) {
-                    result = new IdMapping(resultSet.getString(1), uuid, resultSet.getString(2));
+                    result = new IdMapping(resultSet.getString(1), uuid, resultSet.getString(2), resultSet.getString(3));
                     break;
                 }
             }

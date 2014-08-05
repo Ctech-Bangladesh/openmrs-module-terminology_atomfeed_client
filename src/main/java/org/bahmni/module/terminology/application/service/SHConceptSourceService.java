@@ -5,6 +5,7 @@ import org.bahmni.module.terminology.application.mapping.ConceptSourceMapper;
 import org.bahmni.module.terminology.application.model.ConceptSourceRequest;
 import org.bahmni.module.terminology.application.model.IdMapping;
 import org.bahmni.module.terminology.application.model.TerminologyClientConstants;
+import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT_SOURCE;
 import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
 import org.openmrs.ConceptSource;
 import org.openmrs.api.ConceptService;
@@ -30,7 +31,7 @@ public class SHConceptSourceService {
             if (null == mapping) {
                 ConceptSource source = conceptSourceMapper.map(conceptSourceRequest);
                 ConceptSource conceptSource = conceptService.saveConceptSource(source);
-                idMappingsRepository.saveMapping(new IdMapping(conceptSource.getUuid(), conceptSourceRequest.getUuid(), TerminologyClientConstants.CONCEPT_SOURCE));
+                idMappingsRepository.saveMapping(new IdMapping(conceptSource.getUuid(), conceptSourceRequest.getUuid(), CONCEPT_SOURCE, null));
             } else {
                 ConceptSource existingSource = conceptService.getConceptSourceByUuid(mapping.getInternalId());
                 existingSource.setName(conceptSourceRequest.getName());

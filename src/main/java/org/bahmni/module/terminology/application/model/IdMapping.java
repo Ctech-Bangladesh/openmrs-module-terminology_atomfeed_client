@@ -6,14 +6,16 @@ public class IdMapping {
     private String internalId;
     private String externalId;
     private String type;
+    private String uri;
 
     public IdMapping() {
     }
 
-    public IdMapping(String internalId, String externalId, String type) {
+    public IdMapping(String internalId, String externalId, String type, String uri) {
         this.internalId = internalId;
         this.externalId = externalId;
         this.type = type;
+        this.uri = uri;
     }
 
     public String getInternalId() {
@@ -46,5 +48,13 @@ public class IdMapping {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 }

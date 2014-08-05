@@ -16,6 +16,7 @@ public class ConceptRequest {
     private ConceptReferenceTermRequests conceptReferenceTermRequests;
     private ConceptDescriptionRequest conceptDescriptionRequest;
     private List<String> setMembers;
+    private String uri;
 
     public boolean isSet() {
         return isSet;
@@ -111,5 +112,13 @@ public class ConceptRequest {
 
     public void setSetMembers(List<String> setMembers) {
         this.setMembers = setMembers;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 }

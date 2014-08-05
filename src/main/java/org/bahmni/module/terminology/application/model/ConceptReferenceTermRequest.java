@@ -11,6 +11,7 @@ public class ConceptReferenceTermRequest {
     private String uuid;
     private String version;
     private boolean retired;
+    private String uri;
 
     public String getName() {
         return name;
@@ -86,5 +87,13 @@ public class ConceptReferenceTermRequest {
 
     public void setRetired(boolean retired) {
         this.retired = retired;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 }

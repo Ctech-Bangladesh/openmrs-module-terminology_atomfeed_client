@@ -5,6 +5,7 @@ import org.bahmni.module.terminology.application.model.ConceptRequest;
 import org.bahmni.module.terminology.application.model.IdMapping;
 import org.bahmni.module.terminology.application.model.PersistedConcept;
 import org.bahmni.module.terminology.application.model.TerminologyClientConstants;
+import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT;
 import org.bahmni.module.terminology.application.postprocessor.PostProcessorFactory;
 import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.ConceptPostProcessor;
 import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
@@ -37,7 +38,7 @@ public class SHConceptService {
             if (null != postProcessor) {
                 postProcessor.process(savedConcept);
             }
-            idMappingsRepository.saveMapping(new IdMapping(savedConcept.getUuid(), conceptRequest.getUuid(), TerminologyClientConstants.CONCEPT));
+            idMappingsRepository.saveMapping(new IdMapping(savedConcept.getUuid(), conceptRequest.getUuid(), CONCEPT, conceptRequest.getUri()));
         } else {
             Concept existingConcept = conceptService.getConceptByUuid(idMapping.getInternalId());
             Concept updatedConcept = new PersistedConcept(existingConcept).merge(newConcept);

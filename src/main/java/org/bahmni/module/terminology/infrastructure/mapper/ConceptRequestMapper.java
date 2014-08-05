@@ -39,6 +39,7 @@ public class ConceptRequestMapper {
         request.setConceptNameRequests(conceptNameRequestMapper.map(data.get("names")));
         request.setConceptReferenceTermRequests(conceptReferenceTermRequestMapper.mapFromConceptRequest(data.get("referenceTerms")));
         request.setUuid(asString(safeGet(data, "uuid")));
+        request.setUri(asString(safeGet(data, "uri")));
         request.setConceptDescriptionRequest(conceptDescriptionRequestMapper.map(safeGet(data, "description")));
         mapSetMembers(request, data);
         return request;

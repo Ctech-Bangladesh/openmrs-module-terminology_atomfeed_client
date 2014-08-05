@@ -1,23 +1,26 @@
 package org.bahmni.module.terminology.infrastructure.atomfeed.workers;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import org.bahmni.module.terminology.application.model.IdMapping;
+import org.bahmni.module.terminology.application.model.TerminologyClientConstants;
+import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT;
+import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT_REFERENCE_TERM;
+import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT_SOURCE;
 import org.bahmni.module.terminology.application.service.ConceptSyncService;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
 import org.bahmni.module.terminology.infrastructure.mapper.ConceptRequestMapper;
-import org.hamcrest.CoreMatchers;
+import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
 import org.ict4h.atomfeed.client.domain.Event;
 import org.junit.Rule;
 import org.junit.Test;
 import org.openmrs.*;
-import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.web.test.BaseModuleWebContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Locale;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static java.util.Locale.ENGLISH;
@@ -40,6 +43,8 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
     private ConceptSyncService ConceptSyncService;
     @Autowired
     private ConceptRequestMapper conceptMapper;
+    @Autowired
+    private IdMappingsRepository idMappingsRepository;
 
     @Test
     public void shouldSyncConcepts() {
@@ -68,6 +73,8 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
         assertThat(concept.getConceptClass().getName(), is("Diagnosis"));
         assertThat(concept.isSet(), is(false));
         assertThat(concept.isRetired(), is(false));
+        assertIdMapping(concept.getUuid(), "216c8246-202c-4376-bfa8-3278d1049630", CONCEPT,
+                "http://172.18.46.53:9080/openmrs/ws/rest/v1/concept/216c8246-202c-4376-bfa8-3278d1049630");
     }
 
     private void assertFullySpecifiedName(ConceptName fullySpecifiedName) {
@@ -111,5 +118,16 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
         assertNotNull(conceptSource);
         assertThat(conceptSource.getName(), is("ICD10"));
         assertThat(conceptSource.getHl7Code(), is("ICD10"));
+
+        assertIdMapping(conceptReferenceTerm.getUuid(), "565496c2-bdfe-4cce-87d4-92091ab1f67a", CONCEPT_REFERENCE_TERM,
+                "http://172.18.46.53:9080/openmrs/ws/rest/v1/conceptreferenceterm/565496c2-bdfe-4cce-87d4-92091ab1f67a");
+    }
+
+    private void assertIdMapping(String internalId, String externalId, String type, String uri) {
+        final IdMapping idMapping = idMappingsRepository.findByExternalId(externalId);
+        assertNotNull(idMapping);
+        assertEquals(internalId, idMapping.getInternalId());
+        assertEquals(type, idMapping.getType());
+        assertEquals(uri, idMapping.getUri());
     }
 }
