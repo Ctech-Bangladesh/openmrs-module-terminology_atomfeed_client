@@ -1,17 +1,21 @@
 package org.bahmni.module.terminology.application.mapping;
 
-import org.apache.commons.lang.StringUtils;
+import org.bahmni.module.terminology.application.factory.ConceptFactory;
 import org.bahmni.module.terminology.application.model.ConceptDescriptionRequest;
 import org.bahmni.module.terminology.application.model.ConceptRequest;
 import org.bahmni.module.terminology.application.model.IdMapping;
 import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
 import org.openmrs.Concept;
+import org.openmrs.ConceptDatatype;
 import org.openmrs.ConceptDescription;
+import org.openmrs.ConceptNumeric;
 import org.openmrs.api.ConceptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Locale;
+
+import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 @Component
 public class ConceptMapper {
@@ -20,23 +24,29 @@ public class ConceptMapper {
     private ConceptNameMapper conceptNameMapper;
     private ConceptReferenceTermMapper conceptReferenceTermMapper;
     private IdMappingsRepository idMappingsRepository;
+    private ConceptFactory conceptFactory;
 
     @Autowired
-    public ConceptMapper(ConceptService conceptService, ConceptNameMapper conceptNameMapper, ConceptReferenceTermMapper conceptReferenceTermMapper, IdMappingsRepository idMappingsRepository) {
+    public ConceptMapper(ConceptService conceptService,
+                         ConceptNameMapper conceptNameMapper,
+                         ConceptReferenceTermMapper conceptReferenceTermMapper,
+                         IdMappingsRepository idMappingsRepository,
+                         ConceptFactory conceptFactory) {
         this.conceptService = conceptService;
         this.conceptNameMapper = conceptNameMapper;
         this.conceptReferenceTermMapper = conceptReferenceTermMapper;
         this.idMappingsRepository = idMappingsRepository;
+        this.conceptFactory = conceptFactory;
     }
 
     public Concept map(ConceptRequest conceptRequest) {
-        Concept concept = new Concept();
+        Concept concept = conceptFactory.createConcept(conceptRequest);
         concept.setFullySpecifiedName(conceptNameMapper.map(conceptRequest.getFullySpecifiedName()));
         concept.setSet(conceptRequest.isSet());
         concept.setRetired(conceptRequest.isRetired());
         concept.setRetireReason(conceptRequest.getRetireReason());
         concept.setVersion(conceptRequest.getVersion());
-        mapConceptDatatype(concept, conceptRequest.getDatatypeName());
+        mapConceptDatatype(concept, conceptRequest);
         mapConceptClass(concept, conceptRequest);
         concept.addDescription(mapDescriptions(conceptRequest.getConceptDescriptionRequest()));
         concept.setNames(conceptNameMapper.map(conceptRequest.getConceptNameRequests()));
@@ -72,9 +82,21 @@ public class ConceptMapper {
         concept.setConceptClass(conceptService.getConceptClassByName(conceptRequest.getConceptClass()));
     }
 
-    private void mapConceptDatatype(Concept concept, String datatypeName) {
-        if (StringUtils.isNotBlank(datatypeName)) {
-            concept.setDatatype(conceptService.getConceptDatatypeByName(datatypeName));
+    private void mapConceptDatatype(Concept concept, ConceptRequest request) {
+        if (isNotBlank(request.getDatatypeName())) {
+            ConceptDatatype datatype = conceptService.getConceptDatatypeByName(request.getDatatypeName());
+            concept.setDatatype(datatype);
+            if (datatype.isNumeric()) {
+                ConceptNumeric conceptNumeric = ((ConceptNumeric) concept);
+                conceptNumeric.setHiAbsolute(request.getAbsoluteHigh());
+                conceptNumeric.setHiCritical(request.getCriticalHigh());
+                conceptNumeric.setHiNormal(request.getNormalHigh());
+                conceptNumeric.setLowNormal(request.getNormalLow());
+                conceptNumeric.setLowCritical(request.getCriticalLow());
+                conceptNumeric.setLowAbsolute(request.getAbsoluteLow());
+                conceptNumeric.setUnits(request.getUnits());
+                conceptNumeric.setPrecise(request.getPrecise());
+            }
         }
     }
 }

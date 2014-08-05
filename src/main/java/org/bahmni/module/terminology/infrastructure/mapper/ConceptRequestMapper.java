@@ -11,7 +11,7 @@ import java.util.Map;
 
 import static org.bahmni.module.terminology.util.CollectionUtil.safeGet;
 import static org.bahmni.module.terminology.util.CollectionUtil.safeGetMap;
-import static org.bahmni.module.terminology.util.TypeUtil.asString;
+import static org.bahmni.module.terminology.util.TypeUtil.*;
 
 @Component
 public class ConceptRequestMapper {
@@ -42,7 +42,19 @@ public class ConceptRequestMapper {
         request.setUri(asString(safeGet(data, "uri")));
         request.setConceptDescriptionRequest(conceptDescriptionRequestMapper.map(safeGet(data, "description")));
         mapSetMembers(request, data);
+        mapNumericFields(request, data);
         return request;
+    }
+
+    private void mapNumericFields(ConceptRequest request, Map<String, Object> data) {
+        request.setAbsoluteHigh(asDouble(safeGet(safeGetMap(data, "properties"), "ABSOLUTE_HIGH")));
+        request.setCriticalHigh(asDouble(safeGet(safeGetMap(data, "properties"), "CRITICAL_HIGH")));
+        request.setNormalHigh(asDouble(safeGet(safeGetMap(data, "properties"), "NORMAL_HIGH")));
+        request.setNormalLow(asDouble(safeGet(safeGetMap(data, "properties"), "NORMAL_LOW")));
+        request.setCriticalLow(asDouble(safeGet(safeGetMap(data, "properties"), "CRITICAL_LOW")));
+        request.setAbsoluteLow(asDouble(safeGet(safeGetMap(data, "properties"), "ABSOLUTE_LOW")));
+        request.setPrecise(asBoolean(safeGet(safeGetMap(data, "properties"), "NUMERIC_PRECISE")));
+        request.setUnits(asString(safeGet(safeGetMap(data, "properties"), "NUMERIC_UNITS")));
     }
 
     private void mapSetMembers(ConceptRequest request, Map<String, Object> data) {

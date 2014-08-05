@@ -17,6 +17,14 @@ public class ConceptRequest {
     private ConceptDescriptionRequest conceptDescriptionRequest;
     private List<String> setMembers;
     private String uri;
+    private Double absoluteHigh;
+    private Double criticalHigh;
+    private Double normalHigh;
+    private Double normalLow;
+    private Double criticalLow;
+    private Double absoluteLow;
+    private Boolean precise;
+    private String units;
 
     public boolean isSet() {
         return isSet;
@@ -120,5 +128,69 @@ public class ConceptRequest {
 
     public void setUri(String uri) {
         this.uri = uri;
+    }
+
+    public Double getAbsoluteHigh() {
+        return absoluteHigh;
+    }
+
+    public void setAbsoluteHigh(Double absoluteHigh) {
+        this.absoluteHigh = absoluteHigh;
+    }
+
+    public Double getCriticalHigh() {
+        return criticalHigh;
+    }
+
+    public void setCriticalHigh(Double criticalHigh) {
+        this.criticalHigh = criticalHigh;
+    }
+
+    public Double getNormalHigh() {
+        return normalHigh;
+    }
+
+    public void setNormalHigh(Double normalHigh) {
+        this.normalHigh = normalHigh;
+    }
+
+    public Double getNormalLow() {
+        return normalLow;
+    }
+
+    public void setNormalLow(Double normalLow) {
+        this.normalLow = normalLow;
+    }
+
+    public Double getCriticalLow() {
+        return criticalLow;
+    }
+
+    public void setCriticalLow(Double criticalLow) {
+        this.criticalLow = criticalLow;
+    }
+
+    public Double getAbsoluteLow() {
+        return absoluteLow;
+    }
+
+    public void setAbsoluteLow(Double absoluteLow) {
+        this.absoluteLow = absoluteLow;
+    }
+
+    public Boolean getPrecise() {
+        return precise;
+    }
+
+    public void setPrecise(Boolean precise) {
+        this.precise = precise;
+    }
+
+    public String getUnits() {
+        return units;
+    }
+
+    public void setUnits(String units) {
+        this.units = units;
     }
 }

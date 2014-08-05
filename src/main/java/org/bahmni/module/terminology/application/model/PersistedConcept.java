@@ -1,10 +1,7 @@
 package org.bahmni.module.terminology.application.model;
 
 import org.apache.commons.lang.StringUtils;
-import org.openmrs.Concept;
-import org.openmrs.ConceptMap;
-import org.openmrs.ConceptName;
-import org.openmrs.ConceptSet;
+import org.openmrs.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +22,7 @@ public class PersistedConcept {
         existingConcept.setRetireReason(newConcept.getRetireReason());
         existingConcept.setSet(newConcept.isSet());
         existingConcept.setVersion(newConcept.getVersion());
-        existingConcept.setDatatype(newConcept.getDatatype());
+        mapConceptDataType(newConcept);
         existingConcept.setConceptClass(newConcept.getConceptClass());
         mergeFullySpecifiedName(existingConcept, newConcept);
         mergeConceptNames(existingConcept, new ConceptNames(newConcept.getNames()));
@@ -33,6 +30,22 @@ public class PersistedConcept {
         mergeConceptDescriptions(existingConcept, newConcept);
         mergeConceptSets(existingConcept, newConcept);
         return existingConcept;
+    }
+
+    private void mapConceptDataType(Concept newConcept) {
+        existingConcept.setDatatype(newConcept.getDatatype());
+        if (newConcept.isNumeric()) {
+            existingConcept = new ConceptNumeric(existingConcept);
+            ConceptNumeric conceptNumeric = ((ConceptNumeric) existingConcept);
+            conceptNumeric.setHiAbsolute(((ConceptNumeric) newConcept).getHiAbsolute());
+            conceptNumeric.setHiCritical(((ConceptNumeric) newConcept).getHiCritical());
+            conceptNumeric.setHiNormal(((ConceptNumeric) newConcept).getHiNormal());
+            conceptNumeric.setLowNormal(((ConceptNumeric) newConcept).getLowNormal());
+            conceptNumeric.setLowCritical(((ConceptNumeric) newConcept).getLowCritical());
+            conceptNumeric.setLowAbsolute(((ConceptNumeric) newConcept).getLowAbsolute());
+            conceptNumeric.setUnits(((ConceptNumeric) newConcept).getUnits());
+            conceptNumeric.setPrecise(((ConceptNumeric) newConcept).getPrecise());
+        }
     }
 
     private void mergeConceptSets(Concept existingConcept, Concept newConcept) {
