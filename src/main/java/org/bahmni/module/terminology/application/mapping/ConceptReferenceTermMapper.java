@@ -52,7 +52,6 @@ public class ConceptReferenceTermMapper {
     }
 
     private ConceptReferenceTerm mapReferenceTerm(ConceptReferenceTermRequest conceptReferenceTermRequest, ConceptReferenceTerm referenceTerm) {
-        referenceTerm.setUuid(conceptReferenceTermRequest.getUuid());
         referenceTerm.setName(conceptReferenceTermRequest.getName());
         referenceTerm.setCode(conceptReferenceTermRequest.getCode());
         referenceTerm.setVersion(conceptReferenceTermRequest.getVersion());
