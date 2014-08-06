@@ -1,7 +1,10 @@
-package org.bahmni.module.terminology.application.model;
+package org.bahmni.module.terminology.infrastructure.mapper;
 
 import org.apache.commons.lang.StringUtils;
+import org.bahmni.module.terminology.application.model.ConceptMappings;
+import org.bahmni.module.terminology.application.model.ConceptNames;
 import org.openmrs.*;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,20 +12,15 @@ import java.util.Locale;
 
 import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 
-public class PersistedConcept {
+@Component
+public class ConceptUpdate {
 
-    private Concept existingConcept;
-
-    public PersistedConcept(Concept existingConcept) {
-        this.existingConcept = existingConcept;
-    }
-
-    public Concept merge(Concept newConcept) {
+    public Concept merge(Concept newConcept, Concept existingConcept) {
         existingConcept.setRetired(newConcept.isRetired());
         existingConcept.setRetireReason(newConcept.getRetireReason());
         existingConcept.setSet(newConcept.isSet());
         existingConcept.setVersion(newConcept.getVersion());
-        mapConceptDataType(newConcept);
+        mapConceptDataType(newConcept, existingConcept);
         existingConcept.setConceptClass(newConcept.getConceptClass());
         mergeFullySpecifiedName(existingConcept, newConcept);
         mergeConceptNames(existingConcept, new ConceptNames(newConcept.getNames()));
@@ -31,6 +29,20 @@ public class PersistedConcept {
         mergeConceptSets(existingConcept, newConcept);
         mergeConceptAnswers(existingConcept, newConcept);
         return existingConcept;
+    }
+
+    public Concept mergeSpecifics(Concept savedConcept, Concept newConcept) {
+        if (savedConcept instanceof ConceptNumeric) {
+            ((ConceptNumeric) savedConcept).setHiAbsolute(((ConceptNumeric) newConcept).getHiAbsolute());
+            ((ConceptNumeric) savedConcept).setHiCritical(((ConceptNumeric) newConcept).getHiCritical());
+            ((ConceptNumeric) savedConcept).setHiNormal(((ConceptNumeric) newConcept).getHiNormal());
+            ((ConceptNumeric) savedConcept).setLowNormal(((ConceptNumeric) newConcept).getLowNormal());
+            ((ConceptNumeric) savedConcept).setLowCritical(((ConceptNumeric) newConcept).getLowCritical());
+            ((ConceptNumeric) savedConcept).setLowAbsolute(((ConceptNumeric) newConcept).getLowAbsolute());
+            ((ConceptNumeric) savedConcept).setUnits(((ConceptNumeric) newConcept).getUnits());
+            ((ConceptNumeric) savedConcept).setPrecise(((ConceptNumeric) newConcept).getPrecise());
+        }
+        return savedConcept;
     }
 
     private void mergeConceptAnswers(Concept existingConcept, Concept newConcept) {
@@ -60,20 +72,8 @@ public class PersistedConcept {
         return false;
     }
 
-    private void mapConceptDataType(Concept newConcept) {
-        existingConcept.setDatatype(newConcept.getDatatype());
-        if (newConcept.isNumeric()) {
-            existingConcept = new ConceptNumeric(existingConcept);
-            ConceptNumeric conceptNumeric = ((ConceptNumeric) existingConcept);
-            conceptNumeric.setHiAbsolute(((ConceptNumeric) newConcept).getHiAbsolute());
-            conceptNumeric.setHiCritical(((ConceptNumeric) newConcept).getHiCritical());
-            conceptNumeric.setHiNormal(((ConceptNumeric) newConcept).getHiNormal());
-            conceptNumeric.setLowNormal(((ConceptNumeric) newConcept).getLowNormal());
-            conceptNumeric.setLowCritical(((ConceptNumeric) newConcept).getLowCritical());
-            conceptNumeric.setLowAbsolute(((ConceptNumeric) newConcept).getLowAbsolute());
-            conceptNumeric.setUnits(((ConceptNumeric) newConcept).getUnits());
-            conceptNumeric.setPrecise(((ConceptNumeric) newConcept).getPrecise());
-        }
+    private void mapConceptDataType(Concept newConcept, Concept concept) {
+        concept.setDatatype(newConcept.getDatatype());
     }
 
     private void mergeConceptSets(Concept existingConcept, Concept newConcept) {
@@ -81,7 +81,7 @@ public class PersistedConcept {
             for (Concept concept : newConcept.getSetMembers()) {
                 Concept setMember = findSetMember(existingConcept, concept);
                 if (null == setMember) {
-                    existingConcept.addSetMember(newConcept);
+                    existingConcept.addSetMember(concept);
                 }
             }
         } else if (isNotEmpty(existingConcept.getSetMembers())) {

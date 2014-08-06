@@ -2,10 +2,8 @@ package org.bahmni.module.terminology.application.service;
 
 import org.bahmni.module.terminology.application.mapping.ConceptMapper;
 import org.bahmni.module.terminology.application.model.ConceptRequest;
+import org.bahmni.module.terminology.infrastructure.mapper.ConceptUpdate;
 import org.bahmni.module.terminology.application.model.IdMapping;
-import org.bahmni.module.terminology.application.model.PersistedConcept;
-import org.bahmni.module.terminology.application.model.TerminologyClientConstants;
-import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT;
 import org.bahmni.module.terminology.application.postprocessor.PostProcessorFactory;
 import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.ConceptPostProcessor;
 import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
@@ -15,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT;
 
 @Component
 public class SHConceptService {
@@ -27,6 +27,8 @@ public class SHConceptService {
     private IdMappingsRepository idMappingsRepository;
     @Autowired
     private ConceptMapper conceptMapper;
+    @Autowired
+    private ConceptUpdate conceptUpdate;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void sync(ConceptRequest conceptRequest) {
@@ -41,8 +43,12 @@ public class SHConceptService {
             idMappingsRepository.saveMapping(new IdMapping(savedConcept.getUuid(), conceptRequest.getUuid(), CONCEPT, conceptRequest.getUri()));
         } else {
             Concept existingConcept = conceptService.getConceptByUuid(idMapping.getInternalId());
-            Concept updatedConcept = new PersistedConcept(existingConcept).merge(newConcept);
-            conceptService.saveConcept(updatedConcept);
+            conceptService.saveConcept(
+                    conceptUpdate.mergeSpecifics(
+                            conceptService.saveConcept(conceptUpdate.merge(newConcept, existingConcept)),
+                            newConcept
+                    )
+            );
         }
     }
 }
