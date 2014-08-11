@@ -96,4 +96,10 @@
         </sql>
     </changeSet>
 
+    <changeSet id="terminology-atomfeed-client-10" author="Neha" context="setup">
+        <sql>
+            update scheduler_task_config set repeat_interval = 13 where name = 'Concept Reference Term Feed Feed Task';
+            update scheduler_task_config set repeat_interval = 31 where name = 'Terminology Feed Task';
+        </sql>
+    </changeSet>
 </databaseChangeLog>
