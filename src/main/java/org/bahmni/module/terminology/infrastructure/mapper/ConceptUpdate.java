@@ -32,7 +32,7 @@ public class ConceptUpdate {
     }
 
     public Concept mergeSpecifics(Concept savedConcept, Concept newConcept) {
-        if (savedConcept instanceof ConceptNumeric) {
+        if (savedConcept instanceof ConceptNumeric && newConcept instanceof ConceptNumeric) {
             ((ConceptNumeric) savedConcept).setHiAbsolute(((ConceptNumeric) newConcept).getHiAbsolute());
             ((ConceptNumeric) savedConcept).setHiCritical(((ConceptNumeric) newConcept).getHiCritical());
             ((ConceptNumeric) savedConcept).setHiNormal(((ConceptNumeric) newConcept).getHiNormal());
