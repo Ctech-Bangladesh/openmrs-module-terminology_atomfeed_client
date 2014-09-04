@@ -50,7 +50,11 @@ public class ConceptRequestMapper {
     private void mapConceptAnswers(ConceptRequest request, Map<String, Object> data) {
         Collection conceptAnswers = (Collection) safeGet(data, "conceptAnswers");
         if (null != conceptAnswers) {
-            request.setConceptAnswers(new ArrayList<String>(conceptAnswers));
+            ArrayList<String> conceptAnswerUuids = new ArrayList<>();
+            for (Object conceptAnswer : conceptAnswers) {
+                conceptAnswerUuids.add(asString(((Map) conceptAnswer).get("uuid")));
+            }
+            request.setConceptAnswers(conceptAnswerUuids);
         }
     }
 
@@ -68,7 +72,12 @@ public class ConceptRequestMapper {
     private void mapSetMembers(ConceptRequest request, Map<String, Object> data) {
         Collection setMembers = (Collection) safeGet(data, "setMembers");
         if (null != setMembers) {
-            request.setSetMembers(new ArrayList<String>(setMembers));
+            ArrayList<String> setMemberUuids = new ArrayList<>();
+            for (Object setMember : setMembers) {
+                setMemberUuids.add(asString(((Map) setMember).get("uuid")));
+
+            }
+            request.setSetMembers(new ArrayList<String>(setMemberUuids));
         }
     }
 }

@@ -1,0 +1,84 @@
+{
+  "names": [
+    {
+      "conceptNameType": "INDEX_TERM",
+      "conceptName": "Blood",
+      "locale": "en"
+    },
+    {
+      "conceptNameType": "SHORT",
+      "conceptName": "BP",
+      "locale": "en"
+    },
+    {
+      "conceptNameType": "FULLY_SPECIFIED",
+      "conceptName": "BloodPressure",
+      "locale": "en"
+    },
+    {
+      "conceptNameType": null,
+      "conceptName": "BP",
+      "locale": "en"
+    }
+  ],
+  "conceptClass": "Diagnosis",
+  "fullySpecifiedName": {
+    "conceptNameType": "FULLY_SPECIFIED",
+    "conceptName": "BloodPressure",
+    "locale": "en"
+  },
+  "uuid": "444c8246-202c-4376-bfa8-3278d1049444",
+  "uri": "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/concepts/444c8246-202c-4376-bfa8-3278d1049444",
+  "datatypeName": "Numeric",
+  "retired": false,
+  "retireReason": null,
+  "referenceTerms": [
+    {
+      "code": "ICD101",
+      "retired": false,
+      "uuid": "565496c2-bdfe-4cce-87d4-92091ab1f67a",
+      "conceptSource": {
+        "uuid": "ab587e35-dc14-494e-ac38-d79145670b3b",
+        "hl7Code": "ICD10",
+        "description": "ICD10",
+        "name": "ICD10"
+      },
+      "uri": "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/referenceterms/565496c2-bdfe-4cce-87d4-92091ab1f67a",
+      "mapType": "SAME-AS",
+      "version": "1.0",
+      "description": "ICD100description",
+      "name": "ICD101"
+    }
+  ],
+  "version": "1.1.1",
+  "description": {
+    "locale": "en",
+    "description": "description123"
+  },
+  "setMembers" : [
+     {
+         "uuid" : "321c8246-202c-4376-bfa8-3278d1041101",
+         "uri" : "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/concepts/321c8246-202c-4376-bfa8-3278d1041101",
+         "display" : "Systolic"
+
+     },
+     {
+          "uuid" : "222c8246-202c-4376-bfa8-3278d1042222",
+          "uri" : "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/concepts/222c8246-202c-4376-bfa8-3278d1042222",
+          "display" : "Diastolic"
+
+     }
+  ],
+  "set": true,
+  "properties": {
+    "ABSOLUTE_HIGH" : "10.0",
+    "CRITICAL_HIGH" : "11.0",
+    "NORMAL_HIGH" : "12.0",
+    "NORMAL_LOW" : "13.0",
+    "CRITICAL_LOW" : "14.0",
+    "ABSOLUTE_LOW" : "15.0",
+    "NUMERIC_UNITS": "test",
+    "NUMERIC_PRECISE": true
+  },
+  "conceptAnswers": []
+}

@@ -1,0 +1,36 @@
+{
+    "names": [
+        {
+            "conceptNameType": "INDEX_TERM",
+            "conceptName": "female",
+            "locale": "en"
+        },
+        {
+            "conceptNameType": "SHORT",
+            "conceptName": "FEMALE",
+            "locale": "en"
+        },
+        {
+            "conceptNameType": "FULLY_SPECIFIED",
+            "conceptName": "Female Sex",
+            "locale": "en"
+        }
+    ],
+    "conceptClass": "Finding",
+    "fullySpecifiedName": {
+        "conceptNameType": "FULLY_SPECIFIED",
+        "conceptName": "Female Sex",
+        "locale": "en"
+    },
+    "uuid": "777c8246-202c-4376-bfa8-3278d1049777",
+    "uri": "http://www.bdshr-tr.com/openmrs/ws/rest/v1/tr/concepts/777c8246-202c-4376-bfa8-3278d1049777",
+    "datatypeName": "Text",
+    "retired": false,
+    "referenceTerms": [],
+    "version": "1.1",
+    "description": {
+        "locale": "en",
+        "description": "Male Patient"
+    },
+    "set": false
+}

@@ -55,9 +55,13 @@ public class ConceptMapper {
 
     private void mapConceptAnswers(Concept concept, ConceptRequest conceptRequest) {
         if (null != conceptRequest.getConceptAnswers()) {
-            for (String conceptAnswer : conceptRequest.getConceptAnswers()) {
+            for (String conceptAnswerUuid : conceptRequest.getConceptAnswers()) {
                 ConceptAnswer answer = new ConceptAnswer();
-                answer.setAnswerConcept(conceptService.getConceptByUuid(idMappingsRepository.findByExternalId(conceptAnswer).getInternalId()));
+                IdMapping idMap = idMappingsRepository.findByExternalId(conceptAnswerUuid);
+                if (idMap == null) {
+                    throw new RuntimeException("Can not identify concept answer with external Id:" + conceptAnswerUuid);
+                }
+                answer.setAnswerConcept(conceptService.getConceptByUuid(idMap.getInternalId()));
                 concept.addAnswer(answer);
             }
         }
@@ -65,12 +69,12 @@ public class ConceptMapper {
 
     private void mapSetMembers(Concept concept, ConceptRequest conceptRequest) {
         if (null != conceptRequest.getSetMembers()) {
-            for (String setMember : conceptRequest.getSetMembers()) {
-                IdMapping mapping = idMappingsRepository.findByExternalId(setMember);
+            for (String setMemberUuid : conceptRequest.getSetMembers()) {
+                IdMapping mapping = idMappingsRepository.findByExternalId(setMemberUuid);
                 if (null != mapping) {
                     concept.addSetMember(conceptService.getConceptByUuid(mapping.getInternalId()));
                 } else {
-                    throw new RuntimeException("Unknown concept added as set member");
+                    throw new RuntimeException("Can not identify concept set member with external id: " + setMemberUuid);
                 }
             }
         }

@@ -1,0 +1,54 @@
+{
+  "names": [
+    {
+      "conceptNameType": "INDEX_TERM",
+      "conceptName": "diastol",
+      "locale": "en"
+    },
+    {
+      "conceptNameType": "SHORT",
+      "conceptName": "diastolic",
+      "locale": "en"
+    },
+    {
+      "conceptNameType": "FULLY_SPECIFIED",
+      "conceptName": "Diastolic",
+      "locale": "en"
+    },
+    {
+      "conceptNameType": null,
+      "conceptName": "diasto",
+      "locale": "en"
+    }
+  ],
+  "conceptClass": "Diagnosis",
+  "fullySpecifiedName": {
+    "conceptNameType": "FULLY_SPECIFIED",
+    "conceptName": "Diastolic",
+    "locale": "en"
+  },
+  "uuid": "222c8246-202c-4376-bfa8-3278d1042222",
+  "uri": "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/concepts/222c8246-202c-4376-bfa8-3278d1042222",
+  "datatypeName": "Numeric",
+  "retired": false,
+  "retireReason": null,
+  "referenceTerms": [],
+  "version": "1.1",
+  "description": {
+    "locale": "en",
+    "description": "Diastolic Blood Pressure"
+  },
+  "setMembers" : [],
+  "set": false,
+  "properties": {
+    "ABSOLUTE_HIGH" : "150.0",
+    "CRITICAL_HIGH" : "130.0",
+    "NORMAL_HIGH" : "125.0",
+    "NORMAL_LOW" : "100.0",
+    "CRITICAL_LOW" : "95.0",
+    "ABSOLUTE_LOW" : "90.0",
+    "NUMERIC_UNITS": "test",
+    "NUMERIC_PRECISE": true
+  },
+  "conceptAnswers": []
+}

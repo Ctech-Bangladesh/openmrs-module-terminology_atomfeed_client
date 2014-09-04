@@ -1,0 +1,54 @@
+{
+  "names": [
+    {
+      "conceptNameType": "INDEX_TERM",
+      "conceptName": "systol",
+      "locale": "en"
+    },
+    {
+      "conceptNameType": "SHORT",
+      "conceptName": "systolic",
+      "locale": "en"
+    },
+    {
+      "conceptNameType": "FULLY_SPECIFIED",
+      "conceptName": "Systolic",
+      "locale": "en"
+    },
+    {
+      "conceptNameType": null,
+      "conceptName": "systo",
+      "locale": "en"
+    }
+  ],
+  "conceptClass": "Diagnosis",
+  "fullySpecifiedName": {
+    "conceptNameType": "FULLY_SPECIFIED",
+    "conceptName": "Systolic",
+    "locale": "en"
+  },
+  "uuid": "321c8246-202c-4376-bfa8-3278d1041101",
+  "uri": "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/concepts/321c8246-202c-4376-bfa8-3278d1041101",
+  "datatypeName": "Numeric",
+  "retired": false,
+  "retireReason": null,
+  "referenceTerms": [],
+  "version": "1.1",
+  "description": {
+    "locale": "en",
+    "description": "Systolic Blood Pressure"
+  },
+  "setMembers" : [],
+  "set": false,
+  "properties": {
+    "ABSOLUTE_HIGH" : "90.0",
+    "CRITICAL_HIGH" : "85.0",
+    "NORMAL_HIGH" : "85.0",
+    "NORMAL_LOW" : "65.0",
+    "CRITICAL_LOW" : "60.0",
+    "ABSOLUTE_LOW" : "50.0",
+    "NUMERIC_UNITS": "test",
+    "NUMERIC_PRECISE": true
+  },
+  "conceptAnswers": []
+}

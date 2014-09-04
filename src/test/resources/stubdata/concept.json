@@ -28,7 +28,7 @@
         "locale": "en"
     },
     "uuid": "216c8246-202c-4376-bfa8-3278d1049630",
-    "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/concept/216c8246-202c-4376-bfa8-3278d1049630",
+    "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/tr/concepts/216c8246-202c-4376-bfa8-3278d1049630",
     "datatypeName": "Text",
     "retired": false,
     "referenceTerms": [
@@ -45,7 +45,7 @@
             "mapType": "SAME-AS",
             "version": "1.0",
             "description": "ICD100description",
-            "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/conceptreferenceterm/565496c2-bdfe-4cce-87d4-92091ab1f67a",
+            "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/tr/referenceterms/565496c2-bdfe-4cce-87d4-92091ab1f67a",
             "name": "ICD101"
         }
     ],

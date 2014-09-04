@@ -20,13 +20,13 @@ public class ConceptFeedWorker implements EventWorker {
 
     private ConceptRequestMapper conceptRequestMapper;
     private TRFeedProperties properties;
-    private ConceptSyncService ConceptSyncService;
+    private ConceptSyncService conceptSyncService;
     private AuthenticatedHttpClient httpClient;
 
     public ConceptFeedWorker(AuthenticatedHttpClient httpClient, TRFeedProperties properties, ConceptSyncService ConceptSyncService, ConceptRequestMapper conceptRequestMapper) {
         this.httpClient = httpClient;
         this.properties = properties;
-        this.ConceptSyncService = ConceptSyncService;
+        this.conceptSyncService = ConceptSyncService;
         this.conceptRequestMapper = conceptRequestMapper;
     }
 
@@ -34,7 +34,7 @@ public class ConceptFeedWorker implements EventWorker {
     public void process(final Event event) {
         logger.info(format("Received concept sync event for %s with conent %s ", event.getFeedUri(), event.getContent()));
         Map conceptMap = httpClient.get(properties.getTerminologyUrl(event.getContent()), HashMap.class);
-        ConceptSyncService.sync(conceptRequestMapper.map(conceptMap));
+        conceptSyncService.sync(conceptRequestMapper.map(conceptMap));
     }
 
     @Override
