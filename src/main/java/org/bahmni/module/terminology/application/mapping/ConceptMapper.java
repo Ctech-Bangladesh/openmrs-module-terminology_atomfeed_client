@@ -91,7 +91,15 @@ public class ConceptMapper {
     }
 
     private void mapConceptClass(Concept concept, ConceptRequest conceptRequest) {
-        concept.setConceptClass(conceptService.getConceptClassByName(conceptRequest.getConceptClass()));
+        String conceptClassName = conceptRequest.getConceptClass();
+        ConceptClass conceptClass = conceptService.getConceptClassByName(conceptClassName);
+        if (conceptClass == null) {
+            conceptClass = new ConceptClass();
+            conceptClass.setName(conceptClassName);
+            conceptClass.setDescription(String.format("%s - synced from registry", conceptClassName));
+            conceptService.saveConceptClass(conceptClass);
+        }
+        concept.setConceptClass(conceptClass);
     }
 
     private void mapConceptDatatype(Concept concept, ConceptRequest request) {

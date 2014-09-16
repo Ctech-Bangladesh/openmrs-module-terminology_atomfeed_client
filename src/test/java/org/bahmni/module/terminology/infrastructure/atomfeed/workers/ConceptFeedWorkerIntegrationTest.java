@@ -98,6 +98,29 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
         //assertReferenceTerms(concept.getConceptMappings(), bloodPressureConcept.getConceptMappings());
     }
 
+
+    @Test
+    public void shouldSyncConceptsWithNonExistentClass() {
+        String externalId = "216c8246-202c-4376-bfa8-3278d1049631";
+        String concept_event_url = "/openmrs/ws/rest/v1/tr/concepts/" + externalId;
+
+        givenThat(get(urlEqualTo(concept_event_url))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(asString("stubdata/concept_with_new_class.json"))));
+        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, trFeedProperties, ConceptSyncService, conceptMapper);
+        worker.process(new Event("eventId", concept_event_url, "title", "feedUri"));
+        Concept concept = Context.getConceptService().getConceptByName("tbtest");
+        assertThat(concept, is(notNullValue()));
+        assertThat(concept.getName().getName(), is("tbtest"));
+        assertThat(concept.getDatatype().getName(), is("Text"));
+        assertThat(concept.getConceptClass().getName(), is("TestClass"));
+        assertIdMapping(concept.getUuid(), externalId, CONCEPT,
+                "http://172.18.46.53:9080" + concept_event_url);
+        assertFullySpecifiedName(concept.getFullySpecifiedName(ENGLISH), "tbtest");
+    }
+
     @Test
     public void shouldSyncConceptSet() {
         createAndAssertSystolicConcept();

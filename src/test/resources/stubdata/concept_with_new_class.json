@@ -1,0 +1,58 @@
+{
+    "names": [
+        {
+            "conceptNameType": "INDEX_TERM",
+            "conceptName": "search",
+            "locale": "en"
+        },
+        {
+            "conceptNameType": "SHORT",
+            "conceptName": "test",
+            "locale": "en"
+        },
+        {
+            "conceptNameType": "FULLY_SPECIFIED",
+            "conceptName": "tbtest",
+            "locale": "en"
+        },
+        {
+            "conceptNameType": null,
+            "conceptName": "syn",
+            "locale": "en"
+        }
+    ],
+    "conceptClass": "TestClass",
+    "fullySpecifiedName": {
+        "conceptNameType": "FULLY_SPECIFIED",
+        "conceptName": "tbtest",
+        "locale": "en"
+    },
+    "uuid": "216c8246-202c-4376-bfa8-3278d1049631",
+    "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/tr/concepts/216c8246-202c-4376-bfa8-3278d1049631",
+    "datatypeName": "Text",
+    "retired": false,
+    "referenceTerms": [
+        {
+            "code": "ICD101",
+            "retired": false,
+            "uuid": "565496c2-bdfe-4cce-87d4-92091ab1f67a",
+            "conceptSource": {
+                "uuid": "ab587e35-dc14-494e-ac38-d79145670b3b",
+                "hl7Code": "ICD10",
+                "description": "ICD10",
+                "name": "ICD10"
+            },
+            "mapType": "SAME-AS",
+            "version": "1.0",
+            "description": "ICD100description",
+            "uri": "http://172.18.46.53:9080/openmrs/ws/rest/v1/tr/referenceterms/565496c2-bdfe-4cce-87d4-92091ab1f67a",
+            "name": "ICD101"
+        }
+    ],
+    "version": "1.1.1",
+    "description": {
+        "locale": "en",
+        "description": "description123"
+    },
+    "set": false
+}
