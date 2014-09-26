@@ -157,4 +157,37 @@ public class IdMappingsRepository {
             }
         });
     }
+
+    public IdMapping findByInternalId(final String uuid) {
+        return executeInTransaction(new TxWork<IdMapping>() {
+            @Override
+            public IdMapping execute(Connection connection) {
+                String query = "select distinct map.external_id, map.type, map.uri from shr_id_mapping map where map.internal_id=?";
+                PreparedStatement statement = null;
+                ResultSet resultSet = null;
+                IdMapping result = null;
+                try {
+                    statement = connection.prepareStatement(query);
+                    statement.setString(1, uuid);
+                    resultSet = statement.executeQuery();
+                    while (resultSet.next()) {
+                        if (StringUtils.isNotBlank(resultSet.getString(1))) {
+                            result = new IdMapping(uuid, resultSet.getString(1), resultSet.getString(2), resultSet.getString(3));
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException("Error occurred while querying id mapping", e);
+                } finally {
+                    try {
+                        if (resultSet != null) resultSet.close();
+                        if (statement != null) statement.close();
+                    } catch (SQLException e) {
+                        logger.warn("Could not close db statement or result set", e);
+                    }
+                }
+                return result;
+            }
+        });
+    }
 }

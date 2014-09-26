@@ -3,7 +3,9 @@ package org.bahmni.module.terminology.infrastructure.mapper;
 import org.apache.commons.lang.StringUtils;
 import org.bahmni.module.terminology.application.model.ConceptMappings;
 import org.bahmni.module.terminology.application.model.ConceptNames;
+import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
 import org.openmrs.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 
 @Component
 public class ConceptUpdate {
+    @Autowired
+    private IdMappingsRepository idMappingsRepository;
 
     public Concept merge(Concept newConcept, Concept existingConcept) {
         existingConcept.setRetired(newConcept.isRetired());
@@ -77,19 +81,26 @@ public class ConceptUpdate {
     }
 
     private void mergeConceptSets(Concept existingConcept, Concept newConcept) {
-        if (isNotEmpty(newConcept.getSetMembers())) {
-            for (Concept concept : newConcept.getSetMembers()) {
-                Concept setMember = findSetMember(existingConcept, concept);
-                if (null == setMember) {
-                    existingConcept.addSetMember(concept);
-                }
-            }
-        } else if (isNotEmpty(existingConcept.getSetMembers())) {
-            for (Concept concept : existingConcept.getSetMembers()) {
+        removeSetMembers(existingConcept, newConcept);
+        addNewSetMembers(existingConcept, newConcept);
+    }
+
+    private void removeSetMembers(Concept existingConcept, Concept newConcept) {
+        for (Concept concept : existingConcept.getSetMembers()) {
+            if (idMappingsRepository.findByInternalId(concept.getUuid()) != null) {
                 Concept setMember = findSetMember(newConcept, concept);
                 if (null == setMember) {
                     removeConceptSet(existingConcept.getConceptSets(), concept);
                 }
+            }
+        }
+    }
+
+    private void addNewSetMembers(Concept existingConcept, Concept newConcept) {
+        for (Concept concept : newConcept.getSetMembers()) {
+            Concept setMember = findSetMember(existingConcept, concept);
+            if (null == setMember) {
+                existingConcept.addSetMember(concept);
             }
         }
     }
@@ -102,11 +113,11 @@ public class ConceptUpdate {
         }
     }
 
-    private Concept findSetMember(Concept existingConcept, Concept concept) {
-        if (null == existingConcept.getSetMembers()) {
+    private Concept findSetMember(Concept parentConcept, Concept concept) {
+        if (null == parentConcept.getSetMembers()) {
             return null;
         }
-        for (Concept member : existingConcept.getSetMembers()) {
+        for (Concept member : parentConcept.getSetMembers()) {
             if (member.getUuid().equals(concept.getUuid())) {
                 return member;
             }

@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <concept concept_id="401" retired="false" datatype_id="4" class_id="11" is_set="true" creator="1"
+             date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0"
+             uuid="juydg80f-1yz9-4da3-bl88-81lectrabcd"/>
+    <concept_name concept_id="401" concept_name_id="401" name="ExistingParentConceptWithSetMembers" locale="en"
+                  creator="1" date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED"
+                  locale_preferred="1"
+                  voided="false" uuid="lkiayl0e-1kzd-fda3-2b88-8122ceg8687h"/>
+    <shr_id_mapping id="1" internal_id="juydg80f-1yz9-4da3-bl88-81lectrabcd"
+                    external_id="5018b827-a67c-421f-a705-e5efe0e6a972" type="concept_reference_term"
+                    uri="http://172.18.46.53:9080/openmrs/ws/rest/v1/tr/referenceterms/5018b827-a67c-421f-a705-e5efe0e6a972"></shr_id_mapping>
+
+    <concept concept_id="402" retired="false" datatype_id="4" class_id="11" is_set="true" creator="1"
+             date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0"
+             uuid="bbbbg80f-1yz9-4da3-aaaa-81lectrabcd"/>
+    <concept_name concept_id="402" concept_name_id="402" name="ExistingParentConceptWithoutSetMembers" locale="en"
+                  creator="1" date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED"
+                  locale_preferred="1"
+                  voided="false" uuid="bbbbyl0e-1kzd-aaaa-2b88-8122ceg8687h"/>
+    <shr_id_mapping id="2" internal_id="bbbbg80f-1yz9-4da3-aaaa-81lectrabcd"
+                    external_id="5018b827-a67c-421f-a705-e5efe0e6a992" type="concept_reference_term"
+                    uri="http://172.18.46.53:9080/openmrs/ws/rest/v1/tr/referenceterms/5018b827-a67c-421f-a705-e5efe0e6a992"></shr_id_mapping>
+
+    <concept concept_id="502" retired="false" datatype_id="2" class_id="11" is_set="false" creator="1"
+             date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0"
+             uuid="74a4c3d3-edd0-4l7d-8ed3-3895e4b61f5b"/>
+    <concept_name concept_id="502" concept_name_id="1502" name="Child Concept 1" locale="en" creator="1"
+                  date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1"
+                  voided="false" uuid="04a4l3d3-e6d0-40dd-8ed3-3895edb61f5b"/>
+    <concept_set concept_set_id="2" concept_id="502" concept_set="401" creator="1" date_created="2004-08-12 00:00:00.0"
+                 sort_weight="1"></concept_set>
+    <shr_id_mapping id="3" internal_id="74a4c3d3-edd0-4l7d-8ed3-3895e4b61f5b"
+                    external_id="5018b827-a67c-421f-a705-e5efe9e6a972" type="concept_reference_term"
+                    uri="http://172.18.46.53:9080/openmrs/ws/rest/v1/tr/referenceterms/5018b827-a67c-421f-a705-e5efe9e6a972"></shr_id_mapping>
+
+    <concept concept_id="503" retired="false" datatype_id="2" class_id="11" is_set="false" creator="1"
+             date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0"
+             uuid="d102c80f-1yz9-4da3-bb88-81hdce8868hf"/>
+    <concept_name concept_id="503" concept_name_id="503" name="Child Concept 2" locale="en" creator="1"
+                  date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1"
+                  voided="false" uuid="dh02cd0h-1yz9-4dh3-bbd8-8122ce8868df"/>
+    <concept_set concept_set_id="503" concept_id="503" concept_set="401" creator="1"
+                 date_created="2004-08-12 00:00:00.0" sort_weight="1"></concept_set>
+    <shr_id_mapping id="4" internal_id="d102c80f-1yz9-4da3-bb88-81hdce8868hf"
+                    external_id="5018b827-a67c-421f-a705-e5efe0e6a977" type="concept_reference_term"
+                    uri="http://172.18.46.53:9080/openmrs/ws/rest/v1/tr/referenceterms/5018b827-a67c-421f-a705-e5efe0e6a977"></shr_id_mapping>
+
+    <concept concept_id="504" retired="false" datatype_id="2" class_id="11" is_set="false" creator="1"
+             date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0"
+             uuid="d102c80f-1yz9-4da3-bb88-aaaace8868hf"/>
+    <concept_name concept_id="504" concept_name_id="504" name="Child Concept 3" locale="en" creator="1"
+                  date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1"
+                  voided="false" uuid="daaaad0h-1yz9-4dh3-bbd8-8122ce8868df"/>
+    <concept_set concept_set_id="504" concept_id="504" concept_set="401" creator="1"
+                 date_created="2004-08-12 00:00:00.0" sort_weight="1"></concept_set>
+    <shr_id_mapping id="5" internal_id="d102c80f-1yz9-4da3-bb88-aaaace8868hf"
+                    external_id="5018b827-a67c-zzzz-a705-e5efe0e6a972" type="concept_reference_term"
+                    uri="http://172.18.46.53:9080/openmrs/ws/rest/v1/tr/referenceterms/5018b827-a67c-zzzz-a705-e5efe0e6a972"></shr_id_mapping>
+
+    <concept concept_id="505" retired="false" datatype_id="4" class_id="11" is_set="true" creator="1"
+             date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0"
+             uuid="bbbbg80f-1yz9-4da3-bl88-81lectrabcd"/>
+    <concept_name concept_id="505" concept_name_id="505" name="Child Concept 4" locale="en"
+                  creator="1" date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED"
+                  locale_preferred="1"
+                  voided="false" uuid="bbbbyl0e-1kzd-8888-2b88-8122ceg8687h"/>
+    <shr_id_mapping id="6" internal_id="bbbbg80f-1yz9-4da3-bl88-81lectrabcd"
+                    external_id="5018b827-a67c-421f-nznz-e5efe0e6a972" type="concept_reference_term"
+                    uri="http://172.18.46.53:9080/openmrs/ws/rest/v1/tr/referenceterms/5018b827-a67c-421f-nznz-e5efe0e6a972"></shr_id_mapping>
+
+    <!--new concept with no set members-->
+    <concept concept_id="600" retired="false" datatype_id="4" class_id="11" is_set="true" creator="1"
+             date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0"
+             uuid="juydg80f-1yz9-4da3-bl88-81lectaaaaa"/>
+    <concept_name concept_id="600" concept_name_id="600" name="Updated Parent Concept" locale="en" creator="1"
+                  date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1"
+                  voided="false" uuid="bbbbal0e-1kzd-fda3-2b88-8122cegaaaaa"/>
+    <!--new concept with no set members-->
+
+    <!--new concept with some set members-->
+    <concept concept_id="601" retired="false" datatype_id="4" class_id="11" is_set="true" creator="1"
+             date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0"
+             uuid="juydg80f-1yz9-4da3-aaaa-81lectaaaaa"/>
+    <concept_name concept_id="601" concept_name_id="601" name="Updated Parent Concept 2" locale="en" creator="1"
+                  date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1"
+                  voided="false" uuid="lkiaal0e-aaaa-fda3-2b88-8122cegaaaaa"/>
+
+    <concept_set concept_set_id="601" concept_id="503" concept_set="601" creator="1"
+                 date_created="2004-08-12 00:00:00.0" sort_weight="1"></concept_set>
+    <concept_set concept_set_id="602" concept_id="505" concept_set="601" creator="1"
+                 date_created="2004-08-12 00:00:00.0" sort_weight="1"></concept_set>
+    <!--new concept with some set members-->
+
+    <!--should not remove local set members-->
+    <concept concept_id="602" retired="false" datatype_id="4" class_id="11" is_set="true" creator="1"
+             date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0"
+             uuid="juydg80f-lala-4da3-aaaa-81lectaaaaa"/>
+    <concept_name concept_id="602" concept_name_id="602" name="Updated Parent Concept 3" locale="en" creator="1"
+                  date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1"
+                  voided="false" uuid="lkiaal0e-lala-fda3-2b88-8122cegaaaaa"/>
+
+    <concept concept_id="506" retired="false" datatype_id="4" class_id="11" is_set="true" creator="1"
+             date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0"
+             uuid="bbbbg80f-1yz9-4da3-lala-81lectrabcd"/>
+    <concept_name concept_id="506" concept_name_id="506" name="Local Child Concept" locale="en"
+                  creator="1" date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED"
+                  locale_preferred="1"
+                  voided="false" uuid="bbbbyl0e-1kzd-lala-2b88-8122ceg8687h"/>
+
+    <concept_set concept_set_id="603" concept_id="503" concept_set="602" creator="1"
+                 date_created="2004-08-12 00:00:00.0" sort_weight="1"></concept_set>
+    <concept_set concept_set_id="604" concept_id="505" concept_set="602" creator="1"
+                 date_created="2004-08-12 00:00:00.0" sort_weight="1"></concept_set>
+    <concept_set concept_set_id="605" concept_id="506" concept_set="602" creator="1"
+                 date_created="2004-08-12 00:00:00.0" sort_weight="1"></concept_set>
+    <!--should not remove local set members-->
+
+</dataset>
