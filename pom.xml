@@ -23,19 +23,20 @@
     </organization>
 
     <properties>
-        <openmrs.version>1.10.0</openmrs.version>
-        <openmrs.module.ws.rest.version>2.6</openmrs.module.ws.rest.version>
-        <ict4h.atomfeed.version>1.2</ict4h.atomfeed.version>
-        <ict4h.openmrs.atomfeed.version>2.0</ict4h.openmrs.atomfeed.version>
-        <jackson.version>1.9.13</jackson.version>
+        <openMRSVersion>1.10.0-SNAPSHOT</openMRSVersion>
+        <openMRSRuntimeVersion>1.10.0</openMRSRuntimeVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <webservicesRestModuleVersion>2.6-SNAPSHOT</webservicesRestModuleVersion>
+        <openmrsAtomfeedVersion>2.0-SNAPSHOT</openmrsAtomfeedVersion>
+        <atomfeed.version>1.0-SNAPSHOT</atomfeed.version>
+        <jackson.version>1.9.13</jackson.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.openmrs.api</groupId>
             <artifactId>openmrs-api</artifactId>
-            <version>${openmrs.version}</version>
+            <version>${openMRSVersion}</version>
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
@@ -43,15 +44,15 @@
         <dependency>
             <groupId>org.openmrs.web</groupId>
             <artifactId>openmrs-web</artifactId>
-            <version>${openmrs.version}</version>
+            <version>${openMRSVersion}</version>
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.openmrs.module</groupId>
-            <artifactId>webservices.rest-omod</artifactId>
-            <version>${openmrs.module.ws.rest.version}</version>
+            <artifactId>webservices.rest-omod-1.10</artifactId>
+            <version>2.6-SNAPSHOT</version>
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
@@ -59,7 +60,7 @@
         <dependency>
             <groupId>org.openmrs.test</groupId>
             <artifactId>openmrs-test</artifactId>
-            <version>${openmrs.version}</version>
+            <version>${openMRSVersion}</version>
             <type>pom</type>
             <scope>test</scope>
         </dependency>
@@ -67,7 +68,7 @@
         <dependency>
             <groupId>org.openmrs.api</groupId>
             <artifactId>openmrs-api</artifactId>
-            <version>${openmrs.version}</version>
+            <version>${openMRSVersion}</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
@@ -75,7 +76,7 @@
         <dependency>
             <groupId>org.openmrs.web</groupId>
             <artifactId>openmrs-web</artifactId>
-            <version>${openmrs.version}</version>
+            <version>${openMRSVersion}</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
@@ -83,7 +84,7 @@
         <dependency>
             <groupId>org.openmrs.test</groupId>
             <artifactId>openmrs-test</artifactId>
-            <version>${openmrs.version}</version>
+            <version>${openMRSVersion}</version>
             <type>pom</type>
             <scope>test</scope>
         </dependency>
@@ -91,21 +92,21 @@
         <dependency>
             <groupId>org.ict4h</groupId>
             <artifactId>atomfeed-commons</artifactId>
-            <version>${ict4h.atomfeed.version}</version>
+            <version>${atomfeed.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.ict4h.openmrs</groupId>
             <artifactId>openmrs-atomfeed-common</artifactId>
-            <version>${ict4h.openmrs.atomfeed.version}</version>
+            <version>${atomfeed.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.ict4h</groupId>
             <artifactId>atomfeed-client</artifactId>
-            <version>${ict4h.atomfeed.version}</version>
+            <version>${atomfeed.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>rome</groupId>
