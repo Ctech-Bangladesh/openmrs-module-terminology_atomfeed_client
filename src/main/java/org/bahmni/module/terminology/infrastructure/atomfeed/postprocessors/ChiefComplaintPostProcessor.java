@@ -1,6 +1,5 @@
 package org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors;
 
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.openmrs.Concept;
@@ -23,27 +22,26 @@ public class ChiefComplaintPostProcessor implements ConceptPostProcessor {
     @Qualifier("adminService")
     protected AdministrationService administrationService;
 
-    public static final String CHIEF_COMPLAINT_CONCEPT_NAME = "Chief Complaint";
+    public static final String CHIEF_COMPLAINT_ANSWERS_CONCEPT_NAME = "Chief Complaint Answers";
 
     private final Logger logger = Logger.getLogger(ChiefComplaintPostProcessor.class);
 
     @Override
     public void process(Concept concept) {
-        Concept chiefComplaintConcept = conceptService.getConceptByName(CHIEF_COMPLAINT_CONCEPT_NAME);
-        if (chiefComplaintConcept == null) {
-            logger.info("Configuration required: Could not find concept - Chief Complaint");
+        Concept chiefComplaintAnswersConcept = conceptService.getConceptByName(CHIEF_COMPLAINT_ANSWERS_CONCEPT_NAME);
+        if (chiefComplaintAnswersConcept == null) {
+            logger.info("Configuration required: Could not find concept - Chief Complaint Answer");
             return;
         }
 
-        if (!isPresentAsMember(chiefComplaintConcept, concept)) {
+        if (!isPresentAsMember(chiefComplaintAnswersConcept, concept)) {
             ConceptAnswer answer = new ConceptAnswer();
             answer.setAnswerConcept(concept);
-            chiefComplaintConcept.addAnswer(answer);
-            conceptService.saveConcept(chiefComplaintConcept);
+            chiefComplaintAnswersConcept.addAnswer(answer);
+            conceptService.saveConcept(chiefComplaintAnswersConcept);
         } else {
-            logger.info("Concept is already a member of existing " + CHIEF_COMPLAINT_CONCEPT_NAME);
+            logger.info("Concept is already a member of existing " + CHIEF_COMPLAINT_ANSWERS_CONCEPT_NAME);
         }
-
     }
 
     private boolean isPresentAsMember(Concept parentConcept, Concept concept) {
