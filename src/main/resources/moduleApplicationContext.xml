@@ -34,4 +34,13 @@
         </property>
     </bean>
 
+    <bean parent="serviceContext">
+        <property name="moduleService">
+            <list>
+                <value>org.bahmni.module.terminology.infrastructure.atomfeed.MedicationFeedClient</value>
+                <ref bean="medicationFeedClient"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>

@@ -21,7 +21,8 @@ public class TRFeedProperties extends AtomFeedProperties {
     @Resource(name = "terminologyFeedProperties")
     private Properties defaultProperties;
 
-    public static final String TERMINOLOGY_FEED_URI = "terminology.feed.url";
+    public static final String TERMINOLOGY_FEED_URI = "concept.feed.url";
+    public static final String MEDICATION_FEED_URI = "medication.feed.url";
 
     public static final java.lang.String REFERENCE_FEED_URI = "reference.term.feed.url";
     public static final String CONNECT_TIMEOUT = "feed.connectionTimeoutInMilliseconds";
@@ -81,5 +82,9 @@ public class TRFeedProperties extends AtomFeedProperties {
 
     public String getReferenceTermUrl(String content) {
         return join(subarray(getReferenceTermFeedUrl().split("/"), 0, 3), "/") + ((null == content) ? "" : content);
+    }
+
+    public String medicationFeedUri() {
+        return atomFeedProperties.getProperty(MEDICATION_FEED_URI);
     }
 }

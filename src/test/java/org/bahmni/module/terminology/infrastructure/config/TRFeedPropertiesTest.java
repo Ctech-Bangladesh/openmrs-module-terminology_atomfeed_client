@@ -30,6 +30,11 @@ public class TRFeedPropertiesTest extends BaseModuleWebContextSensitiveTest {
     }
 
     @Test
+    public void shouldIdentifyMedicationFeedUrl() {
+        assertThat(feedProperties.medicationFeedUri(), is("http://localhost:9997/openmrs/ws/atomfeed/medication/recent"));
+    }
+
+    @Test
     public void shouldBuildTheDiagnosisResourceUrl() {
         assertThat(feedProperties.getTerminologyUrl("/diagnosis_id"), is("http://localhost:9997/diagnosis_id"));
     }

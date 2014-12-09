@@ -23,7 +23,7 @@
     </organization>
 
     <properties>
-        <openMRSVersion>1.10.1-SNAPSHOT</openMRSVersion>
+        <openMRSVersion>1.10.1</openMRSVersion>
         <openMRSRuntimeVersion>1.10.0</openMRSRuntimeVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <webservicesRestModuleVersion>2.6</webservicesRestModuleVersion>
