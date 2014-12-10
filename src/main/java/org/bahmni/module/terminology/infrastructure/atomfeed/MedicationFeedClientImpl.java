@@ -3,11 +3,14 @@ package org.bahmni.module.terminology.infrastructure.atomfeed;
 
 import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.application.service.ConceptSyncService;
+import org.bahmni.module.terminology.infrastructure.atomfeed.workers.MedicationFeedWorker;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
 import org.bahmni.module.terminology.infrastructure.mapper.ConceptRequestMapper;
+import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
 import org.ict4h.atomfeed.client.domain.Event;
 import org.ict4h.atomfeed.client.service.EventWorker;
+import org.openmrs.api.ConceptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,14 +22,20 @@ public class MedicationFeedClientImpl implements MedicationFeedClient {
     private final FeedProcessor feedProcessor;
     private final AuthenticatedHttpClient httpClient;
     private final TRFeedProperties properties;
+    private ConceptService conceptService;
+    private IdMappingsRepository idMapper;
 
     @Autowired
     public MedicationFeedClientImpl(FeedProcessor feedProcessor,
                                  AuthenticatedHttpClient httpClient,
-                                 TRFeedProperties properties) {
+                                 TRFeedProperties properties,
+                                 ConceptService conceptService,
+                                 IdMappingsRepository idMapper) {
         this.feedProcessor = feedProcessor;
         this.httpClient = httpClient;
         this.properties = properties;
+        this.conceptService = conceptService;
+        this.idMapper = idMapper;
     }
 
 
@@ -41,18 +50,6 @@ public class MedicationFeedClientImpl implements MedicationFeedClient {
     }
 
     private EventWorker medicationEventWorker() {
-        return new EventWorker() {
-            @Override
-            public void process(Event event) {
-                System.out.println("**********************************");
-                System.out.println("Processing event ... " + event.getContent());
-                System.out.println("**********************************");
-            }
-
-            @Override
-            public void cleanUp(Event event) {
-
-            }
-        };
+        return new MedicationFeedWorker(properties, httpClient, conceptService, idMapper);
     }
 }

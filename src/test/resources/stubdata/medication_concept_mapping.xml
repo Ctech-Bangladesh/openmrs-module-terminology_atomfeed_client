@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+
+    <concept_class concept_class_id="16" name="Drug" description="FHIR Drug representation" creator="1" date_created="2010-10-10 00:00:00.0" retired="0" uuid="991e85aa-7927-11e4-8bd8-08002773bf1c" />
+
+    <concept concept_id="301" retired="false" datatype_id="4" class_id="16" is_set="false" creator="1" date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="baef67ac-b24e-4b04-ac83-c3b994132b85"/>
+    <concept_name concept_id="301" concept_name_id="3011" name="Paracetamol" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1" voided="false" uuid="baef67ac-b24e-4b04-ac83-c3b994132b85"/>
+
+    <shr_id_mapping id="100" internal_id="baef67ac-b24e-4b04-ac83-c3b994132b85" external_id="99110684-c97a-4a3b-9dad-5e5bf146867a" type="Concept"/>
+
+    <concept concept_id="302" retired="false" datatype_id="4" class_id="16" is_set="false" creator="1" date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="1e2s67ac-b24e-4b04-ac83-c3b994132b85"/>
+    <concept_name concept_id="302" concept_name_id="3012" name="Tablet" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1" voided="false" uuid="baef67ac-f3e2-4b04-ac83-c3b994132b85"/>
+
+    <shr_id_mapping id="101" internal_id="1e2s67ac-b24e-4b04-ac83-c3b994132b85" external_id="88ba07cd-fc87-4d5a-9027-ea9652d68c11" type="Concept"/>
+</dataset>

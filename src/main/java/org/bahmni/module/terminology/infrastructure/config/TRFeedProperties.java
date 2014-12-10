@@ -87,4 +87,8 @@ public class TRFeedProperties extends AtomFeedProperties {
     public String medicationFeedUri() {
         return atomFeedProperties.getProperty(MEDICATION_FEED_URI);
     }
+
+    public String getMedicationUrl(String content) {
+        return join(subarray(medicationFeedUri().split("/"), 0, 3), "/") + ((null == content) ? "" : content);
+    }
 }

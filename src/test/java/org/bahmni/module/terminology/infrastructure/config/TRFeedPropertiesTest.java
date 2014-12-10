@@ -39,4 +39,9 @@ public class TRFeedPropertiesTest extends BaseModuleWebContextSensitiveTest {
         assertThat(feedProperties.getTerminologyUrl("/diagnosis_id"), is("http://localhost:9997/diagnosis_id"));
     }
 
+    @Test
+    public void shouldBuildTheMedicationResourceUrl() {
+        assertThat(feedProperties.getTerminologyUrl("/openmrs/ws/rest/v1/tr/drugs/9e240cbc-f133-4d09-9b17-3d0fba236718"), is("http://localhost:9997/openmrs/ws/rest/v1/tr/drugs/9e240cbc-f133-4d09-9b17-3d0fba236718"));
+    }
+
 }
