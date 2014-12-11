@@ -1,0 +1,35 @@
+{
+  "resourceType": "Medication",
+  "name": "Benedryl",
+  "code": {
+    "coding": [
+      {
+        "display": "diphenhydramine",
+        "system": "http://192.168.33.17:9080/openmrs/ws/rest/v1/tr/referenceterms/4ded251d-5dc7-4919-a6cb-29a6ca71ae72",
+        "code": "R06AA02"
+      },
+      {
+        "display": "diphenhydramine",
+        "system": "http://192.168.33.17:9080/openmrs/ws/rest/v1/tr/concepts/ddea03a4-c986-4bcd-b5d7-212b9fc52581",
+        "code": "ddea03a4-c986-4bcd-b5d7-212b9fc52581"
+      }
+    ]
+  },
+  "product": {
+    "form": {
+      "coding": [
+        {
+          "display": "Liquid",
+          "system": "http://192.168.33.17:9080/openmrs/ws/rest/v1/tr/concepts/e26f23c8-ec9f-42ae-b3de-11f7c54510c7",
+          "code": "e26f23c8-ec9f-42ae-b3de-11f7c54510c7"
+        }
+      ]
+    }
+  },
+  "extension": [
+    {
+      "url": "http://192.168.33.17:9080/openmrs/ws/rest/v1/tr/medication#med-extension-strength",
+      "valueString": "20.0"
+    }
+  ]
+}

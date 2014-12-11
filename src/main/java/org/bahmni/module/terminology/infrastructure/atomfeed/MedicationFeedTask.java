@@ -11,9 +11,6 @@ public class MedicationFeedTask extends AbstractTask {
     @Override
     public void execute() {
         MedicationFeedClient medicationFeedClient = Context.getService(MedicationFeedClient.class);
-        System.out.println("**************************************");
-        System.out.println("Executing Sync For Medication");
-        System.out.println("**************************************");
         try {
             medicationFeedClient.sync();
         } catch (Exception e) {

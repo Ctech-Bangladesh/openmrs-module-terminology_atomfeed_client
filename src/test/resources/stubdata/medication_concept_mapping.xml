@@ -12,4 +12,12 @@
     <concept_name concept_id="302" concept_name_id="3012" name="Tablet" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1" voided="false" uuid="baef67ac-f3e2-4b04-ac83-c3b994132b85"/>
 
     <shr_id_mapping id="101" internal_id="1e2s67ac-b24e-4b04-ac83-c3b994132b85" external_id="88ba07cd-fc87-4d5a-9027-ea9652d68c11" type="Concept"/>
+
+    <concept concept_id="303" retired="false" datatype_id="4" class_id="16" is_set="false" creator="1" date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="baef67ac-1w3r-4b04-ac83-c3b994132b85"/>
+    <concept_name concept_id="303" concept_name_id="3013" name="diphenhydramine" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1" voided="false" uuid="baef67ac-g65r-4b04-ac83-c3b994132b85"/>
+
+    <shr_id_mapping id="103" internal_id="baef67ac-1w3r-4b04-ac83-c3b994132b85" external_id="ddea03a4-c986-4bcd-b5d7-212b9fc52581" type="Concept"/>
+
+    <drug drug_id="1000" concept_id="303" name="A drug" combination="0" strength="10mg" creator="1" date_created="2010-10-10 00:00:00.0" retired="0" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="04558a65-0e18-4fc4-bb8d-4f9a89fbec5c"/>
+    <shr_id_mapping id="104" internal_id="04558a65-0e18-4fc4-bb8d-4f9a89fbec5c" external_id="ada47e63-5988-4f51-8282-e22fb66a7332" type="Medication"/>
 </dataset>
