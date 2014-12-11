@@ -55,7 +55,8 @@ public class MedicationFeedWorker implements EventWorker {
         drug.setName(medication.getName());
         drug.setConcept(drugConcept);
         drug.setDosageForm(drugForm);
-        drug.setStrength(getDrugStrength(medication));
+        drug.setStrength(getExtensionValue(medication, "#strength"));
+        drug.setRetired(getDrugRetiredStatus(medication));
 
         Drug savedDrug = conceptService.saveDrug(drug);
         if (idMap == null) {
@@ -64,9 +65,14 @@ public class MedicationFeedWorker implements EventWorker {
         }
     }
 
-    private String getDrugStrength(Medication medication) {
+    private Boolean getDrugRetiredStatus(Medication medication) {
+        String retired = getExtensionValue(medication, "#retired");
+        return StringUtils.isNotBlank(retired) ? Boolean.valueOf(retired) : false;
+    }
+
+    private String getExtensionValue(Medication medication, String suffix) {
         for (ResourceExtension resourceExtension : medication.getExtension()) {
-            if(resourceExtension.getUrl().contains("med-extension-strength"))
+            if (resourceExtension.getUrl().endsWith(suffix))
                 return resourceExtension.getValueString();
         }
         return null;

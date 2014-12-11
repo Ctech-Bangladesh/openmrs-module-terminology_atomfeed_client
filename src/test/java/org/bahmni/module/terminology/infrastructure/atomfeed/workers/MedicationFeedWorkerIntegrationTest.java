@@ -53,6 +53,7 @@ public class MedicationFeedWorkerIntegrationTest extends BaseModuleWebContextSen
         assertEquals("500 mg", drug.getStrength());
         assertEquals("Paracetamol", drug.getConcept().getName().getName());
         assertEquals("Tablet", drug.getDosageForm().getName().getName());
+        assertFalse("Drug should not be retired", drug.getRetired());
     }
 
     @Test(expected = RuntimeException.class)
@@ -126,5 +127,6 @@ public class MedicationFeedWorkerIntegrationTest extends BaseModuleWebContextSen
         assertEquals("500 mg", drug.getStrength());
         assertEquals("Paracetamol", drug.getConcept().getName().getName());
         assertEquals("Tablet", drug.getDosageForm().getName().getName());
+        assertFalse("Drug should not be retired", drug.getRetired());
     }
 }

@@ -28,12 +28,12 @@
   },
   "extension" : [
     {
-      "url" : "http://192.168.33.17:9080/openmrs/ws/rest/v1/tr/medication#med-extension-strength",
+      "url" : "http://192.168.33.17:9080/openmrs/ws/rest/v1/tr/medication#strength",
       "valueString": "500 mg"
     },
     {
-      "url" : "http://192.168.33.17:9080/openmrs/ws/rest/v1/tr/medication#med-extension-identifier",
-      "valueString": "123"
+      "url" : "http://192.168.33.17:9080/openmrs/ws/rest/v1/tr/medication#retired",
+      "valueString": "false"
     }
   ]
 }
