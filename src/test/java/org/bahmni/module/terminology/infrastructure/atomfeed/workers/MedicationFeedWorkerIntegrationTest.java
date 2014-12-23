@@ -4,6 +4,7 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
 import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
+import org.bahmni.module.terminology.util.StringRegexUtils;
 import org.ict4h.atomfeed.client.domain.Event;
 import org.junit.Rule;
 import org.junit.Test;

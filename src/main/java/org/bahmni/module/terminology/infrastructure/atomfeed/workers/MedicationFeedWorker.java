@@ -10,11 +10,13 @@ import org.bahmni.module.terminology.application.model.drug.Medication;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
 import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
+import org.bahmni.module.terminology.util.StringRegexUtils;
 import org.ict4h.atomfeed.client.domain.Event;
 import org.ict4h.atomfeed.client.service.EventWorker;
 import org.openmrs.Concept;
 import org.openmrs.Drug;
 import org.openmrs.api.ConceptService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -23,16 +25,21 @@ import static java.lang.String.format;
 public class MedicationFeedWorker implements EventWorker {
     private static Logger logger = Logger.getLogger(MedicationFeedWorker.class);
 
+
     private TRFeedProperties properties;
     private AuthenticatedHttpClient httpClient;
     private ConceptService conceptService;
     private IdMappingsRepository identityMapper;
+
+
+    private StringRegexUtils stringRegexUtils;
 
     public MedicationFeedWorker(TRFeedProperties properties, AuthenticatedHttpClient httpClient, ConceptService conceptService, IdMappingsRepository identityMapper) {
         this.properties = properties;
         this.httpClient = httpClient;
         this.conceptService = conceptService;
         this.identityMapper = identityMapper;
+        stringRegexUtils= new StringRegexUtils();
     }
 
     @Override
@@ -60,7 +67,8 @@ public class MedicationFeedWorker implements EventWorker {
 
         Drug savedDrug = conceptService.saveDrug(drug);
         if (idMap == null) {
-            IdMapping medicationMap = new IdMapping(savedDrug.getUuid(), drugExternalId, "Medication", event.getContent());
+            String baseUrl= stringRegexUtils.getBaseUrl(event.getFeedUri());
+            IdMapping medicationMap = new IdMapping(savedDrug.getUuid(), drugExternalId, "Medication", baseUrl+event.getContent());
             identityMapper.saveMapping(medicationMap);
         }
     }
