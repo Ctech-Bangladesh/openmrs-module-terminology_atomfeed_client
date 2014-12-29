@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <concept_reference_source concept_source_id="100" name="WHO DD ATC" description="WHO DD ATC" hl7_code="WHO-ATC" creator="1" date_created="2004-08-12 00:00:00.0" retired="0" uuid="62fddb4e-9a47-4a7c-af26-5098b488d44b"/>
+    <concept_reference_term concept_reference_term_id="1100" concept_source_id="100" name="Paracetamol" code="N02BE01" creator="1" date_created="2004-08-12 00:00:00.0" retired="0" uuid="04558a65-0e18-4fc4-bb8d-4f9a89fbec5c"/>
+    <shr_id_mapping id="104" internal_id="04558a65-0e18-4fc4-bb8d-4f9a89fbec5c" external_id="df2d10af-7bbd-49fe-951d-46f614ff6100" type="concept_reference_term"/>
+</dataset>

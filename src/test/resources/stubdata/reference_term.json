@@ -1,0 +1,29 @@
+{
+  "uri": "http://192.168.33.17:9080/openmrs/ws/rest/v1/tr/referenceterms/df2d10af-z2w4-49fe-951d-46f614ff6100",
+  "uuid": "df2d10af-z2w4-49fe-951d-46f614ff6100",
+  "code": "N02BE02",
+  "name": "Paracetamol 1",
+  "conceptSource": {
+    "name": "WHO DD ATC",
+    "hl7Code": "WHO-ATC",
+    "description": "WHO DD ATC",
+    "uuid": "62fddb4e-9a47-4a7c-af26-5098b488d44b"
+  },
+  "retired": false,
+  "conceptReferenceTermMaps": [
+    {
+      "termA": {
+        "display": "Paracetamol 1",
+        "uuid": "df2d10af-z2w4-49fe-951d-46f614ff6100"
+      },
+      "termB": {
+        "display": "Paracetamol",
+        "uuid": "df2d10af-7bbd-49fe-951d-46f614ff6100"
+      },
+      "conceptMapType": {
+        "display": "same-as"
+      },
+      "uuid": "6698f7e1-24fc-4b00-bcc7-21b8e494329c"
+    }
+  ]
+}
