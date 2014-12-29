@@ -175,7 +175,6 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
 
         final IdMapping idMapping = idMappingsRepository.findByExternalId("c95aa4c3-8ad7-4632-a7ee-3889d11e6b8e");
         Concept conceptByUuid = conceptService.getConceptByUuid(idMapping.getInternalId());
-        System.out.println(conceptByUuid.getAnswers().size());
 
         assertNotNull("Test Value Set should have been Updated", test_value_set_1);
         assertEquals(1, test_value_set_1.getAnswers().size());
