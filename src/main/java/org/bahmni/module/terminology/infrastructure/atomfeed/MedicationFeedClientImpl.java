@@ -40,10 +40,20 @@ public class MedicationFeedClientImpl implements MedicationFeedClient {
 
 
     @Override
-    public void sync() throws URISyntaxException {
-        logger.info("Sync Start: Concepts ..... ");
+    public void sync(){
+        logger.info("Sync Start: Medication ..... ");
         try {
             feedProcessor.process(properties.medicationFeedUri(), medicationEventWorker(), properties);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void retrySync() {
+        logger.info(" Retry Sync Start: Medication ..... ");
+        try {
+            feedProcessor.retry(properties.medicationFeedUri(), medicationEventWorker(), properties);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

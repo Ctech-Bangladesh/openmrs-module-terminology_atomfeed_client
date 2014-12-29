@@ -13,6 +13,7 @@ public class ConceptFeedRetryTask extends AbstractTask {
     public void execute() {
         try {
             Context.getService(ConceptFeedClient.class).retrySync();
+            Context.getService(MedicationFeedClient.class).retrySync();
         } catch (RuntimeException exception) {
             logger.error(exception);
         }
