@@ -1,0 +1,46 @@
+{
+  "uri": "/rest/v1/tr/concepts/57c7e65a-3744-4db8-98e1-e7d4c3cb24bf",
+  "datatypeName": "N/A",
+  "referenceTerms": [],
+  "names": [
+    {
+      "conceptNameType": "SHORT",
+      "conceptName": "ACC",
+      "locale": "en"
+    },
+    {
+      "conceptNameType": "FULLY_SPECIFIED",
+      "conceptName": "A Coaded Concept",
+      "locale": "en"
+    }
+  ],
+  "uuid": "57c7e65a-3744-4db8-98e1-e7d4c3cb24bf",
+  "conceptClass": "ConvSet",
+  "fullySpecifiedName": {
+    "conceptNameType": "FULLY_SPECIFIED",
+    "conceptName": "A Coaded Concept",
+    "locale": "en"
+  },
+  "retireReason": null,
+  "retired": false,
+  "setMembers": [
+    {
+      "display": "Test Concept 1",
+      "uri": "/rest/v1/tr/concepts/96ff1fb3-301e-4483-ae52-172aaf743b22",
+      "uuid": "96ff1fb3-301e-4483-ae52-172aaf743b22"
+    },
+    {
+      "display": "Test Concept 2",
+      "uri": "/rest/v1/tr/concepts/4620829f-88c8-448f-83d4-5aca37d1de5e",
+      "uuid": "4620829f-88c8-448f-83d4-5aca37d1de5e"
+    }
+  ],
+  "conceptAnswers": [],
+  "version": null,
+  "description": {
+    "locale": "en",
+    "description": "Testing removing coded answer works or not"
+  },
+  "properties": {},
+  "set": true
+}

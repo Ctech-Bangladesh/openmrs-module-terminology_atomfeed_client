@@ -1,0 +1,30 @@
+{
+  "uri": "/rest/v1/tr/concepts/4620829f-88c8-448f-83d4-5aca37d1de5e",
+  "datatypeName": "N/A",
+  "referenceTerms": [],
+  "names": [
+    {
+      "conceptNameType": "FULLY_SPECIFIED",
+      "conceptName": "Test Concept 2",
+      "locale": "en"
+    }
+  ],
+  "uuid": "4620829f-88c8-448f-83d4-5aca37d1de5e",
+  "conceptClass": "Misc",
+  "fullySpecifiedName": {
+    "conceptNameType": "FULLY_SPECIFIED",
+    "conceptName": "Test Concept 2",
+    "locale": "en"
+  },
+  "retireReason": null,
+  "retired": false,
+  "setMembers": [],
+  "conceptAnswers": [],
+  "version": null,
+  "description": {
+    "locale": "en",
+    "description": "Test Concept 2"
+  },
+  "properties": {},
+  "set": false
+}

@@ -1,0 +1,41 @@
+{
+  "uri": "/rest/v1/tr/concepts/c95aa4c3-8ad7-4632-a7ee-3889d11e6b8e",
+  "datatypeName": "Coded",
+  "referenceTerms": [],
+  "names": [
+    {
+      "conceptNameType": "FULLY_SPECIFIED",
+      "conceptName": "Test Value Set",
+      "locale": "en"
+    },
+    {
+      "conceptNameType": "SHORT",
+      "conceptName": "TVS",
+      "locale": "en"
+    }
+  ],
+  "uuid": "c95aa4c3-8ad7-4632-a7ee-3889d11e6b8e",
+  "conceptClass": "Valueset",
+  "fullySpecifiedName": {
+    "conceptNameType": "FULLY_SPECIFIED",
+    "conceptName": "Test Value Set",
+    "locale": "en"
+  },
+  "retireReason": null,
+  "retired": false,
+  "setMembers": [],
+  "conceptAnswers": [
+    {
+      "display": "Test Concept",
+      "uri": "/rest/v1/tr/concepts/96ff1fb3-301e-4483-ae52-172aaf743b22",
+      "uuid": "96ff1fb3-301e-4483-ae52-172aaf743b22"
+    }
+  ],
+  "version": null,
+  "description": {
+    "locale": "en",
+    "description": "This is a test Value set."
+  },
+  "properties": {},
+  "set": false
+}

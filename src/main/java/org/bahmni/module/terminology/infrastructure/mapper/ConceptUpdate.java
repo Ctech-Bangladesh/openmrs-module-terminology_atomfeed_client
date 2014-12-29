@@ -56,7 +56,8 @@ public class ConceptUpdate {
                     existingConcept.addAnswer(conceptAnswer);
                 }
             }
-        } else if (isNotEmpty(existingConcept.getAnswers())) {
+        }
+        if (isNotEmpty(existingConcept.getAnswers())) {
             for (ConceptAnswer conceptAnswer : new ArrayList<>(existingConcept.getAnswers())) {
                 if (!foundAnswer(newConcept, conceptAnswer)) {
                     existingConcept.removeAnswer(conceptAnswer);

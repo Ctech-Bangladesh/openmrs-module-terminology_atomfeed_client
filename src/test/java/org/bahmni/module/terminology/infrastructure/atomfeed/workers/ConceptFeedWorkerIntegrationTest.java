@@ -21,6 +21,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.web.test.BaseModuleWebContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
 import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT;
 import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT_REFERENCE_TERM;
 import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT_SOURCE;
@@ -63,7 +64,7 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
     /**
      * Built in OpenMRS concept classes: Test,Procedure,Drug,Diagnosis,Finding,Anatomy,Question,
      * LabSet,MedSet,ConvSet,Misc,Symptom,Symptom/Finding,Specimen,Misc Order,Program,Workflow,State
-     *
+     * <p/>
      * Built in OpenMRS concept datatypes: Numeric,Coded,Text,N/A,Document,Date,Time,Datetime,
      * Boolean,Rule,Structured Numeric,Complex
      */
@@ -130,15 +131,54 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
         Concept bloodPressureConcept = conceptService.getConceptByName("BloodPressure");
         assertNotNull("Blood Pressure concept should have been created", bloodPressureConcept);
         assertIdMapping(bloodPressureConcept.getUuid(), bpExternalUuid,
-                 CONCEPT, TR_CONCEPT_URL + bpExternalUuid);
+                CONCEPT, TR_CONCEPT_URL + bpExternalUuid);
 
         ImmutableMap<String, String> bloodPressureRefTerm =
                 ImmutableMap.of("code", "ICD101",
-                 "source", "ICD10",
-                 "mapType", "SAME-AS",
-                 "externalId", "565496c2-bdfe-4cce-87d4-92091ab1f67a");
+                        "source", "ICD10",
+                        "mapType", "SAME-AS",
+                        "externalId", "565496c2-bdfe-4cce-87d4-92091ab1f67a");
         List<ImmutableMap<String, String>> refTermsActual = Arrays.asList(bloodPressureRefTerm);
         assertReferenceTerms(refTermsActual, bloodPressureConcept.getConceptMappings());
+    }
+
+    @Test
+    public void shouldUpdateMembersOfSet() {
+        syncConcept("96ff1fb3-301e-4483-ae52-172aaf743b22", "sets/coded_answer_1.json");
+        Concept coded_answer_1 = conceptService.getConceptByName("Test Concept 1");
+        assertNotNull("First set member should have been created", coded_answer_1);
+
+        syncConcept("4620829f-88c8-448f-83d4-5aca37d1de5e", "sets/coded_answer_2.json");
+        Concept coded_answer_2 = conceptService.getConceptByName("Test Concept 2");
+        assertNotNull("Second set member should have been created", coded_answer_2);
+
+        syncConcept("57c7e65a-3744-4db8-98e1-e7d4c3cb24bf", "sets/set_with_2_members.json");
+        syncConcept("57c7e65a-3744-4db8-98e1-e7d4c3cb24bf", "sets/set_with_1_member.json");
+        Concept coaded_concept = conceptService.getConceptByName("A Coaded Concept");
+        assertNotNull("Set Concept should have been Updated", coaded_concept);
+        assertEquals(1, coaded_concept.getSetMembers().size());
+    }
+
+    @Test
+    public void shouldUpdateConceptAnswersOfValueSet() {
+        syncConcept("96ff1fb3-301e-4483-ae52-172aaf743b22", "sets/coded_answer_1.json");
+        Concept coded_answer_1 = conceptService.getConceptByName("Test Concept 1");
+        assertNotNull("First Coded Answer should have been created", coded_answer_1);
+
+        syncConcept("4620829f-88c8-448f-83d4-5aca37d1de5e", "sets/coded_answer_2.json");
+        Concept coded_answer_2 = conceptService.getConceptByName("Test Concept 2");
+        assertNotNull("Second Coded Answer should have been created", coded_answer_2);
+
+        syncConcept("c95aa4c3-8ad7-4632-a7ee-3889d11e6b8e", "sets/valueset_with_2_codes.json");
+        syncConcept("c95aa4c3-8ad7-4632-a7ee-3889d11e6b8e", "sets/valueset_with_1_code.json");
+        Concept test_value_set_1 = conceptService.getConceptByName("Test Value Set");
+
+        final IdMapping idMapping = idMappingsRepository.findByExternalId("c95aa4c3-8ad7-4632-a7ee-3889d11e6b8e");
+        Concept conceptByUuid = conceptService.getConceptByUuid(idMapping.getInternalId());
+        System.out.println(conceptByUuid.getAnswers().size());
+
+        assertNotNull("Test Value Set should have been Updated", test_value_set_1);
+        assertEquals(1, test_value_set_1.getAnswers().size());
     }
 
     @Test
@@ -173,7 +213,7 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
                     break;
                 }
             }
-            assertTrue(String.format("Answer '%s' should exist in Concept", answer.getName().getName()),existsAsAnswer);
+            assertTrue(String.format("Answer '%s' should exist in Concept", answer.getName().getName()), existsAsAnswer);
 
         }
 
@@ -258,13 +298,13 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
                 }
             }
             assertNotNull("Could not find expected term:", actualConceptMap);
-            assertEquals(actualConceptMap.getConceptMapType().getName(),expected.get("mapType").toLowerCase());
+            assertEquals(actualConceptMap.getConceptMapType().getName(), expected.get("mapType").toLowerCase());
             ConceptReferenceTerm term = actualConceptMap.getConceptReferenceTerm();
             ConceptSource conceptSource = term.getConceptSource();
             assertThat(conceptSource.getName(), is(expected.get("source")));
             String expectedExternalId = expected.get("externalId");
             assertIdMapping(term.getUuid(), expectedExternalId, CONCEPT_REFERENCE_TERM,
-               TR_REFTERM_URL + expectedExternalId);
+                    TR_REFTERM_URL + expectedExternalId);
         }
 
     }
