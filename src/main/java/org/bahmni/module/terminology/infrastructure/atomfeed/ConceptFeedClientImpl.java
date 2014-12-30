@@ -2,7 +2,7 @@ package org.bahmni.module.terminology.infrastructure.atomfeed;
 
 import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.application.service.ConceptSyncService;
-import org.bahmni.module.terminology.infrastructure.atomfeed.workers.ConceptFeedWorker;
+import org.bahmni.module.terminology.infrastructure.atomfeed.workers.ConceptEventWorker;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
 import org.bahmni.module.terminology.infrastructure.mapper.ConceptRequestMapper;
@@ -55,7 +55,7 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
         }
     }
 
-    private ConceptFeedWorker diagnosisWorker() {
-        return new ConceptFeedWorker(httpClient, properties, ConceptSyncService, conceptRequestMapper);
+    private ConceptEventWorker diagnosisWorker() {
+        return new ConceptEventWorker(httpClient, properties, ConceptSyncService, conceptRequestMapper);
     }
 }

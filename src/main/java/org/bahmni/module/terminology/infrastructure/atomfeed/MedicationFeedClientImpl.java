@@ -2,13 +2,10 @@ package org.bahmni.module.terminology.infrastructure.atomfeed;
 
 
 import org.apache.log4j.Logger;
-import org.bahmni.module.terminology.application.service.ConceptSyncService;
-import org.bahmni.module.terminology.infrastructure.atomfeed.workers.MedicationFeedWorker;
+import org.bahmni.module.terminology.infrastructure.atomfeed.workers.MedicationEventWorker;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
-import org.bahmni.module.terminology.infrastructure.mapper.ConceptRequestMapper;
 import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
-import org.ict4h.atomfeed.client.domain.Event;
 import org.ict4h.atomfeed.client.service.EventWorker;
 import org.openmrs.api.ConceptService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +57,6 @@ public class MedicationFeedClientImpl implements MedicationFeedClient {
     }
 
     private EventWorker medicationEventWorker() {
-        return new MedicationFeedWorker(properties, httpClient, conceptService, idMapper);
+        return new MedicationEventWorker(properties, httpClient, conceptService, idMapper);
     }
 }

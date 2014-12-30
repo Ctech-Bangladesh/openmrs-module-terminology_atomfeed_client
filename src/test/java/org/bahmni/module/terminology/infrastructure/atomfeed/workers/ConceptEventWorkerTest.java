@@ -19,7 +19,7 @@ import java.util.Properties;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class ConceptFeedWorkerTest {
+public class ConceptEventWorkerTest {
 
     public static final String CONCEPT_BASE_URL = "http://localhost/";
 
@@ -35,7 +35,7 @@ public class ConceptFeedWorkerTest {
     @Mock
     private TRFeedProperties properties;
 
-    private ConceptFeedWorker conceptFeedWorker;
+    private ConceptEventWorker conceptEventWorker;
 
     private Event event;
 
@@ -44,7 +44,7 @@ public class ConceptFeedWorkerTest {
         initMocks(this);
         event = new Event("eventId", "/content", "title", "feedUri");
         properties = createProperties();
-        conceptFeedWorker = new ConceptFeedWorker(httpClient, properties, ConceptSyncService, mapper);
+        conceptEventWorker = new ConceptEventWorker(httpClient, properties, ConceptSyncService, mapper);
     }
 
     private TRFeedProperties createProperties() {
@@ -66,7 +66,7 @@ public class ConceptFeedWorkerTest {
         when(mapper.map(response)).thenReturn(concept);
         when(httpClient.get("http://localhost/content", HashMap.class)).thenReturn(response);
 
-        conceptFeedWorker.process(event);
+        conceptEventWorker.process(event);
 
         verify(ConceptSyncService, times(1)).sync(concept);
     }

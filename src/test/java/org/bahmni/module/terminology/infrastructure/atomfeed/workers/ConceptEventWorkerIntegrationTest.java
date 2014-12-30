@@ -20,11 +20,8 @@ import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.web.test.BaseModuleWebContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
-import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT;
 import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT_REFERENCE_TERM;
-import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT_SOURCE;
 
 import java.util.*;
 
@@ -36,7 +33,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.*;
 
 @org.springframework.test.context.ContextConfiguration(locations = {"classpath:TestingApplicationContext.xml"}, inheritLocations = true)
-public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensitiveTest {
+public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensitiveTest {
 
     public static final String TR_CONCEPT_URL = "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/concepts/";
     public static final String TR_REFTERM_URL = "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/referenceterms/";
@@ -79,7 +76,7 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/concept.json"))));
-        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, trFeedProperties, ConceptSyncService, conceptMapper);
+        ConceptEventWorker worker = new ConceptEventWorker(httpClient, trFeedProperties, ConceptSyncService, conceptMapper);
 
         worker.process(new Event("eventId", concept_event_url, "title", "feedUri"));
 
@@ -110,7 +107,7 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/concept_with_new_class.json"))));
-        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, trFeedProperties, ConceptSyncService, conceptMapper);
+        ConceptEventWorker worker = new ConceptEventWorker(httpClient, trFeedProperties, ConceptSyncService, conceptMapper);
         worker.process(new Event("eventId", concept_event_url, "title", "feedUri"));
         Concept concept = Context.getConceptService().getConceptByName("tbtest");
         assertThat(concept, is(notNullValue()));
@@ -255,7 +252,7 @@ public class ConceptFeedWorkerIntegrationTest extends BaseModuleWebContextSensit
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/" + resName))));
-        ConceptFeedWorker worker = new ConceptFeedWorker(httpClient, trFeedProperties, ConceptSyncService, conceptMapper);
+        ConceptEventWorker worker = new ConceptEventWorker(httpClient, trFeedProperties, ConceptSyncService, conceptMapper);
         worker.process(new Event("eventId", concept_feed_url_prefix + externalUuid, "title", "feedUri"));
     }
 

@@ -14,16 +14,16 @@ import java.util.Map;
 import static java.lang.String.format;
 
 
-public class ConceptReferenceTermFeedWorker implements EventWorker {
+public class ConceptReferenceTermEventWorker implements EventWorker {
 
-    private static Logger logger = Logger.getLogger(ConceptReferenceTermFeedWorker.class);
+    private static Logger logger = Logger.getLogger(ConceptReferenceTermEventWorker.class);
 
     private ConceptReferenceTermRequestMapper referenceTermRequestMapper;
     private SHReferenceTermService shReferenceTermService;
     private TRFeedProperties properties;
     private AuthenticatedHttpClient httpClient;
 
-    public ConceptReferenceTermFeedWorker(AuthenticatedHttpClient httpClient, TRFeedProperties properties, SHReferenceTermService shReferenceTermService, ConceptReferenceTermRequestMapper referenceTermRequestMapper) {
+    public ConceptReferenceTermEventWorker(AuthenticatedHttpClient httpClient, TRFeedProperties properties, SHReferenceTermService shReferenceTermService, ConceptReferenceTermRequestMapper referenceTermRequestMapper) {
         this.httpClient = httpClient;
         this.properties = properties;
         this.shReferenceTermService = shReferenceTermService;

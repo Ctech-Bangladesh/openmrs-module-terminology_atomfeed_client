@@ -23,7 +23,7 @@ import static org.bahmni.module.terminology.util.FileUtil.asString;
 import static org.junit.Assert.*;
 
 @org.springframework.test.context.ContextConfiguration(locations = {"classpath:TestingApplicationContext.xml"}, inheritLocations = true)
-public class ConceptReferenceTermFeedWorkerIntegrationTest extends BaseModuleWebContextSensitiveTest {
+public class ConceptReferenceTermEventWorkerIntegrationTest extends BaseModuleWebContextSensitiveTest {
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(9997);
 
@@ -38,11 +38,11 @@ public class ConceptReferenceTermFeedWorkerIntegrationTest extends BaseModuleWeb
     @Autowired
     IdMappingsRepository idMappingsRepository;
 
-    private ConceptReferenceTermFeedWorker referenceTermFeedWorker;
+    private ConceptReferenceTermEventWorker referenceTermFeedWorker;
 
     @Before
     public void setup() {
-        referenceTermFeedWorker = new ConceptReferenceTermFeedWorker(httpClient, trFeedProperties, referenceTermService, referenceTermRequestMapper);
+        referenceTermFeedWorker = new ConceptReferenceTermEventWorker(httpClient, trFeedProperties, referenceTermService, referenceTermRequestMapper);
     }
 
     @Test

@@ -4,7 +4,6 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
 import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
-import org.bahmni.module.terminology.util.StringRegexUtils;
 import org.ict4h.atomfeed.client.domain.Event;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,7 +17,7 @@ import static org.bahmni.module.terminology.util.FileUtil.asString;
 import static org.junit.Assert.*;
 
 @org.springframework.test.context.ContextConfiguration(locations = {"classpath:TestingApplicationContext.xml"}, inheritLocations = true)
-public class MedicationFeedWorkerIntegrationTest extends BaseModuleWebContextSensitiveTest {
+public class MedicationEventWorkerIntegrationTest extends BaseModuleWebContextSensitiveTest {
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(9997);
 
@@ -44,7 +43,7 @@ public class MedicationFeedWorkerIntegrationTest extends BaseModuleWebContextSen
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/medication/medication.json"))));
 
-        MedicationFeedWorker worker = new MedicationFeedWorker(trFeedProperties, httpClient, conceptService, idMappingsRepository);
+        MedicationEventWorker worker = new MedicationEventWorker(trFeedProperties, httpClient, conceptService, idMappingsRepository);
         worker.process(new Event("eventId", concept_event_url, "title", "feedUri"));
 
 
@@ -70,7 +69,7 @@ public class MedicationFeedWorkerIntegrationTest extends BaseModuleWebContextSen
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/medication/medication_without_concept.json"))));
 
-        MedicationFeedWorker worker = new MedicationFeedWorker(trFeedProperties, httpClient, conceptService, idMappingsRepository);
+        MedicationEventWorker worker = new MedicationEventWorker(trFeedProperties, httpClient, conceptService, idMappingsRepository);
         worker.process(new Event("eventId", concept_event_url, "title", "feedUri"));
     }
 
@@ -87,7 +86,7 @@ public class MedicationFeedWorkerIntegrationTest extends BaseModuleWebContextSen
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/medication/medication_without_form_concept.json"))));
 
-        MedicationFeedWorker worker = new MedicationFeedWorker(trFeedProperties, httpClient, conceptService, idMappingsRepository);
+        MedicationEventWorker worker = new MedicationEventWorker(trFeedProperties, httpClient, conceptService, idMappingsRepository);
         worker.process(new Event("eventId", concept_event_url, "title", "feedUri"));
 
 
@@ -119,7 +118,7 @@ public class MedicationFeedWorkerIntegrationTest extends BaseModuleWebContextSen
         assertEquals("diphenhydramine", drug.getConcept().getName().getName());
         assertNull(drug.getDosageForm());
 
-        MedicationFeedWorker worker = new MedicationFeedWorker(trFeedProperties, httpClient, conceptService, idMappingsRepository);
+        MedicationEventWorker worker = new MedicationEventWorker(trFeedProperties, httpClient, conceptService, idMappingsRepository);
         worker.process(new Event("eventId", concept_event_url, "title", "feedUri"));
 
 

@@ -16,14 +16,13 @@ import org.ict4h.atomfeed.client.service.EventWorker;
 import org.openmrs.Concept;
 import org.openmrs.Drug;
 import org.openmrs.api.ConceptService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 import static java.lang.String.format;
 
-public class MedicationFeedWorker implements EventWorker {
-    private static Logger logger = Logger.getLogger(MedicationFeedWorker.class);
+public class MedicationEventWorker implements EventWorker {
+    private static Logger logger = Logger.getLogger(MedicationEventWorker.class);
 
 
     private TRFeedProperties properties;
@@ -34,7 +33,7 @@ public class MedicationFeedWorker implements EventWorker {
 
     private StringRegexUtils stringRegexUtils;
 
-    public MedicationFeedWorker(TRFeedProperties properties, AuthenticatedHttpClient httpClient, ConceptService conceptService, IdMappingsRepository identityMapper) {
+    public MedicationEventWorker(TRFeedProperties properties, AuthenticatedHttpClient httpClient, ConceptService conceptService, IdMappingsRepository identityMapper) {
         this.properties = properties;
         this.httpClient = httpClient;
         this.conceptService = conceptService;
@@ -67,7 +66,7 @@ public class MedicationFeedWorker implements EventWorker {
 
         Drug savedDrug = conceptService.saveDrug(drug);
         if (idMap == null) {
-            String baseUrl= stringRegexUtils.getBaseUrl(event.getFeedUri());
+            String baseUrl= stringRegexUtils.getBaseUrl(properties.medicationFeedUri());
             IdMapping medicationMap = new IdMapping(savedDrug.getUuid(), drugExternalId, "Medication", baseUrl+event.getContent());
             identityMapper.saveMapping(medicationMap);
         }

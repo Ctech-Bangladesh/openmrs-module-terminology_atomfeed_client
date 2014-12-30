@@ -2,7 +2,7 @@ package org.bahmni.module.terminology.infrastructure.atomfeed;
 
 import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.application.service.SHReferenceTermService;
-import org.bahmni.module.terminology.infrastructure.atomfeed.workers.ConceptReferenceTermFeedWorker;
+import org.bahmni.module.terminology.infrastructure.atomfeed.workers.ConceptReferenceTermEventWorker;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
 import org.bahmni.module.terminology.infrastructure.mapper.ConceptReferenceTermRequestMapper;
@@ -39,7 +39,7 @@ public class ConceptReferenceTermFeedClientImpl implements ConceptReferenceTermF
     @Override
     public void sync() throws URISyntaxException {
         logger.info("Sync Start: Concept Reference Terms ..... ");
-        ConceptReferenceTermFeedWorker worker = new ConceptReferenceTermFeedWorker(httpClient, properties, shReferenceTermService, conceptReferenceTermRequestMapper);
+        ConceptReferenceTermEventWorker worker = new ConceptReferenceTermEventWorker(httpClient, properties, shReferenceTermService, conceptReferenceTermRequestMapper);
         feedProcessor.process(properties.getReferenceTermFeedUrl(), worker, properties);
     }
 }
