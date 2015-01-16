@@ -24,7 +24,7 @@ public class TRFeedProperties extends AtomFeedProperties {
     public static final String TERMINOLOGY_FEED_URI = "concept.feed.url";
     public static final String MEDICATION_FEED_URI = "medication.feed.url";
 
-    public static final java.lang.String REFERENCE_FEED_URI = "reference.term.feed.url";
+    public static final java.lang.String REFERENCE_FEED_URI = "referenceTerm.feed.url";
     public static final String CONNECT_TIMEOUT = "feed.connectionTimeoutInMilliseconds";
     public static final String MAX_FAILED_EVENTS = "feed.maxFailedEvents";
     public static final String READ_TIMEOUT = "feed.replyTimeoutInMilliseconds";
