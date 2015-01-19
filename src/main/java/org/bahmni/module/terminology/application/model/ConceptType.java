@@ -14,6 +14,13 @@ public enum ConceptType {
         }
     },
 
+    Procedure {
+        @Override
+        public boolean matches(String conceptClass) {
+            return StringUtils.equalsIgnoreCase("Procedure", conceptClass);
+        }
+    },
+
     ChiefComplaint {
 
         private List<String> matchingClasses = Arrays.asList("finding", "symptom", "symptom/finding");

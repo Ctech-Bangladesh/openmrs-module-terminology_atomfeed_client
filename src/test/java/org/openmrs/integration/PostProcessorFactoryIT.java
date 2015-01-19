@@ -5,6 +5,7 @@ import org.bahmni.module.terminology.application.postprocessor.PostProcessorFact
 import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.ChiefComplaintPostProcessor;
 import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.ConceptPostProcessor;
 import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.DiagnosisPostProcessor;
+import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.ProcedurePostProcessor;
 import org.junit.Test;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
@@ -25,6 +26,15 @@ public class PostProcessorFactoryIT extends BaseModuleWebContextSensitiveTest {
         ConceptPostProcessor postProcessor = postProcessorFactory.getPostProcessor(diagnosisConcept);
 
         assertTrue(postProcessor instanceof DiagnosisPostProcessor);
+
+    }
+
+    @Test
+    public void shouldMapProcedureProcessors() throws Exception {
+        Concept procedureConcept = getConceptForClass("Procedure");
+        ConceptPostProcessor postProcessor = postProcessorFactory.getPostProcessor(procedureConcept);
+
+        assertTrue(postProcessor instanceof ProcedurePostProcessor);
 
     }
 
