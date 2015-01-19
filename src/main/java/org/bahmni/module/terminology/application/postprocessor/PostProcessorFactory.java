@@ -1,30 +1,31 @@
 package org.bahmni.module.terminology.application.postprocessor;
 
 import org.bahmni.module.terminology.application.model.ConceptType;
-import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.ChiefComplaintPostProcessor;
 import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.ConceptPostProcessor;
-import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.DiagnosisPostProcessor;
 import org.openmrs.Concept;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Component
 public class PostProcessorFactory {
 
-    private DiagnosisPostProcessor diagnosisPostProcessor;
-    private ChiefComplaintPostProcessor chiefComplaintPostProcessor;
+    private Map<ConceptType, ConceptPostProcessor> postProcessorMap;
+    private List<ConceptPostProcessor> postProcessors;
 
     @Autowired
-    public PostProcessorFactory(DiagnosisPostProcessor diagnosisPostProcessor, ChiefComplaintPostProcessor chiefComplaintPostProcessor) {
-        this.diagnosisPostProcessor = diagnosisPostProcessor;
-        this.chiefComplaintPostProcessor = chiefComplaintPostProcessor;
+    public PostProcessorFactory(List<ConceptPostProcessor> postProcessors) {
+        this.postProcessors = postProcessors;
     }
 
     public ConceptPostProcessor getPostProcessor(Concept savedConcept) {
-        if (ConceptType.Diagnosis.matches(savedConcept.getConceptClass().getName())) {
-            return diagnosisPostProcessor;
-        } else if (ConceptType.ChiefComplaint.matches(savedConcept.getConceptClass().getName())) {
-            return chiefComplaintPostProcessor;
+        for (ConceptPostProcessor postProcessor : postProcessors) {
+            if(postProcessor.getConceptType().matches(savedConcept.getConceptClass().getName())){
+                return postProcessor;
+            }
         }
         return null;
     }

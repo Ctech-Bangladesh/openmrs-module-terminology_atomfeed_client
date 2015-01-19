@@ -2,6 +2,7 @@ package org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors;
 
 
 import org.apache.log4j.Logger;
+import org.bahmni.module.terminology.application.model.ConceptType;
 import org.openmrs.Concept;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
@@ -22,6 +23,10 @@ public class DiagnosisPostProcessor implements ConceptPostProcessor {
     protected AdministrationService administrationService;
 
     public static final String UNCATEGORIZED_DIAGNOSES_NAME = "uncategorized diagnoses";
+
+    public ConceptType getConceptType(){
+        return ConceptType.Diagnosis;
+    }
 
     private final Logger logger = Logger.getLogger(DiagnosisPostProcessor.class);
 

@@ -2,6 +2,7 @@ package org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.bahmni.module.terminology.application.model.ConceptType;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.api.AdministrationService;
@@ -42,6 +43,11 @@ public class ChiefComplaintPostProcessor implements ConceptPostProcessor {
         } else {
             logger.info("Concept is already a member of existing " + CHIEF_COMPLAINT_ANSWERS_CONCEPT_NAME);
         }
+    }
+
+    @Override
+    public ConceptType getConceptType() {
+        return ConceptType.ChiefComplaint;
     }
 
     private boolean isPresentAsMember(Concept parentConcept, Concept concept) {
