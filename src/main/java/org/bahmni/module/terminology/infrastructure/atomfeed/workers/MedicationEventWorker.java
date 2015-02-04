@@ -7,6 +7,7 @@ import org.bahmni.module.terminology.application.model.Coding;
 import org.bahmni.module.terminology.application.model.IdMapping;
 import org.bahmni.module.terminology.application.model.ResourceExtension;
 import org.bahmni.module.terminology.application.model.drug.Medication;
+import org.bahmni.module.terminology.application.model.drug.MedicationProduct;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
 import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
@@ -45,14 +46,14 @@ public class MedicationEventWorker implements EventWorker {
     public void process(Event event) {
         logger.info(format("Received medication sync event for %s with conent %s ", event.getFeedUri(), event.getContent()));
         Medication medication = httpClient.get(properties.getMedicationUrl(event.getContent()), Medication.class);
-        Concept drugConcept = mapMedicationConcept(medication.getCode());
+        Concept drugConcept = mapConcept(medication.getCode());
         if (drugConcept == null) {
             String message = format("Can not identify concept for the medication %s", event.getContent());
             logger.error(message);
             throw new RuntimeException(message);
         }
 
-        Concept drugForm = mapMedicationForm(medication.getProduct().getForm());
+        Concept drugForm = mapMedicationForm(medication.getProduct());
         String drugExternalId = identifyDrugLocalUuid(event.getContent());
         IdMapping idMap = identityMapper.findByExternalId(drugExternalId);
 
@@ -89,20 +90,24 @@ public class MedicationEventWorker implements EventWorker {
         return uri.substring(uri.lastIndexOf("/") + 1);
     }
 
-    private Concept mapMedicationForm(CodeableConcept form) {
-        return mapMedicationConcept(form);
+    private Concept mapMedicationForm(MedicationProduct product) {
+        if(product != null) {
+            CodeableConcept form = product.getForm();
+            return form != null ? mapConcept(form) : null;
+        }
+        return null;
     }
 
-    private Concept mapMedicationConcept(CodeableConcept code) {
+    private Concept mapConcept(CodeableConcept code) {
         List<Coding> codings = code.getCoding();
-        Concept drugConcept = null;
+        Concept concept = null;
         for (Coding coding : codings) {
             if (isMRSConcept(coding)) {
-                drugConcept = identifyConcept(coding.getCode());
+                concept = identifyConcept(coding.getCode());
                 break;
             }
         }
-        return drugConcept;
+        return concept;
     }
 
     private Concept identifyConcept(String externalId) {

@@ -1,7 +1,5 @@
 package org.bahmni.module.terminology.application.model;
 
-
-
 import org.codehaus.jackson.annotate.JsonWriteNullProperties;
 
 import java.util.ArrayList;

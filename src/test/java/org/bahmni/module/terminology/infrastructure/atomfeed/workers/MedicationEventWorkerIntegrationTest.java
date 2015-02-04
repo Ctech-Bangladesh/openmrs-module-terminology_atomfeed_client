@@ -84,11 +84,34 @@ public class MedicationEventWorkerIntegrationTest extends BaseModuleWebContextSe
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
-                        .withBody(asString("stubdata/medication/medication_without_form_concept.json"))));
+                        .withBody(asString("stubdata/medication/medication_with_incorrect_form_concept.json"))));
 
         MedicationEventWorker worker = new MedicationEventWorker(trFeedProperties, httpClient, conceptService, idMappingsRepository);
         worker.process(new Event("eventId", concept_event_url, "title", "feedUri"));
 
+        Drug drug = conceptService.getDrugByUuid(idMappingsRepository.findByExternalId(uuid).getInternalId());
+        assertNotNull(drug);
+        assertEquals("Benedryl", drug.getName());
+        assertEquals("20.0", drug.getStrength());
+        assertEquals("diphenhydramine", drug.getConcept().getName().getName());
+        assertNull(drug.getDosageForm());
+    }
+
+    @Test
+    public void shouldSyncTheDrugWithoutForm() throws Exception {
+        executeDataSet("stubdata/medication_concept_mapping.xml");
+
+        String uuid = "04558a65-0e18-4fc4-bb8d-4f9a89fbec5c";
+        String concept_event_url = "/openmrs/ws/rest/v1/tr/medications/" + uuid;
+
+        givenThat(get(urlEqualTo(concept_event_url))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(asString("stubdata/medication/medication_without_form_concept.json"))));
+
+        MedicationEventWorker worker = new MedicationEventWorker(trFeedProperties, httpClient, conceptService, idMappingsRepository);
+        worker.process(new Event("eventId", concept_event_url, "title", "feedUri"));
 
         Drug drug = conceptService.getDrugByUuid(idMappingsRepository.findByExternalId(uuid).getInternalId());
         assertNotNull(drug);
