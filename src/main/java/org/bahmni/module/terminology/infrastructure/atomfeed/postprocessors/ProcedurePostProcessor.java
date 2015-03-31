@@ -21,6 +21,11 @@ public class ProcedurePostProcessor extends ConceptPostProcessor {
     }
 
     @Override
+    public ProcessingInfo getProcessingInfo() {
+        return ProcessingInfo.CODEDANSWER;
+    }
+
+    @Override
     public Logger getLogger(){
         return logger;
     }

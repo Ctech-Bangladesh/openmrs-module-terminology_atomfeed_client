@@ -17,6 +17,11 @@ public class DiagnosisPostProcessor extends ConceptPostProcessor {
     }
 
     @Override
+    public ProcessingInfo getProcessingInfo() {
+        return ProcessingInfo.SETMEMBER;
+    }
+
+    @Override
     Logger getLogger() {
         return logger;
     }

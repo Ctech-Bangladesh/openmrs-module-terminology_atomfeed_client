@@ -78,7 +78,7 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
                         .withBody(asString("stubdata/concept.json"))));
         ConceptEventWorker worker = new ConceptEventWorker(httpClient, trFeedProperties, ConceptSyncService, conceptMapper);
 
-        worker.process(new Event("eventId", concept_event_url, "title", "feedUri"));
+        worker.process(new Event("eventId", concept_event_url, "title", "feedUri", null));
 
         Concept concept = Context.getConceptService().getConceptByName("tbtest");
         assertThat(concept, is(notNullValue()));
@@ -108,7 +108,7 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/concept_with_new_class.json"))));
         ConceptEventWorker worker = new ConceptEventWorker(httpClient, trFeedProperties, ConceptSyncService, conceptMapper);
-        worker.process(new Event("eventId", concept_event_url, "title", "feedUri"));
+        worker.process(new Event("eventId", concept_event_url, "title", "feedUri", null));
         Concept concept = Context.getConceptService().getConceptByName("tbtest");
         assertThat(concept, is(notNullValue()));
         assertThat(concept.getName().getName(), is("tbtest"));
@@ -253,7 +253,7 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/" + resName))));
         ConceptEventWorker worker = new ConceptEventWorker(httpClient, trFeedProperties, ConceptSyncService, conceptMapper);
-        worker.process(new Event("eventId", concept_feed_url_prefix + externalUuid, "title", "feedUri"));
+        worker.process(new Event("eventId", concept_feed_url_prefix + externalUuid, "title", "feedUri", null));
     }
 
     private void assertFullySpecifiedName(ConceptName fullySpecifiedName, String name) {

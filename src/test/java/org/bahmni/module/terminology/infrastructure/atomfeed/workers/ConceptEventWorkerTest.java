@@ -42,7 +42,7 @@ public class ConceptEventWorkerTest {
     @Before
     public void setup() {
         initMocks(this);
-        event = new Event("eventId", "/content", "title", "feedUri");
+        event = new Event("eventId", "/content", "title", "feedUri", null);
         properties = createProperties();
         conceptEventWorker = new ConceptEventWorker(httpClient, properties, ConceptSyncService, mapper);
     }

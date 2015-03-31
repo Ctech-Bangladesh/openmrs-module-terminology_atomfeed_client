@@ -15,6 +15,11 @@ public class ChiefComplaintPostProcessor extends ConceptPostProcessor {
     }
 
     @Override
+    public ProcessingInfo getProcessingInfo() {
+        return ProcessingInfo.CODEDANSWER;
+    }
+
+    @Override
     Logger getLogger() {
         return logger;
     }
@@ -23,5 +28,7 @@ public class ChiefComplaintPostProcessor extends ConceptPostProcessor {
     String getParentConceptName() {
         return "Chief Complaint Answers";
     }
+
+
 
 }

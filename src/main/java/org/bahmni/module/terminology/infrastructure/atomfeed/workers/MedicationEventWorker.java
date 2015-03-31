@@ -23,6 +23,7 @@ import java.util.List;
 import static java.lang.String.format;
 
 public class MedicationEventWorker implements EventWorker {
+    public static final String WS_REST_V1_TR_CONCEPTS = "/ws/rest/v1/tr/concepts/";
     private static Logger logger = Logger.getLogger(MedicationEventWorker.class);
 
 
@@ -121,7 +122,7 @@ public class MedicationEventWorker implements EventWorker {
 
     private boolean isMRSConcept(Coding coding) {
         if (StringUtils.isNotBlank(coding.getSystem())) {
-            return coding.getSystem().contains("/ws/rest/v1/tr/concepts/");
+            return coding.getSystem().contains(WS_REST_V1_TR_CONCEPTS);
         }
         return false;
     }

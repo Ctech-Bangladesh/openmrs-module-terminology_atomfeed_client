@@ -2,6 +2,7 @@ package org.bahmni.module.terminology.infrastructure.config;
 
 
 import org.apache.log4j.Logger;
+import org.bahmni.module.terminology.util.StringUtil;
 import org.ict4h.atomfeed.client.AtomFeedProperties;
 import org.springframework.stereotype.Component;
 
@@ -35,7 +36,8 @@ public class TRFeedProperties extends AtomFeedProperties {
     public void init() {
         try {
             Properties feedProperties = new Properties();
-            FileInputStream file = new FileInputStream(System.getProperty("user.home") + PATH_TO_PROPERTIES);
+            String name = StringUtil.removeSuffix(System.getProperty("user.home"), "/") + PATH_TO_PROPERTIES;
+            FileInputStream file = new FileInputStream(name);
             feedProperties.load(file);
             atomFeedProperties = feedProperties;
         } catch (Exception ignored) {

@@ -44,7 +44,7 @@ public class MedicationEventWorkerIntegrationTest extends BaseModuleWebContextSe
                         .withBody(asString("stubdata/medication/medication.json"))));
 
         MedicationEventWorker worker = new MedicationEventWorker(trFeedProperties, httpClient, conceptService, idMappingsRepository);
-        worker.process(new Event("eventId", concept_event_url, "title", "feedUri"));
+        worker.process(new Event("eventId", concept_event_url, "title", "feedUri", null));
 
 
         Drug drug = conceptService.getDrugByUuid(idMappingsRepository.findByExternalId(uuid).getInternalId());
@@ -70,7 +70,7 @@ public class MedicationEventWorkerIntegrationTest extends BaseModuleWebContextSe
                         .withBody(asString("stubdata/medication/medication_without_concept.json"))));
 
         MedicationEventWorker worker = new MedicationEventWorker(trFeedProperties, httpClient, conceptService, idMappingsRepository);
-        worker.process(new Event("eventId", concept_event_url, "title", "feedUri"));
+        worker.process(new Event("eventId", concept_event_url, "title", "feedUri", null));
     }
 
     @Test
@@ -87,7 +87,7 @@ public class MedicationEventWorkerIntegrationTest extends BaseModuleWebContextSe
                         .withBody(asString("stubdata/medication/medication_with_incorrect_form_concept.json"))));
 
         MedicationEventWorker worker = new MedicationEventWorker(trFeedProperties, httpClient, conceptService, idMappingsRepository);
-        worker.process(new Event("eventId", concept_event_url, "title", "feedUri"));
+        worker.process(new Event("eventId", concept_event_url, "title", "feedUri", null));
 
         Drug drug = conceptService.getDrugByUuid(idMappingsRepository.findByExternalId(uuid).getInternalId());
         assertNotNull(drug);
@@ -111,7 +111,7 @@ public class MedicationEventWorkerIntegrationTest extends BaseModuleWebContextSe
                         .withBody(asString("stubdata/medication/medication_without_form_concept.json"))));
 
         MedicationEventWorker worker = new MedicationEventWorker(trFeedProperties, httpClient, conceptService, idMappingsRepository);
-        worker.process(new Event("eventId", concept_event_url, "title", "feedUri"));
+        worker.process(new Event("eventId", concept_event_url, "title", "feedUri", null));
 
         Drug drug = conceptService.getDrugByUuid(idMappingsRepository.findByExternalId(uuid).getInternalId());
         assertNotNull(drug);
@@ -142,7 +142,7 @@ public class MedicationEventWorkerIntegrationTest extends BaseModuleWebContextSe
         assertNull(drug.getDosageForm());
 
         MedicationEventWorker worker = new MedicationEventWorker(trFeedProperties, httpClient, conceptService, idMappingsRepository);
-        worker.process(new Event("eventId", concept_event_url, "title", "feedUri"));
+        worker.process(new Event("eventId", concept_event_url, "title", "feedUri", null));
 
 
         assertNotNull(drug);

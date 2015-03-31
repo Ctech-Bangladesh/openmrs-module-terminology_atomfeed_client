@@ -59,7 +59,7 @@ public class ConceptReferenceTermEventWorkerIntegrationTest extends BaseModuleWe
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/reference_term.json"))));
 
-        referenceTermFeedWorker.process(new Event("eventId", reference_term_event_url, "title", "feedUri"));
+        referenceTermFeedWorker.process(new Event("eventId", reference_term_event_url, "title", "feedUri", null));
         ConceptReferenceTerm referenceTerm = Context.getConceptService().getConceptReferenceTermByUuid(idMappingsRepository.findByExternalId(external_id).getInternalId());
         assertNotNull(referenceTerm);
         assertEquals("Paracetamol 1",referenceTerm.getName());
