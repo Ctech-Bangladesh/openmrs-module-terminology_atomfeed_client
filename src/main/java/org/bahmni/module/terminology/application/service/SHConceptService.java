@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT;
 
 @Component
@@ -36,8 +38,8 @@ public class SHConceptService {
         Concept newConcept = conceptMapper.map(conceptRequest);
         if (idMapping == null) {
             Concept savedConcept = conceptService.saveConcept(newConcept);
-            ConceptPostProcessor postProcessor = postProcessorFactory.getPostProcessor(savedConcept);
-            if (null != postProcessor) {
+            List<ConceptPostProcessor> postProcessors = postProcessorFactory.getPostProcessors(savedConcept);
+            for (ConceptPostProcessor postProcessor : postProcessors) {
                 postProcessor.process(savedConcept);
             }
             idMappingsRepository.saveMapping(new IdMapping(savedConcept.getUuid(), conceptRequest.getUuid(), CONCEPT, conceptRequest.getUri()));

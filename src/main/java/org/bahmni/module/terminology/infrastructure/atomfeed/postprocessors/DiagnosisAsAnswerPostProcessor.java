@@ -5,11 +5,11 @@ import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.application.model.ConceptType;
 import org.springframework.stereotype.Component;
 
-@Component("diagnosisPostProcessor")
-public class DiagnosisPostProcessor extends ConceptPostProcessor {
+@Component("diagnosisAsAnswerPostProcessor")
+public class DiagnosisAsAnswerPostProcessor extends ConceptPostProcessor {
 
 
-    private final Logger logger = Logger.getLogger(DiagnosisPostProcessor.class);
+    private final Logger logger = Logger.getLogger(DiagnosisAsAnswerPostProcessor.class);
 
     @Override
     public ConceptType getConceptType(){
@@ -18,7 +18,7 @@ public class DiagnosisPostProcessor extends ConceptPostProcessor {
 
     @Override
     public ProcessingInfo getProcessingInfo() {
-        return ProcessingInfo.SETMEMBER;
+        return ProcessingInfo.CODEDANSWER;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class DiagnosisPostProcessor extends ConceptPostProcessor {
 
     @Override
     String getParentConceptName() {
-        return "uncategorized diagnoses";
+        return "Diagnosis Answers";
     }
 
 

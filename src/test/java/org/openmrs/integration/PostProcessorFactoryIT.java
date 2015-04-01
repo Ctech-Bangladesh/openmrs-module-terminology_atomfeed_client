@@ -2,16 +2,16 @@ package org.openmrs.integration;
 
 
 import org.bahmni.module.terminology.application.postprocessor.PostProcessorFactory;
-import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.ChiefComplaintPostProcessor;
-import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.ConceptPostProcessor;
-import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.DiagnosisPostProcessor;
-import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.ProcedurePostProcessor;
+import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.*;
 import org.junit.Test;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
 import org.openmrs.web.test.BaseModuleWebContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @org.springframework.test.context.ContextConfiguration(locations = {"classpath:TestingApplicationContext.xml"}, inheritLocations = true)
@@ -23,37 +23,41 @@ public class PostProcessorFactoryIT extends BaseModuleWebContextSensitiveTest {
     @Test
     public void shouldMapDiagnosisProcessors() throws Exception {
         Concept diagnosisConcept = getConceptForClass("diagnosis");
-        ConceptPostProcessor postProcessor = postProcessorFactory.getPostProcessor(diagnosisConcept);
+        List<ConceptPostProcessor> postProcessors = postProcessorFactory.getPostProcessors(diagnosisConcept);
 
-        assertTrue(postProcessor instanceof DiagnosisPostProcessor);
+        assertEquals(postProcessors.size(), 2);
+        assertTrue(postProcessors.get(0) instanceof DiagnosisAsAnswerPostProcessor);
+        assertTrue(postProcessors.get(1) instanceof DiagnosisAsSetMemberPostProcessor);
 
     }
 
     @Test
     public void shouldMapProcedureProcessors() throws Exception {
         Concept procedureConcept = getConceptForClass("Procedure");
-        ConceptPostProcessor postProcessor = postProcessorFactory.getPostProcessor(procedureConcept);
+        List<ConceptPostProcessor> postProcessors = postProcessorFactory.getPostProcessors(procedureConcept);
 
-        assertTrue(postProcessor instanceof ProcedurePostProcessor);
+        assertEquals(postProcessors.size(), 1);
+        assertTrue(postProcessors.get(0) instanceof ProcedurePostProcessor);
 
     }
 
     @Test
     public void shouldMapChiefComplaintProcessors() throws Exception {
         Concept chiefComplaintConcept = getConceptForClass("finding");
-        ConceptPostProcessor postProcessor = postProcessorFactory.getPostProcessor(chiefComplaintConcept);
 
-        assertTrue(postProcessor instanceof ChiefComplaintPostProcessor);
+        List<ConceptPostProcessor> postProcessors = postProcessorFactory.getPostProcessors(chiefComplaintConcept);
+        assertEquals(postProcessors.size(), 1);
+        assertTrue(postProcessors.get(0) instanceof ChiefComplaintPostProcessor);
 
         chiefComplaintConcept = getConceptForClass("symptom");
-        postProcessor = postProcessorFactory.getPostProcessor(chiefComplaintConcept);
-
-        assertTrue(postProcessor instanceof ChiefComplaintPostProcessor);
+        postProcessors = postProcessorFactory.getPostProcessors(chiefComplaintConcept);
+        assertEquals(postProcessors.size(), 1);
+        assertTrue(postProcessors.get(0) instanceof ChiefComplaintPostProcessor);
 
         chiefComplaintConcept = getConceptForClass("symptom/finding");
-        postProcessor = postProcessorFactory.getPostProcessor(chiefComplaintConcept);
-
-        assertTrue(postProcessor instanceof ChiefComplaintPostProcessor);
+        postProcessors = postProcessorFactory.getPostProcessors(chiefComplaintConcept);
+        assertEquals(postProcessors.size(), 1);
+        assertTrue(postProcessors.get(0) instanceof ChiefComplaintPostProcessor);
 
     }
 

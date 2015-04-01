@@ -5,6 +5,7 @@ import org.openmrs.Concept;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -17,12 +18,13 @@ public class PostProcessorFactory {
         this.postProcessors = postProcessors;
     }
 
-    public ConceptPostProcessor getPostProcessor(Concept savedConcept) {
+    public List<ConceptPostProcessor> getPostProcessors(Concept savedConcept) {
+        List<ConceptPostProcessor> matchingPostProcessors = new ArrayList<>();
         for (ConceptPostProcessor postProcessor : postProcessors) {
             if(postProcessor.getConceptType().matches(savedConcept.getConceptClass().getName())){
-                return postProcessor;
+                matchingPostProcessors.add(postProcessor);
             }
         }
-        return null;
+        return matchingPostProcessors;
     }
 }
