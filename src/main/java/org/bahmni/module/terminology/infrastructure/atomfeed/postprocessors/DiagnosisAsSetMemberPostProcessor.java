@@ -28,7 +28,7 @@ public class DiagnosisAsSetMemberPostProcessor extends ConceptPostProcessor {
 
     @Override
     String getParentConceptName() {
-        return "uncategorized diagnosis";
+        return "uncategorized diagnoses";
     }
 
 
