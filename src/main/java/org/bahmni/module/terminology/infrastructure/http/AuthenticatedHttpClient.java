@@ -10,6 +10,8 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -18,6 +20,13 @@ import static java.lang.String.format;
 
 @Component
 public class AuthenticatedHttpClient {
+
+    private TRFeedProperties trProperties;
+
+    @Autowired
+    public AuthenticatedHttpClient(TRFeedProperties trProperties) {
+        this.trProperties = trProperties;
+    }
 
     public <T> T get(String url, Class<T> clazz) {
         try {
@@ -36,7 +45,7 @@ public class AuthenticatedHttpClient {
 
     private CloseableHttpClient buildClient() {
         CredentialsProvider provider = new BasicCredentialsProvider();
-        UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("admin", "Admin123");
+        UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(trProperties.getTerminologyApiUserName(), trProperties.getTerminologyApiUserPassword());
         provider.setCredentials(AuthScope.ANY, credentials);
         return HttpClientBuilder.create().setDefaultCredentialsProvider(provider).build();
     }

@@ -49,7 +49,7 @@ public class ConceptEventWorkerTest {
 
     private TRFeedProperties createProperties() {
         Properties feedDefaults = new Properties();
-        feedDefaults.setProperty(TRFeedProperties.TERMINOLOGY_FEED_URI, CONCEPT_BASE_URL);
+        feedDefaults.setProperty(TRFeedProperties.TERMINOLOGY_FEED_URI_KEY, CONCEPT_BASE_URL);
         return new TRFeedProperties(feedDefaults);
     }
 

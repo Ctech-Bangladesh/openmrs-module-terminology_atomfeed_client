@@ -22,13 +22,16 @@ public class TRFeedProperties extends AtomFeedProperties {
     @Resource(name = "terminologyFeedProperties")
     private Properties defaultProperties;
 
-    public static final String TERMINOLOGY_FEED_URI = "concept.feed.url";
-    public static final String MEDICATION_FEED_URI = "medication.feed.url";
+    public static final String TERMINOLOGY_FEED_URI_KEY = "concept.feed.url";
+    public static final String MEDICATION_FEED_URI_KEY = "medication.feed.url";
 
-    public static final java.lang.String REFERENCE_FEED_URI = "referenceTerm.feed.url";
-    public static final String CONNECT_TIMEOUT = "feed.connectionTimeoutInMilliseconds";
-    public static final String MAX_FAILED_EVENTS = "feed.maxFailedEvents";
-    public static final String READ_TIMEOUT = "feed.replyTimeoutInMilliseconds";
+    public static final String REFERENCE_FEED_URI_KEY = "referenceTerm.feed.url";
+    public static final String CONNECT_TIMEOUT_KEY = "feed.connectionTimeoutInMilliseconds";
+    public static final String MAX_FAILED_EVENTS_KEY = "feed.maxFailedEvents";
+    public static final String READ_TIMEOUT_KEY = "feed.replyTimeoutInMilliseconds";
+
+    public static final String TR_API_USER_NAME_KEY = "tr.apiUserName";
+    public static final String TR_API_USER_PASSWORD_KEY = "tr.apiUserPassword";
 
     private Properties atomFeedProperties;
 
@@ -55,22 +58,22 @@ public class TRFeedProperties extends AtomFeedProperties {
     }
 
     public String terminologyFeedUri() {
-        return atomFeedProperties.getProperty(TERMINOLOGY_FEED_URI);
+        return atomFeedProperties.getProperty(TERMINOLOGY_FEED_URI_KEY);
     }
 
     @Override
     public int getMaxFailedEvents() {
-        return Integer.parseInt(atomFeedProperties.getProperty(MAX_FAILED_EVENTS));
+        return Integer.parseInt(atomFeedProperties.getProperty(MAX_FAILED_EVENTS_KEY));
     }
 
     @Override
     public int getReadTimeout() {
-        return Integer.parseInt(atomFeedProperties.getProperty(READ_TIMEOUT));
+        return Integer.parseInt(atomFeedProperties.getProperty(READ_TIMEOUT_KEY));
     }
 
     @Override
     public int getConnectTimeout() {
-        return Integer.parseInt(atomFeedProperties.getProperty(CONNECT_TIMEOUT));
+        return Integer.parseInt(atomFeedProperties.getProperty(CONNECT_TIMEOUT_KEY));
     }
 
 
@@ -79,7 +82,7 @@ public class TRFeedProperties extends AtomFeedProperties {
     }
 
     public String getReferenceTermFeedUrl() {
-        return atomFeedProperties.getProperty(REFERENCE_FEED_URI);
+        return atomFeedProperties.getProperty(REFERENCE_FEED_URI_KEY);
     }
 
     public String getReferenceTermUrl(String content) {
@@ -87,10 +90,18 @@ public class TRFeedProperties extends AtomFeedProperties {
     }
 
     public String medicationFeedUri() {
-        return atomFeedProperties.getProperty(MEDICATION_FEED_URI);
+        return atomFeedProperties.getProperty(MEDICATION_FEED_URI_KEY);
     }
 
     public String getMedicationUrl(String content) {
         return join(subarray(medicationFeedUri().split("/"), 0, 3), "/") + ((null == content) ? "" : content);
+    }
+
+    public String getTerminologyApiUserName() {
+        return atomFeedProperties.getProperty(TR_API_USER_NAME_KEY).trim();
+    }
+
+    public String getTerminologyApiUserPassword() {
+        return atomFeedProperties.getProperty(TR_API_USER_PASSWORD_KEY).trim();
     }
 }
