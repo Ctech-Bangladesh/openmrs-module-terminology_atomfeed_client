@@ -23,7 +23,7 @@ public enum ConceptType {
 
     ChiefComplaint {
 
-        private List<String> matchingClasses = Arrays.asList("finding", "symptom", "symptom/finding");
+        private List<String> matchingClasses = Arrays.asList("symptom", "symptom/finding");
 
         @Override
         public boolean matches(String conceptClass) {
