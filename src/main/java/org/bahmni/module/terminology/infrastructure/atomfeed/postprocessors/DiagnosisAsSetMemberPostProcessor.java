@@ -3,6 +3,7 @@ package org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors;
 
 import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.application.model.ConceptType;
+import org.openmrs.Concept;
 import org.springframework.stereotype.Component;
 
 @Component("diagnosisAsSetMemberPostProcessor")
@@ -30,6 +31,4 @@ public class DiagnosisAsSetMemberPostProcessor extends ConceptPostProcessor {
     String getParentConceptName() {
         return "uncategorized diagnoses";
     }
-
-
 }

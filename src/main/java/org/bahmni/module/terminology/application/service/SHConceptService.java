@@ -45,12 +45,13 @@ public class SHConceptService {
             idMappingsRepository.saveMapping(new IdMapping(savedConcept.getUuid(), conceptRequest.getUuid(), CONCEPT, conceptRequest.getUri()));
         } else {
             Concept existingConcept = conceptService.getConceptByUuid(idMapping.getInternalId());
-            conceptService.saveConcept(
+            Concept updatedConcept = conceptService.saveConcept(
                     conceptUpdate.mergeSpecifics(
-                            conceptService.saveConcept(conceptUpdate.merge(newConcept, existingConcept)),
-                            newConcept
-                    )
-            );
+                            conceptService.saveConcept(conceptUpdate.merge(newConcept, existingConcept)),newConcept));
+            List<ConceptPostProcessor> postProcessors = postProcessorFactory.getPostProcessors(updatedConcept);
+            for (ConceptPostProcessor postProcessor : postProcessors) {
+                postProcessor.process(updatedConcept);
+            }
         }
     }
 }

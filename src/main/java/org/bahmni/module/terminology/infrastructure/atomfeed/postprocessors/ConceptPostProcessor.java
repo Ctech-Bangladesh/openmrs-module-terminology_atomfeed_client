@@ -1,14 +1,14 @@
 package org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors;
 
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.application.model.ConceptType;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.api.ConceptService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.apache.log4j.Logger;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,11 +18,13 @@ public abstract class ConceptPostProcessor {
     public abstract ProcessingInfo getProcessingInfo();
 
     abstract Logger getLogger();
+
     abstract String getParentConceptName();
 
     @Autowired
     ConceptService conceptService;
 
+    private List<String> matchingClasses = Arrays.asList("symptom", "symptom/finding");
 
     public void process(Concept concept) {
         Concept parentConcept = getParentConcept();
@@ -37,8 +39,9 @@ public abstract class ConceptPostProcessor {
             addAsAnswers(parentConcept, concept);
         } else if (processingInfo.equals(ProcessingInfo.SETMEMBER)) {
             addAsMember(parentConcept, concept);
+        } else if (processingInfo.equals(ProcessingInfo.CLEANUP_CODEDANSWER)) {
+            cleanUp(parentConcept, concept);
         }
-
     }
 
     private void addAsMember(Concept parentConcept, Concept concept) {
@@ -71,15 +74,14 @@ public abstract class ConceptPostProcessor {
         }
     }
 
-    private Concept getParentConcept(){
+    private Concept getParentConcept() {
         return conceptService.getConceptByName(getParentConceptName());
     }
 
-     private boolean isPresentAsAnswer(Concept parentConcept, Concept concept) {
+    private boolean isPresentAsAnswer(Concept parentConcept, Concept concept) {
         Collection<ConceptAnswer> members = parentConcept.getAnswers();
         for (ConceptAnswer member : members) {
-            //TODO: should do a uuid check
-            if (StringUtils.equals(member.getConcept().getName().getName(), concept.getName().getName())) {
+            if (member.getAnswerConcept().getUuid().equals(concept.getUuid())) {
                 return true;
             }
         }
@@ -94,5 +96,32 @@ public abstract class ConceptPostProcessor {
             }
         }
         return false;
+    }
+
+    private void cleanUp(Concept parentConcept, Concept concept) {
+        if (matchingClasses.contains(concept.getConceptClass().getName().toLowerCase())) {
+            return;
+        }
+        if (parentConcept.getDatatype().isCoded()) {
+            ConceptAnswer present = getAnswerIfPresent(parentConcept, concept);
+            if (null != present) {
+                parentConcept.removeAnswer(present);
+                conceptService.saveConcept(parentConcept);
+            } else {
+                getLogger().info(String.format("Concept is not an answer of parent [%s]", getParentConceptName()));
+            }
+        } else {
+            getLogger().info(String.format("Can not remove answer as the Parent [%s] dataType is not coded",getParentConceptName()));
+        }
+    }
+
+    private ConceptAnswer getAnswerIfPresent(Concept parentConcept, Concept concept) {
+        Collection<ConceptAnswer> members = parentConcept.getAnswers();
+        for (ConceptAnswer member : members) {
+            if (member.getAnswerConcept().getUuid().equals(concept.getUuid())) {
+                return member;
+            }
+        }
+        return null;
     }
 }

@@ -2,6 +2,7 @@ package org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors;
 
 import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.application.model.ConceptType;
+import org.openmrs.Concept;
 import org.springframework.stereotype.Component;
 
 @Component("procedurePostProcessor")
@@ -13,7 +14,6 @@ public class ProcedurePostProcessor extends ConceptPostProcessor {
     public String getParentConceptName(){
         return "Procedure";
     }
-
 
     @Override
     public ConceptType getConceptType() {

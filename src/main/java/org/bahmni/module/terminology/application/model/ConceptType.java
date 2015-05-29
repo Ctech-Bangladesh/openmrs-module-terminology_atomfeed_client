@@ -27,12 +27,14 @@ public enum ConceptType {
 
         @Override
         public boolean matches(String conceptClass) {
-            for (String matchingClass : matchingClasses) {
-                if (StringUtils.equalsIgnoreCase(conceptClass, matchingClass)) {
-                    return true;
-                }
-            }
-            return false;
+            return matchingClasses.contains(conceptClass.toLowerCase());
+        }
+    },
+
+    Default {
+        @Override
+        public boolean matches(String conceptClass) {
+            return true;
         }
     };
 
