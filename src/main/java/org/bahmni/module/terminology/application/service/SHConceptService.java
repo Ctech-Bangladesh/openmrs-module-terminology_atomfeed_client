@@ -10,6 +10,7 @@ import org.bahmni.module.terminology.infrastructure.repository.IdMappingsReposit
 import org.openmrs.Concept;
 import org.openmrs.api.ConceptService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,7 @@ public class SHConceptService {
     @Autowired
     private IdMappingsRepository idMappingsRepository;
     @Autowired
+    @Qualifier("TRClientConceptMapper")
     private ConceptMapper conceptMapper;
     @Autowired
     private ConceptUpdate conceptUpdate;

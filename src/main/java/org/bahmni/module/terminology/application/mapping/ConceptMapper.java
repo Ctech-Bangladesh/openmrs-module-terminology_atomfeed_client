@@ -14,7 +14,7 @@ import java.util.Locale;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 
-@Component
+@Component(value = "TRClientConceptMapper")
 public class ConceptMapper {
 
     private ConceptService conceptService;

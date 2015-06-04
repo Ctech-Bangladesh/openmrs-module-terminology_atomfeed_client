@@ -3,9 +3,6 @@ package org.bahmni.module.terminology.infrastructure.atomfeed.workers;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.google.common.collect.ImmutableMap;
 import org.bahmni.module.terminology.application.model.IdMapping;
-
-import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT;
-
 import org.bahmni.module.terminology.application.service.ConceptSyncService;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
@@ -21,12 +18,14 @@ import org.openmrs.api.context.Context;
 import org.openmrs.web.test.BaseModuleWebContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT_REFERENCE_TERM;
-
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static java.util.Locale.ENGLISH;
+import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT;
+import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT_REFERENCE_TERM;
 import static org.bahmni.module.terminology.util.FileUtil.asString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNull.notNullValue;
