@@ -27,8 +27,8 @@
         <openMRSRuntimeVersion>1.10.0</openMRSRuntimeVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <webservicesRestModuleVersion>2.9</webservicesRestModuleVersion>
-        <openmrsAtomfeedVersion>2.2</openmrsAtomfeedVersion>
-        <atomfeed.version>1.5</atomfeed.version>
+        <openmrsAtomfeedVersion>2.3</openmrsAtomfeedVersion>
+        <atomfeed.version>1.6</atomfeed.version>
         <jackson.version>1.9.13</jackson.version>
     </properties>
 
