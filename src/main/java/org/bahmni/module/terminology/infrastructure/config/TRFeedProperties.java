@@ -32,6 +32,7 @@ public class TRFeedProperties extends AtomFeedProperties {
 
     public static final String TR_API_USER_NAME_KEY = "tr.apiUserName";
     public static final String TR_API_USER_PASSWORD_KEY = "tr.apiUserPassword";
+    public static final String TR_REFERENCE_PATH_KEY = "tr.referenceUrl";
 
     private Properties atomFeedProperties;
 
@@ -59,6 +60,10 @@ public class TRFeedProperties extends AtomFeedProperties {
 
     public String terminologyFeedUri() {
         return atomFeedProperties.getProperty(TERMINOLOGY_FEED_URI_KEY);
+    }
+
+    public String getTRBaseUrl(){
+        return StringUtil.ensureSuffix(atomFeedProperties.getProperty(TR_REFERENCE_PATH_KEY), "/");
     }
 
     @Override
