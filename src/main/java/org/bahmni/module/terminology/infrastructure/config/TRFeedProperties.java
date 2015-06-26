@@ -63,7 +63,7 @@ public class TRFeedProperties extends AtomFeedProperties {
     }
 
     public String getTRBaseUrl(){
-        return StringUtil.ensureSuffix(atomFeedProperties.getProperty(TR_REFERENCE_PATH_KEY), "/");
+        return atomFeedProperties.getProperty(TR_REFERENCE_PATH_KEY);
     }
 
     @Override
