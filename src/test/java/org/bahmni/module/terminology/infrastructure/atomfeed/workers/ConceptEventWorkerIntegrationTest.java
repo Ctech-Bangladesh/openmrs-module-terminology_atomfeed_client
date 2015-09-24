@@ -9,6 +9,7 @@ import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient
 import org.bahmni.module.terminology.infrastructure.mapper.ConceptRequestMapper;
 import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
 import org.ict4h.atomfeed.client.domain.Event;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static java.util.Locale.ENGLISH;
@@ -44,7 +46,7 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
     @Autowired
     private TRFeedProperties trFeedProperties;
     @Autowired
-    private ConceptSyncService ConceptSyncService;
+    private ConceptSyncService conceptSyncService;
     @Autowired
     private ConceptRequestMapper conceptMapper;
     @Autowired
@@ -54,7 +56,12 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
 
     @Before
     public void setUp() {
-
+        
+    }
+    
+    @After
+    public void tearDown() throws Exception {
+        deleteAllData();
     }
 
     /**
@@ -75,7 +82,7 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/concept.json"))));
-        ConceptEventWorker worker = new ConceptEventWorker(httpClient, trFeedProperties, ConceptSyncService, conceptMapper);
+        ConceptEventWorker worker = new ConceptEventWorker(httpClient, trFeedProperties, conceptSyncService, conceptMapper);
 
         worker.process(new Event("eventId", concept_event_url, "title", "feedUri", null));
 
@@ -106,7 +113,7 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/concept_with_new_class.json"))));
-        ConceptEventWorker worker = new ConceptEventWorker(httpClient, trFeedProperties, ConceptSyncService, conceptMapper);
+        ConceptEventWorker worker = new ConceptEventWorker(httpClient, trFeedProperties, conceptSyncService, conceptMapper);
         worker.process(new Event("eventId", concept_event_url, "title", "feedUri", null));
         Concept concept = Context.getConceptService().getConceptByName("tbtest");
         assertThat(concept, is(notNullValue()));
@@ -120,6 +127,7 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
 
     @Test
     public void shouldSyncConceptSet() {
+        Context.getUserContext().setLocale(Locale.ENGLISH);
         createAndAssertSystolicConcept();
         createAndAssertDiastolicConcept();
         String bpExternalUuid = "444c8246-202c-4376-bfa8-3278d1049444";
@@ -251,7 +259,7 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody(asString("stubdata/" + resName))));
-        ConceptEventWorker worker = new ConceptEventWorker(httpClient, trFeedProperties, ConceptSyncService, conceptMapper);
+        ConceptEventWorker worker = new ConceptEventWorker(httpClient, trFeedProperties, conceptSyncService, conceptMapper);
         worker.process(new Event("eventId", concept_feed_url_prefix + externalUuid, "title", "feedUri", null));
     }
 

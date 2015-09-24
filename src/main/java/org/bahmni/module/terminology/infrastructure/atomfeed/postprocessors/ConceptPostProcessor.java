@@ -6,11 +6,13 @@ import org.bahmni.module.terminology.application.model.ConceptType;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.api.ConceptService;
+import org.openmrs.api.context.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 public abstract class ConceptPostProcessor {
     public abstract ConceptType getConceptType();
@@ -75,7 +77,9 @@ public abstract class ConceptPostProcessor {
     }
 
     private Concept getParentConcept() {
-        return conceptService.getConceptByName(getParentConceptName());
+        List<Concept> conceptsByName = conceptService.getConceptsByName(getParentConceptName(), Locale.ENGLISH, false);
+        return conceptsByName.size() > 0 ? conceptsByName.get(0) : null;
+        //return conceptService.getConceptByName(getParentConceptName());
     }
 
     private boolean isPresentAsAnswer(Concept parentConcept, Concept concept) {

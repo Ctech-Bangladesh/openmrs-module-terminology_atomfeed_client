@@ -25,9 +25,10 @@ public class PostProcessorFactoryIT extends BaseModuleWebContextSensitiveTest {
         Concept diagnosisConcept = getConceptForClass("diagnosis");
         List<ConceptPostProcessor> postProcessors = postProcessorFactory.getPostProcessors(diagnosisConcept);
 
-        assertEquals(postProcessors.size(), 2);
-        assertTrue(postProcessors.get(0) instanceof DiagnosisAsAnswerPostProcessor);
-        assertTrue(postProcessors.get(1) instanceof DiagnosisAsSetMemberPostProcessor);
+        assertEquals(3, postProcessors.size());
+        assertTrue(postProcessors.get(0) instanceof CleanUpChiefComplaintPostProcessor);
+        assertTrue(postProcessors.get(1) instanceof DiagnosisAsAnswerPostProcessor);
+        assertTrue(postProcessors.get(2) instanceof DiagnosisAsSetMemberPostProcessor);
 
     }
 
@@ -36,8 +37,9 @@ public class PostProcessorFactoryIT extends BaseModuleWebContextSensitiveTest {
         Concept procedureConcept = getConceptForClass("Procedure");
         List<ConceptPostProcessor> postProcessors = postProcessorFactory.getPostProcessors(procedureConcept);
 
-        assertEquals(postProcessors.size(), 1);
-        assertTrue(postProcessors.get(0) instanceof ProcedurePostProcessor);
+        assertEquals(2, postProcessors.size());
+        assertTrue(postProcessors.get(0) instanceof CleanUpChiefComplaintPostProcessor);
+        assertTrue(postProcessors.get(1) instanceof ProcedurePostProcessor);
 
     }
 
@@ -46,18 +48,20 @@ public class PostProcessorFactoryIT extends BaseModuleWebContextSensitiveTest {
         Concept chiefComplaintConcept = getConceptForClass("finding");
 
         List<ConceptPostProcessor> postProcessors = postProcessorFactory.getPostProcessors(chiefComplaintConcept);
-        assertEquals(postProcessors.size(), 1);
-        assertTrue(postProcessors.get(0) instanceof ChiefComplaintPostProcessor);
+        assertEquals(1, postProcessors.size());
+        assertTrue(postProcessors.get(0) instanceof CleanUpChiefComplaintPostProcessor);
 
         chiefComplaintConcept = getConceptForClass("symptom");
         postProcessors = postProcessorFactory.getPostProcessors(chiefComplaintConcept);
-        assertEquals(postProcessors.size(), 1);
+        assertEquals(2, postProcessors.size());
         assertTrue(postProcessors.get(0) instanceof ChiefComplaintPostProcessor);
+        assertTrue(postProcessors.get(1) instanceof CleanUpChiefComplaintPostProcessor);
 
         chiefComplaintConcept = getConceptForClass("symptom/finding");
         postProcessors = postProcessorFactory.getPostProcessors(chiefComplaintConcept);
-        assertEquals(postProcessors.size(), 1);
+        assertEquals(2, postProcessors.size());
         assertTrue(postProcessors.get(0) instanceof ChiefComplaintPostProcessor);
+        assertTrue(postProcessors.get(1) instanceof CleanUpChiefComplaintPostProcessor);
 
     }
 

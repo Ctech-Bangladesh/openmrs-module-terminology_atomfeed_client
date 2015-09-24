@@ -34,7 +34,7 @@ public class SHConceptService {
     @Autowired
     private ConceptUpdate conceptUpdate;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void sync(ConceptRequest conceptRequest) {
         IdMapping idMapping = idMappingsRepository.findByExternalId(conceptRequest.getUuid());
         Concept newConcept = conceptMapper.map(conceptRequest);

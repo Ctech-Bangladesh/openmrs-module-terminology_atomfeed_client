@@ -26,14 +26,14 @@ public class SHReferenceTermService {
     @Autowired
     private ConceptReferenceTermMapper conceptReferenceTermMapper;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void sync(ConceptReferenceTermRequests conceptReferenceTermRequests) {
         for (ConceptReferenceTermRequest request : conceptReferenceTermRequests.getConceptReferenceTermRequests()) {
             syncReferenceTerm(request);
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void syncReferenceTerm(ConceptReferenceTermRequest request) {
         if (request.isHasSource()) {
             shConceptSourceService.sync(request.getConceptSourceRequest());
