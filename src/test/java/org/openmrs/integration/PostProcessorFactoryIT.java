@@ -1,6 +1,8 @@
 package org.openmrs.integration;
 
 
+import junitx.framework.ListAssert;
+import org.apache.commons.collections.Transformer;
 import org.bahmni.module.terminology.application.postprocessor.PostProcessorFactory;
 import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.*;
 import org.junit.Test;
@@ -9,8 +11,11 @@ import org.openmrs.ConceptClass;
 import org.openmrs.web.test.BaseModuleWebContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collection;
 import java.util.List;
 
+import static java.util.Arrays.asList;
+import static org.apache.commons.collections.CollectionUtils.collect;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -26,9 +31,9 @@ public class PostProcessorFactoryIT extends BaseModuleWebContextSensitiveTest {
         List<ConceptPostProcessor> postProcessors = postProcessorFactory.getPostProcessors(diagnosisConcept);
 
         assertEquals(3, postProcessors.size());
-        assertTrue(postProcessors.get(0) instanceof CleanUpChiefComplaintPostProcessor);
-        assertTrue(postProcessors.get(1) instanceof DiagnosisAsAnswerPostProcessor);
-        assertTrue(postProcessors.get(2) instanceof DiagnosisAsSetMemberPostProcessor);
+
+        assertPostProcessorTypes(postProcessors, asList(CleanUpChiefComplaintPostProcessor.class.getName(),
+                DiagnosisAsAnswerPostProcessor.class.getName(), DiagnosisAsSetMemberPostProcessor.class.getName()));
 
     }
 
@@ -36,11 +41,8 @@ public class PostProcessorFactoryIT extends BaseModuleWebContextSensitiveTest {
     public void shouldMapProcedureProcessors() throws Exception {
         Concept procedureConcept = getConceptForClass("Procedure");
         List<ConceptPostProcessor> postProcessors = postProcessorFactory.getPostProcessors(procedureConcept);
-
         assertEquals(2, postProcessors.size());
-        assertTrue(postProcessors.get(0) instanceof CleanUpChiefComplaintPostProcessor);
-        assertTrue(postProcessors.get(1) instanceof ProcedurePostProcessor);
-
+        assertPostProcessorTypes(postProcessors, asList(CleanUpChiefComplaintPostProcessor.class.getName(), ProcedurePostProcessor.class.getName()));
     }
 
     @Test
@@ -54,15 +56,14 @@ public class PostProcessorFactoryIT extends BaseModuleWebContextSensitiveTest {
         chiefComplaintConcept = getConceptForClass("symptom");
         postProcessors = postProcessorFactory.getPostProcessors(chiefComplaintConcept);
         assertEquals(2, postProcessors.size());
-        assertTrue(postProcessors.get(0) instanceof ChiefComplaintPostProcessor);
-        assertTrue(postProcessors.get(1) instanceof CleanUpChiefComplaintPostProcessor);
+        assertPostProcessorTypes(postProcessors, asList(ChiefComplaintPostProcessor.class.getName(),
+                CleanUpChiefComplaintPostProcessor.class.getName()));
 
         chiefComplaintConcept = getConceptForClass("symptom/finding");
         postProcessors = postProcessorFactory.getPostProcessors(chiefComplaintConcept);
         assertEquals(2, postProcessors.size());
-        assertTrue(postProcessors.get(0) instanceof ChiefComplaintPostProcessor);
-        assertTrue(postProcessors.get(1) instanceof CleanUpChiefComplaintPostProcessor);
-
+        assertPostProcessorTypes(postProcessors, asList(ChiefComplaintPostProcessor.class.getName(),
+                CleanUpChiefComplaintPostProcessor.class.getName()));
     }
 
     private Concept getConceptForClass(String conceptClassName) {
@@ -71,6 +72,16 @@ public class PostProcessorFactoryIT extends BaseModuleWebContextSensitiveTest {
         conceptClass.setName(conceptClassName);
         chiefComplaintConcept.setConceptClass(conceptClass);
         return chiefComplaintConcept;
+    }
+
+    private void assertPostProcessorTypes(List<ConceptPostProcessor> postProcessors, List<String> expected) {
+        Collection names = collect(postProcessors, new Transformer() {
+            @Override
+            public String transform(Object o) {
+                return o.getClass().getName();
+            }
+        });
+        ListAssert.assertEquals(asList(expected.toArray()), asList(names.toArray()));
     }
 }
 
