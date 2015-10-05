@@ -8,6 +8,7 @@ import org.bahmni.module.terminology.application.postprocessor.PostProcessorFact
 import org.bahmni.module.terminology.infrastructure.atomfeed.postprocessors.ConceptPostProcessor;
 import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
 import org.openmrs.Concept;
+import org.openmrs.ConceptNumeric;
 import org.openmrs.api.ConceptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -47,13 +48,20 @@ public class SHConceptService {
             idMappingsRepository.saveMapping(new IdMapping(savedConcept.getUuid(), conceptRequest.getUuid(), CONCEPT, conceptRequest.getUri()));
         } else {
             Concept existingConcept = conceptService.getConceptByUuid(idMapping.getInternalId());
-            Concept updatedConcept = conceptService.saveConcept(
-                    conceptUpdate.mergeSpecifics(
-                            conceptService.saveConcept(conceptUpdate.merge(newConcept, existingConcept)),newConcept));
+            conceptUpdate.merge(existingConcept, newConcept);
+            conceptService.saveConcept(existingConcept);
+            Concept updatedConcept = mergeSpecifics(existingConcept, newConcept);
             List<ConceptPostProcessor> postProcessors = postProcessorFactory.getPostProcessors(updatedConcept);
             for (ConceptPostProcessor postProcessor : postProcessors) {
                 postProcessor.process(updatedConcept);
             }
         }
+    }
+
+    private Concept mergeSpecifics(Concept existingConcept, Concept newConcept) {
+        if (existingConcept instanceof ConceptNumeric && newConcept instanceof ConceptNumeric) {
+            return conceptService.saveConcept(conceptUpdate.mergeSpecifics(existingConcept,newConcept));
+        }
+        return existingConcept;
     }
 }

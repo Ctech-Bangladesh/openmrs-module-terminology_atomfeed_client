@@ -19,7 +19,7 @@ public class ConceptUpdate {
     @Autowired
     private IdMappingsRepository idMappingsRepository;
 
-    public Concept merge(Concept newConcept, Concept existingConcept) {
+    public Concept merge(Concept existingConcept, Concept newConcept) {
         existingConcept.setRetired(newConcept.isRetired());
         existingConcept.setRetireReason(newConcept.getRetireReason());
         existingConcept.setSet(newConcept.isSet());

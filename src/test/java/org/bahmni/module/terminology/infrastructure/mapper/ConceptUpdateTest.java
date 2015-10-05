@@ -31,7 +31,7 @@ public class ConceptUpdateTest extends BaseModuleWebContextSensitiveTest {
         Concept existingConcept = conceptService.getConcept(401);
         assertEquals(3, existingConcept.getSetMembers().size());
         assertEquals(0, newConcept.getSetMembers().size());
-        Concept updatedConcept = conceptUpdate.merge(newConcept, existingConcept);
+        Concept updatedConcept = conceptUpdate.merge(existingConcept, newConcept);
         assertNotNull(updatedConcept);
         assertEquals(0, updatedConcept.getSetMembers().size());
     }
@@ -42,7 +42,7 @@ public class ConceptUpdateTest extends BaseModuleWebContextSensitiveTest {
         Concept existingConcept = conceptService.getConcept(401);
         assertEquals(3, existingConcept.getSetMembers().size());
         assertEquals(2, newConcept.getSetMembers().size());
-        Concept updatedConcept = conceptUpdate.merge(newConcept, existingConcept);
+        Concept updatedConcept = conceptUpdate.merge(existingConcept, newConcept);
         assertNotNull(updatedConcept);
         assertEquals(2, updatedConcept.getSetMembers().size());
         assertFalse(findSetMember(updatedConcept.getSetMembers(), conceptService.getConcept(502)));
@@ -56,7 +56,7 @@ public class ConceptUpdateTest extends BaseModuleWebContextSensitiveTest {
         Concept existingConcept = conceptService.getConcept(402);
         assertEquals(0, existingConcept.getSetMembers().size());
         assertEquals(2, newConcept.getSetMembers().size());
-        Concept updatedConcept = conceptUpdate.merge(newConcept, existingConcept);
+        Concept updatedConcept = conceptUpdate.merge(existingConcept, newConcept);
         assertNotNull(updatedConcept);
         assertEquals(2, updatedConcept.getSetMembers().size());
         assertTrue(findSetMember(updatedConcept.getSetMembers(), conceptService.getConcept(503)));
@@ -70,7 +70,7 @@ public class ConceptUpdateTest extends BaseModuleWebContextSensitiveTest {
         Concept existingConcept = conceptService.getConcept(401);
         assertEquals(3, existingConcept.getSetMembers().size());
         assertEquals(3, newConcept.getSetMembers().size());
-        Concept updatedConcept = conceptUpdate.merge(newConcept, existingConcept);
+        Concept updatedConcept = conceptUpdate.merge(existingConcept, newConcept);
         assertNotNull(updatedConcept);
         assertEquals(3, updatedConcept.getSetMembers().size());
         assertFalse(findSetMember(updatedConcept.getSetMembers(), conceptService.getConcept(502)));
