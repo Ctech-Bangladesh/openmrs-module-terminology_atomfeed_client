@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Locale;
+import java.util.Set;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 
@@ -38,7 +39,6 @@ public class ConceptMapper {
 
     public Concept map(ConceptRequest conceptRequest) {
         Concept concept = conceptFactory.createConcept(conceptRequest);
-        concept.setFullySpecifiedName(conceptNameMapper.map(conceptRequest.getFullySpecifiedName()));
         concept.setSet(conceptRequest.isSet());
         concept.setRetired(conceptRequest.isRetired());
         concept.setRetireReason(conceptRequest.getRetireReason());
@@ -46,11 +46,19 @@ public class ConceptMapper {
         mapConceptDatatype(concept, conceptRequest);
         mapConceptClass(concept, conceptRequest);
         concept.addDescription(mapDescriptions(conceptRequest.getConceptDescriptionRequest()));
-        concept.setNames(conceptNameMapper.map(conceptRequest.getConceptNameRequests()));
+        setConceptNames(concept, conceptRequest);
+        //concept.setFullySpecifiedName(conceptNameMapper.map(conceptRequest.getFullySpecifiedName()));
         concept.setConceptMappings(conceptReferenceTermMapper.map(conceptRequest.getConceptReferenceTermRequests()));
         mapConceptAnswers(concept, conceptRequest);
         mapSetMembers(concept, conceptRequest);
         return concept;
+    }
+
+    private void setConceptNames(Concept concept, ConceptRequest conceptRequest) {
+        Set<ConceptName> names = conceptNameMapper.map(conceptRequest.getConceptNameRequests());
+        for (ConceptName name : names) {
+            concept.addName(name);
+        }
     }
 
     private void mapConceptAnswers(Concept concept, ConceptRequest conceptRequest) {

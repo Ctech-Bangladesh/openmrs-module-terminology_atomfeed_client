@@ -3,22 +3,20 @@
     {
       "conceptNameType": "INDEX_TERM",
       "conceptName": "Blood",
-      "locale": "en"
+      "locale": "en",
+      "preferred" : false
     },
     {
       "conceptNameType": "SHORT",
       "conceptName": "BP",
-      "locale": "en"
+      "locale": "en",
+      "preferred" : false
     },
     {
       "conceptNameType": "FULLY_SPECIFIED",
       "conceptName": "BloodPressure",
-      "locale": "en"
-    },
-    {
-      "conceptNameType": null,
-      "conceptName": "BP",
-      "locale": "en"
+      "locale": "en",
+      "preferred" : true
     }
   ],
   "conceptClass": "Diagnosis",

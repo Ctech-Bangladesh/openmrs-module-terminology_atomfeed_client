@@ -2,18 +2,21 @@
     "names": [
         {
             "conceptNameType": "INDEX_TERM",
-            "conceptName": "female",
-            "locale": "en"
+            "conceptName": "Women",
+            "locale": "en",
+            "preferred" : false
         },
         {
             "conceptNameType": "SHORT",
             "conceptName": "FEMALE",
-            "locale": "en"
+            "locale": "en",
+            "preferred" : false
         },
         {
             "conceptNameType": "FULLY_SPECIFIED",
             "conceptName": "Female Sex",
-            "locale": "en"
+            "locale": "en",
+            "preferred" : true
         }
     ],
     "conceptClass": "Finding",

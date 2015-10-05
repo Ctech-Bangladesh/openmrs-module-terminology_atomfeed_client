@@ -5,6 +5,15 @@ public class ConceptNameRequest {
     private String conceptName;
     private String locale;
     private String conceptNameType;
+    private boolean preferred;
+
+    public boolean isPreferred() {
+        return preferred;
+    }
+
+    public void setPreferred(boolean preferred) {
+        this.preferred = preferred;
+    }
 
     public String getConceptName() {
         return conceptName;
