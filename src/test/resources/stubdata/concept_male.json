@@ -3,17 +3,20 @@
         {
             "conceptNameType": "INDEX_TERM",
             "conceptName": "male",
-            "locale": "en"
+            "locale": "en",
+            "preferred" : false
         },
         {
             "conceptNameType": "SHORT",
             "conceptName": "MAN",
-            "locale": "en"
+            "locale": "en",
+            "preferred" : false
         },
         {
             "conceptNameType": "FULLY_SPECIFIED",
             "conceptName": "Male Sex",
-            "locale": "en"
+            "locale": "en",
+            "preferred" : true
         }
     ],
     "conceptClass": "Finding",

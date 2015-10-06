@@ -6,6 +6,7 @@ import org.bahmni.module.terminology.application.model.ConceptRequest;
 import org.bahmni.module.terminology.application.model.IdMapping;
 import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
 import org.openmrs.*;
+import org.openmrs.api.ConceptNameType;
 import org.openmrs.api.ConceptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -56,6 +57,19 @@ public class ConceptMapper {
 
     private void setConceptNames(Concept concept, ConceptRequest conceptRequest) {
         Set<ConceptName> names = conceptNameMapper.map(conceptRequest.getConceptNameRequests());
+        ConceptName fullySpecifiedName = null;
+        for (ConceptName name : names) {
+            if (name.getConceptNameType() != null &&
+                    name.getConceptNameType().equals(ConceptNameType.FULLY_SPECIFIED)) {
+                fullySpecifiedName = name;
+            }
+        }
+        if (fullySpecifiedName == null) {
+            throw new RuntimeException("Concept must define at least one FULLY_SPECIFIED name.");
+        }
+        concept.addName(fullySpecifiedName);
+        names.remove(fullySpecifiedName);
+
         for (ConceptName name : names) {
             concept.addName(name);
         }

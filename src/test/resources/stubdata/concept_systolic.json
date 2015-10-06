@@ -3,22 +3,20 @@
     {
       "conceptNameType": "INDEX_TERM",
       "conceptName": "systol",
-      "locale": "en"
+      "locale": "en",
+      "preferred" : false
     },
     {
       "conceptNameType": "SHORT",
       "conceptName": "systolic",
-      "locale": "en"
+      "locale": "en",
+      "preferred" : false
     },
     {
       "conceptNameType": "FULLY_SPECIFIED",
       "conceptName": "Systolic",
-      "locale": "en"
-    },
-    {
-      "conceptNameType": null,
-      "conceptName": "systo",
-      "locale": "en"
+      "locale": "en",
+      "preferred" : true
     }
   ],
   "conceptClass": "Diagnosis",

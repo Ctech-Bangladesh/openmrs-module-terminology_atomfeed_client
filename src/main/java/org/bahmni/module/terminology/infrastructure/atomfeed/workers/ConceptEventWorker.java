@@ -1,6 +1,8 @@
 package org.bahmni.module.terminology.infrastructure.atomfeed.workers;
 
 import org.apache.log4j.Logger;
+import org.bahmni.module.terminology.application.model.ConceptNameRequest;
+import org.bahmni.module.terminology.application.model.ConceptRequest;
 import org.bahmni.module.terminology.application.service.ConceptSyncService;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
 import org.bahmni.module.terminology.infrastructure.http.AuthenticatedHttpClient;
@@ -9,6 +11,7 @@ import org.ict4h.atomfeed.client.domain.Event;
 import org.ict4h.atomfeed.client.service.EventWorker;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.lang.String.format;

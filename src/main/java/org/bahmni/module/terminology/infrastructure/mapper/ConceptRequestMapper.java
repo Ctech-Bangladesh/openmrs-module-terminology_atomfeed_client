@@ -29,7 +29,7 @@ public class ConceptRequestMapper {
 
     public ConceptRequest map(Map<String, Object> data) {
         ConceptRequest request = new ConceptRequest();
-        request.setFullySpecifiedName(conceptNameRequestMapper.mapNameRequest(safeGetMap(data, "fullySpecifiedName")));
+        //request.setFullySpecifiedName(conceptNameRequestMapper.mapNameRequest(safeGetMap(data, "fullySpecifiedName")));
         request.setConceptClass(asString(safeGet(data, "conceptClass", StringUtils.EMPTY)));
         request.setDatatypeName(asString(safeGet(data, "datatypeName", StringUtils.EMPTY)));
         request.setSet(Boolean.valueOf(asString(safeGet(data, "set", "false"))));

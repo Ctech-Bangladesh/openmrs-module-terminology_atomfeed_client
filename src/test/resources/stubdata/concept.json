@@ -1,24 +1,16 @@
 {
     "names": [
         {
-            "conceptNameType": "INDEX_TERM",
-            "conceptName": "search",
-            "locale": "en"
-        },
-        {
             "conceptNameType": "SHORT",
             "conceptName": "test",
-            "locale": "en"
+            "locale": "en",
+            "preferred" : false
         },
         {
             "conceptNameType": "FULLY_SPECIFIED",
             "conceptName": "tbtest",
-            "locale": "en"
-        },
-        {
-            "conceptNameType": null,
-            "conceptName": "syn",
-            "locale": "en"
+            "locale": "en",
+            "preferred" : true
         }
     ],
     "conceptClass": "Diagnosis",

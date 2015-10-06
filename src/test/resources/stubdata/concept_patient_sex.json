@@ -3,22 +3,26 @@
     {
       "conceptNameType": "INDEX_TERM",
       "conceptName": "PatientSex",
-      "locale": "en"
+      "locale": "en",
+      "preferred" : false
     },
     {
       "conceptNameType": "SHORT",
       "conceptName": "Sex",
-      "locale": "en"
+      "locale": "en",
+      "preferred" : false
     },
     {
       "conceptNameType": "FULLY_SPECIFIED",
       "conceptName": "Patient Sex",
-      "locale": "en"
+      "locale": "en",
+      "preferred" : true
     },
     {
       "conceptNameType": null,
       "conceptName": "Pat Sex",
-      "locale": "en"
+      "locale": "en",
+      "preferred" : false
     }
   ],
   "conceptClass": "Finding",

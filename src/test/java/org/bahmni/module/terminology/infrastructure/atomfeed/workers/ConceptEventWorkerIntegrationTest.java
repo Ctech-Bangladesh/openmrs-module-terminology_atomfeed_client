@@ -97,7 +97,7 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
         assertIdMapping(concept.getUuid(), externalId, CONCEPT,
                 "http://172.18.46.53:9080" + concept_event_url);
         assertFullySpecifiedName(concept.getFullySpecifiedName(ENGLISH), "tbtest");
-        assertConceptNames(concept.getNames());
+        assertConceptNames(concept.getNames(), 2);
         assertDescription(concept.getDescription(), "description123");
         //assertReferenceTerms(concept.getConceptMappings(), bloodPressureConcept.getConceptMappings());
     }
@@ -233,12 +233,12 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
         assertThat(concept.isSet(), is(false));
         assertThat(concept.isRetired(), is(false));
         assertFullySpecifiedName(concept.getFullySpecifiedName(ENGLISH), "Diastolic");
-        assertConceptNames(concept.getNames());
+        assertConceptNames(concept.getNames(), 3);
         assertDescription(concept.getDescription(), "Diastolic Blood Pressure");
     }
 
     private void createAndAssertSystolicConcept() {
-        syncConcept("216c8246-202c-4376-bfa8-3278d1049630", "concept_systolic.json");
+        syncConcept("321c8246-202c-4376-bfa8-3278d1041101", "concept_systolic.json");
         Concept concept = conceptService.getConceptByName("Systolic");
         assertThat(concept, is(notNullValue()));
         assertThat(concept.getVersion(), is("1.1"));
@@ -248,17 +248,18 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
         assertThat(concept.isSet(), is(false));
         assertThat(concept.isRetired(), is(false));
         assertFullySpecifiedName(concept.getFullySpecifiedName(ENGLISH), "Systolic");
-        assertConceptNames(concept.getNames());
+        assertConceptNames(concept.getNames(), 3);
         assertDescription(concept.getDescription(), "Systolic Blood Pressure");
     }
 
     private void syncConcept(String externalUuid, String resName) {
         String concept_feed_url_prefix = "/openmrs/ws/rest/v1/tr/concepts/";
+        final String content = asString("stubdata/" + resName);
         givenThat(get(urlEqualTo(concept_feed_url_prefix + externalUuid))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
-                        .withBody(asString("stubdata/" + resName))));
+                        .withBody(content)));
         ConceptEventWorker worker = new ConceptEventWorker(httpClient, trFeedProperties, conceptSyncService, conceptMapper);
         worker.process(new Event("eventId", concept_feed_url_prefix + externalUuid, "title", "feedUri", null));
     }
@@ -275,9 +276,9 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
         assertThat(conceptDescription.getLocale(), is(ENGLISH));
     }
 
-    private void assertConceptNames(Collection<ConceptName> names) {
+    private void assertConceptNames(Collection<ConceptName> names, int countNames) {
         assertNotNull(names);
-        assertThat(names.size(), is(4));
+        assertThat(names.size(), is(countNames));
         for (ConceptName name : names) {
             assertNotNull(name.getName());
             assertThat(name.getLocale(), is(ENGLISH));

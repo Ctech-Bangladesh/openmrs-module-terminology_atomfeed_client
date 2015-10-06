@@ -3,22 +3,20 @@
     {
       "conceptNameType": "INDEX_TERM",
       "conceptName": "diastol",
-      "locale": "en"
+      "locale": "en",
+      "preferred" : false
     },
     {
       "conceptNameType": "SHORT",
       "conceptName": "diastolic",
-      "locale": "en"
+      "locale": "en",
+      "preferred" : false
     },
     {
       "conceptNameType": "FULLY_SPECIFIED",
       "conceptName": "Diastolic",
-      "locale": "en"
-    },
-    {
-      "conceptNameType": null,
-      "conceptName": "diasto",
-      "locale": "en"
+      "locale": "en",
+      "preferred" : true
     }
   ],
   "conceptClass": "Diagnosis",

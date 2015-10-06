@@ -9,6 +9,7 @@ import java.util.Map;
 
 import static org.apache.commons.lang.StringUtils.EMPTY;
 import static org.bahmni.module.terminology.util.CollectionUtil.safeGet;
+import static org.bahmni.module.terminology.util.TypeUtil.asBoolean;
 import static org.bahmni.module.terminology.util.TypeUtil.asString;
 
 @Component
@@ -31,6 +32,7 @@ public class ConceptNameRequestMapper {
             conceptName.setConceptName(safeGet(nameRequest, "conceptName", EMPTY).toString());
             conceptName.setLocale(safeGet(nameRequest, "locale", "en").toString());
             conceptName.setConceptNameType(asString(safeGet(nameRequest, "conceptNameType", null)));
+            conceptName.setPreferred(asBoolean(safeGet(nameRequest, "preferred", false)));
         }
         return conceptName;
     }
