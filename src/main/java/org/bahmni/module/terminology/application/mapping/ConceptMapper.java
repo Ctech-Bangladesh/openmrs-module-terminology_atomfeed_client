@@ -65,7 +65,7 @@ public class ConceptMapper {
             }
         }
         if (fullySpecifiedName == null) {
-            throw new RuntimeException("Concept must define at least one FULLY_SPECIFIED name.");
+            throw new RuntimeException("Concept must define a FULLY_SPECIFIED name.");
         }
         concept.addName(fullySpecifiedName);
         names.remove(fullySpecifiedName);
