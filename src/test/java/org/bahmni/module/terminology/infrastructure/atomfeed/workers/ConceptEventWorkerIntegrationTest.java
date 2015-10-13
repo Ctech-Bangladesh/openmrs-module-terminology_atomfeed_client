@@ -2,6 +2,7 @@ package org.bahmni.module.terminology.infrastructure.atomfeed.workers;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.google.common.collect.ImmutableMap;
+import org.bahmni.module.terminology.application.mapping.ConceptMapper;
 import org.bahmni.module.terminology.application.model.IdMapping;
 import org.bahmni.module.terminology.application.service.ConceptSyncService;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
@@ -88,7 +89,7 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
 
         Concept concept = Context.getConceptService().getConceptByName("tbtest");
         assertThat(concept, is(notNullValue()));
-        assertThat(concept.getVersion(), is("1.1.1"));
+        assertThat(concept.getVersion(), is(ConceptMapper.TERMINOLOGY_SERVICES_VERSION_PREFIX + "1.1.1"));
         assertThat(concept.getName().getName(), is("tbtest"));
         assertThat(concept.getDatatype().getName(), is("Text"));
         assertThat(concept.getConceptClass().getName(), is("Diagnosis"));
@@ -226,7 +227,7 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
         syncConcept("222c8246-202c-4376-bfa8-3278d1042222", "concept_diastolic.json");
         Concept concept = conceptService.getConceptByName("Diastolic");
         assertThat(concept, is(notNullValue()));
-        assertThat(concept.getVersion(), is("1.1"));
+        assertThat(concept.getVersion(), is(ConceptMapper.TERMINOLOGY_SERVICES_VERSION_PREFIX + "1.1"));
         assertThat(concept.getName().getName(), is("Diastolic"));
         assertThat(concept.getDatatype().getName(), is("Numeric"));
         assertThat(concept.getConceptClass().getName(), is("Diagnosis"));
@@ -241,7 +242,7 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
         syncConcept("321c8246-202c-4376-bfa8-3278d1041101", "concept_systolic.json");
         Concept concept = conceptService.getConceptByName("Systolic");
         assertThat(concept, is(notNullValue()));
-        assertThat(concept.getVersion(), is("1.1"));
+        assertThat(concept.getVersion(), is(ConceptMapper.TERMINOLOGY_SERVICES_VERSION_PREFIX + "1.1"));
         assertThat(concept.getName().getName(), is("Systolic"));
         assertThat(concept.getDatatype().getName(), is("Numeric"));
         assertThat(concept.getConceptClass().getName(), is("Diagnosis"));

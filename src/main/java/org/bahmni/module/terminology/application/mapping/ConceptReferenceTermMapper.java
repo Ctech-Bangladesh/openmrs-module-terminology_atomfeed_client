@@ -54,7 +54,7 @@ public class ConceptReferenceTermMapper {
     private ConceptReferenceTerm mapReferenceTerm(ConceptReferenceTermRequest conceptReferenceTermRequest, ConceptReferenceTerm referenceTerm) {
         referenceTerm.setName(conceptReferenceTermRequest.getName());
         referenceTerm.setCode(conceptReferenceTermRequest.getCode());
-        referenceTerm.setVersion(conceptReferenceTermRequest.getVersion());
+        referenceTerm.setVersion(ConceptMapper.TERMINOLOGY_SERVICES_VERSION_PREFIX + conceptReferenceTermRequest.getVersion());
         referenceTerm.setRetired(conceptReferenceTermRequest.isRetired());
         referenceTerm.setDescription(conceptReferenceTermRequest.getDescription());
         referenceTerm.setConceptSource(conceptSourceMapper.map(conceptReferenceTermRequest.getConceptSourceRequest()));

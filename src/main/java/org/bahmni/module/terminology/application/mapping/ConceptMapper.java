@@ -19,6 +19,7 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 @Component(value = "TRClientConceptMapper")
 public class ConceptMapper {
 
+    public static final String TERMINOLOGY_SERVICES_VERSION_PREFIX = "TS-";
     private ConceptService conceptService;
     private ConceptNameMapper conceptNameMapper;
     private ConceptReferenceTermMapper conceptReferenceTermMapper;
@@ -43,7 +44,7 @@ public class ConceptMapper {
         concept.setSet(conceptRequest.isSet());
         concept.setRetired(conceptRequest.isRetired());
         concept.setRetireReason(conceptRequest.getRetireReason());
-        concept.setVersion(conceptRequest.getVersion());
+        concept.setVersion(TERMINOLOGY_SERVICES_VERSION_PREFIX + conceptRequest.getVersion());
         mapConceptDatatype(concept, conceptRequest);
         mapConceptClass(concept, conceptRequest);
         concept.addDescription(mapDescriptions(conceptRequest.getConceptDescriptionRequest()));
