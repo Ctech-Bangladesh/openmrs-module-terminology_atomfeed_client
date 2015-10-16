@@ -5,5 +5,6 @@ import java.net.URISyntaxException;
 public interface ConceptReferenceTermFeedClient {
 
     public void sync() throws URISyntaxException;
+    void retrySync() throws URISyntaxException;
 
 }

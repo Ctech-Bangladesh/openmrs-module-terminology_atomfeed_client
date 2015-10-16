@@ -36,7 +36,7 @@ public class ConceptReferenceTermMapper {
         if (requests.isNotEmpty()) {
             Set<ConceptMap> mappings = new HashSet<>();
             for (ConceptReferenceTermRequest conceptReferenceTermRequest : requests.getConceptReferenceTermRequests()) {
-                if (conceptReferenceTermRequest.isHasSource()) {
+                if (conceptReferenceTermRequest.hasSource()) {
                     mappings.add(mapTermMappings(conceptReferenceTermRequest));
                 }
             }

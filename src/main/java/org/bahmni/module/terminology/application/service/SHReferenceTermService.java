@@ -4,7 +4,7 @@ import org.bahmni.module.terminology.application.mapping.ConceptReferenceTermMap
 import org.bahmni.module.terminology.application.model.ConceptReferenceTermRequest;
 import org.bahmni.module.terminology.application.model.ConceptReferenceTermRequests;
 import org.bahmni.module.terminology.application.model.IdMapping;
-import org.bahmni.module.terminology.application.model.TerminologyClientConstants;
+
 import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT_REFERENCE_TERM;
 import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
 import org.openmrs.ConceptReferenceTerm;
@@ -35,7 +35,7 @@ public class SHReferenceTermService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void syncReferenceTerm(ConceptReferenceTermRequest request) {
-        if (request.isHasSource()) {
+        if (request.hasSource()) {
             shConceptSourceService.sync(request.getConceptSourceRequest());
             IdMapping mapping = idMappingsRepository.findByExternalId(request.getUuid());
             ConceptReferenceTerm referenceTerm = conceptReferenceTermMapper.map(request);

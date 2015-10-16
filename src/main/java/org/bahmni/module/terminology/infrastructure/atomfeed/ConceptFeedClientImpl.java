@@ -39,7 +39,7 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
     public void sync() {
         logger.info("Sync Start: Concepts ..... ");
         try {
-            feedProcessor.process(properties.terminologyFeedUri(), diagnosisWorker(), properties);
+            feedProcessor.process(properties.terminologyFeedUri(), conceptEventWorker(), properties);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -49,13 +49,13 @@ public class ConceptFeedClientImpl implements ConceptFeedClient {
     public void retrySync() {
         logger.info("Retrying Failed Concept...");
         try {
-            feedProcessor.retry(properties.terminologyFeedUri(), diagnosisWorker(), properties);
+            feedProcessor.retry(properties.terminologyFeedUri(), conceptEventWorker(), properties);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private ConceptEventWorker diagnosisWorker() {
+    private ConceptEventWorker conceptEventWorker() {
         return new ConceptEventWorker(httpClient, properties, ConceptSyncService, conceptRequestMapper);
     }
 }

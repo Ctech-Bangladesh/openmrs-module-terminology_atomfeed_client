@@ -37,7 +37,7 @@ public class ConceptReferenceTermRequest {
         this.description = description;
     }
 
-    public boolean isHasSource() {
+    public boolean hasSource() {
         return null != conceptSourceRequest;
     }
 

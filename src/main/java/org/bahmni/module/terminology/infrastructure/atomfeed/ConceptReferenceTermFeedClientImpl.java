@@ -39,7 +39,15 @@ public class ConceptReferenceTermFeedClientImpl implements ConceptReferenceTermF
     @Override
     public void sync() throws URISyntaxException {
         logger.info("Sync Start: Concept Reference Terms ..... ");
-        ConceptReferenceTermEventWorker worker = new ConceptReferenceTermEventWorker(httpClient, properties, shReferenceTermService, conceptReferenceTermRequestMapper);
-        feedProcessor.process(properties.getReferenceTermFeedUrl(), worker, properties);
+        feedProcessor.process(properties.getReferenceTermFeedUrl(), getConceptReferenceTermEventWorker(), properties);
+    }
+
+    @Override
+    public void retrySync() throws URISyntaxException {
+        feedProcessor.retry(properties.getReferenceTermFeedUrl(), getConceptReferenceTermEventWorker(), properties);
+    }
+
+    private ConceptReferenceTermEventWorker getConceptReferenceTermEventWorker() {
+        return new ConceptReferenceTermEventWorker(httpClient, properties, shReferenceTermService, conceptReferenceTermRequestMapper);
     }
 }
