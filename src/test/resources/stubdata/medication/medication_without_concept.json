@@ -28,11 +28,11 @@
   },
   "extension" : [
     {
-      "url" : "http://192.168.33.17:9080/openmrs/ws/rest/v1/tr/medication#strength",
+      "url" : "https://sharedhealth.atlassian.net/wiki/display/docs/fhir-extensions#MedicationStrength",
       "valueString": "500 mg"
     },
     {
-      "url" : "http://192.168.33.17:9080/openmrs/ws/rest/v1/tr/medication#med-extension-identifier",
+      "url" : "https://sharedhealth.atlassian.net/wiki/display/docs/fhir-extensions#MedicationRetired",
       "valueString": "123"
     }
   ]

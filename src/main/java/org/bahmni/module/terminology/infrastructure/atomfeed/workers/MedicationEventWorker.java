@@ -59,7 +59,7 @@ public class MedicationEventWorker implements EventWorker {
         drug.setName(medication.getName());
         drug.setConcept(drugConcept);
         drug.setDosageForm(drugForm);
-        drug.setStrength(getExtensionValue(medication, "#strength"));
+        drug.setStrength(getExtensionValue(medication, "#MedicationStrength"));
         drug.setRetired(getDrugRetiredStatus(medication));
 
         Drug savedDrug = conceptService.saveDrug(drug);
@@ -71,7 +71,7 @@ public class MedicationEventWorker implements EventWorker {
     }
 
     private Boolean getDrugRetiredStatus(Medication medication) {
-        String retired = getExtensionValue(medication, "#retired");
+        String retired = getExtensionValue(medication, "#MedicationRetired");
         return StringUtils.isNotBlank(retired) ? Boolean.valueOf(retired) : false;
     }
 

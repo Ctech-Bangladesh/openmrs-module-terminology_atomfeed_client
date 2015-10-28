@@ -28,11 +28,11 @@
   },
   "extension": [
     {
-      "url": "http://192.168.33.17:9080/openmrs/ws/rest/v1/tr/medication#strength",
+      "url": "https://sharedhealth.atlassian.net/wiki/display/docs/fhir-extensions#MedicationStrength",
       "valueString": "20.0"
     },
     {
-      "url" : "http://192.168.33.17:9080/openmrs/ws/rest/v1/tr/medication#retired",
+      "url" : "https://sharedhealth.atlassian.net/wiki/display/docs/fhir-extensions#MedicationRetired",
       "valueString": "abc"
     }
   ]
