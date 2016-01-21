@@ -1,11 +1,10 @@
 package org.bahmni.module.terminology.application.service;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.bahmni.module.terminology.application.mapping.ConceptSourceMapper;
 import org.bahmni.module.terminology.application.model.ConceptSourceRequest;
 import org.bahmni.module.terminology.application.model.IdMapping;
-import org.bahmni.module.terminology.application.model.TerminologyClientConstants;
-import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT_SOURCE;
 import org.bahmni.module.terminology.infrastructure.repository.IdMappingsRepository;
 import org.openmrs.ConceptSource;
 import org.openmrs.api.ConceptService;
@@ -15,6 +14,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static org.bahmni.module.terminology.application.model.TerminologyClientConstants.CONCEPT_SOURCE;
 
 @Component
 public class SHConceptSourceService {
@@ -34,7 +35,8 @@ public class SHConceptSourceService {
             if ((mappedSource.getId() == null) || (mappedSource.getId() < 0)) {
                 List<ConceptSource> allConceptSources = conceptService.getAllConceptSources(true);
                 for (ConceptSource source : allConceptSources) {
-                    if (source.getHl7Code().equalsIgnoreCase(conceptSourceRequest.getHl7Code())) {
+                    String hl7Code = source.getHl7Code();
+                    if (StringUtils.isNotBlank(hl7Code) && hl7Code.equalsIgnoreCase(conceptSourceRequest.getHl7Code())) {
                         existingSource = source;
                     }
                 }
