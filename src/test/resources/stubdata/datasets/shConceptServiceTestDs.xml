@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <concept_reference_source concept_source_id="11" name="WHO" description="A source for WHO" hl7_code="WHO" creator="1" date_created="2005-02-24 00:00:00.0" uuid="00001827-639f-12s4-961f-1e025bf80000" retired="false"/>
+
+    <concept_reference_source concept_source_id="12" name="ICD" description="A source for ICD" hl7_code="I10" creator="1" date_created="2005-02-24 00:00:00.0" uuid="00001827-639f-ws24-961f-1e025bf80000" retired="false"/>
+    <shr_id_mapping id="1" internal_id="00001827-639f-ws24-961f-1e025bf80000" external_id="source123" 
+                    type="concept_source" uri="http://tr.com/reference/source123"/>
+</dataset>

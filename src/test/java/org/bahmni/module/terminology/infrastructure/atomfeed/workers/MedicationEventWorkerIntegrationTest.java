@@ -32,7 +32,7 @@ public class MedicationEventWorkerIntegrationTest extends BaseModuleWebContextSe
 
     @Test
     public void shouldSyncTheDrug() throws Exception {
-        executeDataSet("stubdata/medication_concept_mapping.xml");
+        executeDataSet("stubdata/datasets/medication_concept_mapping.xml");
 
         String uuid = "ada47e63-5988-4f51-8282-e22fb66a7332";
         String concept_event_url = "/openmrs/ws/rest/v1/tr/medications/" + uuid;
@@ -58,7 +58,7 @@ public class MedicationEventWorkerIntegrationTest extends BaseModuleWebContextSe
 
     @Test(expected = RuntimeException.class)
     public void shouldThrowErrorIfMedicationDoesNotHaveLocalConcept() throws Exception {
-        executeDataSet("stubdata/medication_concept_mapping.xml");
+        executeDataSet("stubdata/datasets/medication_concept_mapping.xml");
 
         String uuid = "ada47e63-5988-4f51-8282-e22fb66a7332";
         String concept_event_url = "/openmrs/ws/rest/v1/tr/medications/" + uuid;
@@ -75,7 +75,7 @@ public class MedicationEventWorkerIntegrationTest extends BaseModuleWebContextSe
 
     @Test
     public void shouldSyncTheDrugWithoutFormConceptWhenFormConceptNotFoundLocally() throws Exception {
-        executeDataSet("stubdata/medication_concept_mapping.xml");
+        executeDataSet("stubdata/datasets/medication_concept_mapping.xml");
 
         String uuid = "04558a65-0e18-4fc4-bb8d-4f9a89fbec5c";
         String concept_event_url = "/openmrs/ws/rest/v1/tr/medications/" + uuid;
@@ -99,7 +99,7 @@ public class MedicationEventWorkerIntegrationTest extends BaseModuleWebContextSe
 
     @Test
     public void shouldSyncTheDrugWithoutForm() throws Exception {
-        executeDataSet("stubdata/medication_concept_mapping.xml");
+        executeDataSet("stubdata/datasets/medication_concept_mapping.xml");
 
         String uuid = "04558a65-0e18-4fc4-bb8d-4f9a89fbec5c";
         String concept_event_url = "/openmrs/ws/rest/v1/tr/medications/" + uuid;
@@ -123,7 +123,7 @@ public class MedicationEventWorkerIntegrationTest extends BaseModuleWebContextSe
 
     @Test
     public void shouldUpdateDetailsOfAlreadyExistingDrug() throws Exception {
-        executeDataSet("stubdata/medication_concept_mapping.xml");
+        executeDataSet("stubdata/datasets/medication_concept_mapping.xml");
 
         String uuid = "ada47e63-5988-4f51-8282-e22fb66a7332";
         String concept_event_url = "/openmrs/ws/rest/v1/tr/medications/" + uuid;

@@ -48,7 +48,7 @@ public class ConceptReferenceTermEventWorkerIntegrationTest extends BaseModuleWe
     @Test
     public void shouldSyncAReferenceTerm() throws Exception {
 
-        executeDataSet("stubdata/reference_term_mapping.xml");
+        executeDataSet("stubdata/datasets/reference_term_mapping.xml");
 
         String external_id = "df2d10af-z2w4-49fe-951d-46f614ff6100";
         String reference_term_event_url = "/openmrs/ws/rest/v1/tr/referenceterms/" + external_id;

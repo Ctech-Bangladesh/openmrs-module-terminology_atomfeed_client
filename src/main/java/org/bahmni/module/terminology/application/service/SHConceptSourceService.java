@@ -27,7 +27,7 @@ public class SHConceptSourceService {
     @Autowired
     private IdMappingsRepository idMappingsRepository;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRED)
     public void sync(ConceptSourceRequest conceptSourceRequest) {
         if (null != conceptSourceRequest) {
             ConceptSource mappedSource = conceptSourceMapper.map(conceptSourceRequest);
