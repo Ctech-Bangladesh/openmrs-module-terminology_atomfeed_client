@@ -244,4 +244,15 @@
             <column name="tags" type="varchar(255)"/>
         </addColumn>
     </changeSet>
+    <changeSet id="terminology-atomfeed-client-201602221156" author="neha" context="setup">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT count(*) FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_NAME='ref_term_code_source_index';
+            </sqlCheck>
+        </preConditions>
+        <comment>Creating unique index for concept reference term code and source</comment>
+        <addUniqueConstraint columnNames="code, concept_source_id" 
+                             constraintName="ref_term_code_source_index"
+                             tableName="concept_reference_term" />
+    </changeSet>
 </databaseChangeLog>
