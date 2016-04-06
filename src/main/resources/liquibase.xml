@@ -255,4 +255,10 @@
                              constraintName="ref_term_code_source_index"
                              tableName="concept_reference_term" />
     </changeSet>
+    <changeSet id="terminology-atomfeed-client-201604061520" author="neha" context="setup">
+        <comment>Increasing the length of shr_id_mapping uri column</comment>
+        <sql>
+            ALTER TABLE shr_id_mapping MODIFY uri VARCHAR(250);
+        </sql>
+    </changeSet>
 </databaseChangeLog>
