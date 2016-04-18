@@ -28,7 +28,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <webservicesRestModuleVersion>2.12</webservicesRestModuleVersion>
         <openmrsAtomfeedVersion>2.5.1</openmrsAtomfeedVersion>
-        <atomfeed.version>1.9.1</atomfeed.version>
+        <atomfeed.version>1.9.2-SNAPSHOT</atomfeed.version>
         <jackson.version>2.3.3</jackson.version>
     </properties>
 

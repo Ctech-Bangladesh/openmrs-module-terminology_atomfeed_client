@@ -2,17 +2,17 @@ package org.bahmni.module.terminology.infrastructure.http;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import org.apache.http.HttpEntity;
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.RedirectStrategy;
 import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultRedirectStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.bahmni.module.terminology.infrastructure.config.TRFeedProperties;
@@ -21,7 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.text.ParseException;
+import java.net.HttpURLConnection;
 
 import static java.lang.String.format;
 
@@ -50,7 +50,7 @@ public class AuthenticatedHttpClient {
                     try {
                         return new Gson().fromJson(content, clazz);
                     } catch (JsonSyntaxException e) {
-                        throw new RuntimeException(format(RESPONSE_PARSE_ERROR,content));
+                        throw new RuntimeException(format(RESPONSE_PARSE_ERROR, content));
                     }
                 } else if (status == HttpStatus.NOT_FOUND.value()) {
                     throw new RuntimeException(format(RESOURCE_NOT_FOUND, url));
@@ -78,6 +78,9 @@ public class AuthenticatedHttpClient {
         CredentialsProvider provider = new BasicCredentialsProvider();
         UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(trProperties.getTerminologyApiUserName(), trProperties.getTerminologyApiUserPassword());
         provider.setCredentials(AuthScope.ANY, credentials);
-        return HttpClientBuilder.create().setDefaultCredentialsProvider(provider).build();
+        return HttpClientBuilder.create()
+                .setDefaultCredentialsProvider(provider)
+                .setRedirectStrategy(new DefaultRedirectStrategy())
+                .build();
     }
 }

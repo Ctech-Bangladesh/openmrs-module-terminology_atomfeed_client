@@ -81,6 +81,10 @@ public class TRFeedProperties extends AtomFeedProperties {
         return Integer.parseInt(atomFeedProperties.getProperty(CONNECT_TIMEOUT_KEY));
     }
 
+    @Override
+    public boolean isHandleRedirection() {
+        return true;
+    }
 
     public String getTerminologyUrl(String content) {
         return join(subarray(terminologyFeedUri().split("/"), 0, 3), "/") + ((null == content) ? "" : content);
