@@ -27,8 +27,8 @@
         <openMRSRuntimeVersion>1.12.0-SNAPSHOT</openMRSRuntimeVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <webservicesRestModuleVersion>2.12</webservicesRestModuleVersion>
-        <openmrsAtomfeedVersion>2.5.1</openmrsAtomfeedVersion>
-        <atomfeed.version>1.9.2-SNAPSHOT</atomfeed.version>
+        <openmrsAtomfeedVersion>2.5.2</openmrsAtomfeedVersion>
+        <atomfeed.version>1.9.2</atomfeed.version>
         <jackson.version>2.3.3</jackson.version>
     </properties>
 
@@ -289,6 +289,11 @@
             <id>openmrs-repo</id>
             <name>OpenMRS Nexus Repository</name>
             <url>http://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
+        </repository>
+        <repository>
+            <id>sonatype-nexus-repo-release</id>
+            <name>Sonatype Nexus Repository</name>
+            <url>https://oss.sonatype.org/content/repositories/releases</url>
         </repository>
         <repository>
             <id>sonatype-nexus-snapshots</id>
