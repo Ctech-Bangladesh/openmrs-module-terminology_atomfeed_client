@@ -4,10 +4,12 @@ package org.bahmni.module.terminology.infrastructure.config;
 import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.util.StringUtil;
 import org.ict4h.atomfeed.client.AtomFeedProperties;
+import org.openmrs.util.OpenmrsUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
@@ -17,7 +19,7 @@ import static org.apache.commons.lang.StringUtils.join;
 @Component
 public class TRFeedProperties extends AtomFeedProperties {
 
-    private static final String PATH_TO_PROPERTIES = "/.OpenMRS/tr_atomfeed_properties.properties";
+    private static final String TR_FEED_PROPERTIES_FILENAME = "tr_atomfeed_properties.properties";
 
     @Resource(name = "terminologyFeedProperties")
     private Properties defaultProperties;
@@ -40,12 +42,12 @@ public class TRFeedProperties extends AtomFeedProperties {
     public void init() {
         try {
             Properties feedProperties = new Properties();
-            String name = StringUtil.removeSuffix(System.getProperty("user.home"), "/") + PATH_TO_PROPERTIES;
-            FileInputStream file = new FileInputStream(name);
+            File propertiesFile = new File(OpenmrsUtil.getApplicationDataDirectory(), TR_FEED_PROPERTIES_FILENAME);
+            FileInputStream file = new FileInputStream(propertiesFile);
             feedProperties.load(file);
             atomFeedProperties = feedProperties;
         } catch (Exception ignored) {
-            Logger.getLogger(TRFeedProperties.class).info("Atom feed property file not found in " + System.getProperty("user.home") + PATH_TO_PROPERTIES + " Using defaults");
+            Logger.getLogger(TRFeedProperties.class).info("Atom feed property file not found in " + System.getProperty("user.home") + TR_FEED_PROPERTIES_FILENAME + " Using defaults");
             atomFeedProperties = defaultProperties;
         }
     }
