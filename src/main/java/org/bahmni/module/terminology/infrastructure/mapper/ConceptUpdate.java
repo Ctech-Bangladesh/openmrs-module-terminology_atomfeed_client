@@ -69,8 +69,17 @@ public class ConceptUpdate {
     private boolean foundAnswer(Concept newConcept, ConceptAnswer conceptAnswer) {
         if (null != newConcept.getAnswers()) {
             for (ConceptAnswer answer : newConcept.getAnswers()) {
-                if (StringUtils.equals(answer.getAnswerConcept().getUuid(), conceptAnswer.getAnswerConcept().getUuid())) {
-                    return true;
+                if (answer.getAnswerDrug() == null && conceptAnswer.getAnswerDrug() == null) {
+                    if (StringUtils.equals(answer.getAnswerConcept().getUuid(), conceptAnswer.getAnswerConcept().getUuid())) {
+                        return true;
+                    }
+                }
+                if (answer.getAnswerDrug() != null && conceptAnswer.getAnswerDrug() != null) {
+                    if (StringUtils.equals(answer.getAnswerDrug().getUuid(), conceptAnswer.getAnswerDrug().getUuid())) {
+                        if (StringUtils.equals(answer.getAnswerConcept().getUuid(), conceptAnswer.getAnswerConcept().getUuid())) {
+                            return true;
+                        }
+                    }
                 }
             }
         }

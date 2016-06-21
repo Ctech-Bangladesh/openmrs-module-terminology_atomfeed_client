@@ -79,15 +79,28 @@ public class ConceptMapper {
     private void mapConceptAnswers(Concept concept, ConceptRequest conceptRequest) {
         if (null != conceptRequest.getConceptAnswers()) {
             for (String conceptAnswerUuid : conceptRequest.getConceptAnswers()) {
-                ConceptAnswer answer = new ConceptAnswer();
                 IdMapping idMap = idMappingsRepository.findByExternalId(conceptAnswerUuid);
                 if (idMap == null) {
                     throw new RuntimeException("Can not identify concept answer with external Id:" + conceptAnswerUuid);
                 }
-                answer.setAnswerConcept(conceptService.getConceptByUuid(idMap.getInternalId()));
+                String internalId = idMap.getInternalId();
+                ConceptAnswer answer = createConceptAnswer(internalId);
                 concept.addAnswer(answer);
             }
         }
+    }
+
+    private ConceptAnswer createConceptAnswer(String internalId) {
+        ConceptAnswer conceptAnswer = new ConceptAnswer();
+        Concept conceptByUuid = conceptService.getConceptByUuid(internalId);
+        if (null != conceptByUuid) {
+            conceptAnswer.setAnswerConcept(conceptByUuid);
+            return conceptAnswer;
+        }
+        Drug drugByUuid = conceptService.getDrugByUuid(internalId);
+        conceptAnswer.setAnswerConcept(drugByUuid.getConcept());
+        conceptAnswer.setAnswerDrug(drugByUuid);
+        return conceptAnswer;
     }
 
     private void mapSetMembers(Concept concept, ConceptRequest conceptRequest) {

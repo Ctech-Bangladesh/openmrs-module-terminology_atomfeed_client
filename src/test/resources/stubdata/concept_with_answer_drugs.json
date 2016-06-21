@@ -1,0 +1,46 @@
+{
+    "uuid": "2ff6a1bf-a27d-4364-9d80-5a42f3bb22ad",
+    "uri": "http://192.168.33.17:9080/openmrs/ws/rest/v1/tr/concepts/2ff6a1bf-a27d-4364-9d80-5a42f3bb22ad",
+    "version": "1.1.1",
+    "datatypeName": "Coded",
+    "conceptClass": "Finding",
+    "retireReason": null,
+    "fullySpecifiedName": {
+        "conceptName": "Medication TR",
+        "conceptNameType": "FULLY_SPECIFIED",
+        "locale": "en",
+        "preferred": true
+    },
+    "names": [
+        {
+            "conceptName": "Medication",
+            "conceptNameType": "SHORT",
+            "locale": "en",
+            "preferred": false
+        },
+        {
+            "conceptName": "Medication TR",
+            "conceptNameType": "FULLY_SPECIFIED",
+            "locale": "en",
+            "preferred": true
+        }
+    ],
+    "referenceTerms": [],
+    "description": null,
+    "setMembers": [],
+    "properties": {},
+    "conceptAnswers": [
+        {
+            "uuid": "cd89844d-8211-11e5-aa01-0050568276cf",
+            "display": "Crocin 500mg",
+            "uri": null
+        },
+        {
+            "uuid": "d20a4cad-2349-4b5b-a6de-0665f51429cf",
+            "display": "Benedryl",
+            "uri": null
+        }
+    ],
+    "set": false,
+    "retired": false
+}

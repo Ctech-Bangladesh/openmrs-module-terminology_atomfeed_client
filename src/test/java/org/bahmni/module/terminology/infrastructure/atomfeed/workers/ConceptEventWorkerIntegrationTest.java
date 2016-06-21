@@ -37,8 +37,8 @@ import static org.junit.Assert.*;
 @org.springframework.test.context.ContextConfiguration(locations = {"classpath:TestingApplicationContext.xml"}, inheritLocations = true)
 public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensitiveTest {
 
-    public static final String TR_CONCEPT_URL = "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/concepts/";
-    public static final String TR_REFTERM_URL = "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/referenceterms/";
+    private static final String TR_CONCEPT_URL = "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/concepts/";
+    private static final String TR_REFTERM_URL = "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/referenceterms/";
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(9997);
 
@@ -57,9 +57,9 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
 
     @Before
     public void setUp() {
-        
+
     }
-    
+
     @After
     public void tearDown() throws Exception {
         deleteAllData();
@@ -187,7 +187,6 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
 
     @Test
     public void shouldSyncCodedConcept() {
-
         syncConcept("666c8246-202c-4376-bfa8-3278d1049666", "concept_male.json");
         Concept maleSexConcept = conceptService.getConceptByName("Male Sex");
         assertNotNull("Male sex concept should have been created", maleSexConcept);
@@ -200,10 +199,39 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
 
         Concept patientSexConcept = conceptService.getConceptByName("Patient Sex");
         assertNotNull("Patient Sex Concept should have been created", patientSexConcept);
-
-
         assertConceptAnswers(patientSexConcept, Arrays.asList(maleSexConcept, femaleSexConcept));
+    }
 
+    @Test
+    public void shouldSetDrugAsAnswerIfAnswerIsNotAConcept() throws Exception {
+        executeDataSet("stubdata/datasets/concept_drugs.xml");
+        String externalId = "2ff6a1bf-a27d-4364-9d80-5a42f3bb22ad";
+        String concept_event_url = "/openmrs/ws/rest/v1/tr/concepts/" + externalId;
+
+        givenThat(get(urlEqualTo(concept_event_url))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(asString("stubdata/concept_with_answer_drugs.json"))));
+        ConceptEventWorker worker = new ConceptEventWorker(httpClient, trFeedProperties, conceptSyncService, conceptMapper);
+
+        worker.process(new Event("eventId", concept_event_url, "title", "feedUri", null));
+
+        Concept concept = Context.getConceptService().getConceptByName("Medication TR");
+        assertThat(concept, is(notNullValue()));
+        assertThat(concept.getVersion(), is(ConceptMapper.TERMINOLOGY_SERVICES_VERSION_PREFIX + "1.1.1"));
+        assertThat(concept.getName().getName(), is("Medication TR"));
+        assertThat(concept.getDatatype().getName(), is("Coded"));
+        assertThat(concept.getConceptClass().getName(), is("Finding"));
+        assertThat(concept.isSet(), is(false));
+        assertThat(concept.isRetired(), is(false));
+
+        Collection<ConceptAnswer> answers = concept.getAnswers();
+        assertEquals(2, answers.size());
+        for (ConceptAnswer answer : answers) {
+            assertNotNull(answer.getAnswerConcept());
+            assertNotNull(answer.getAnswerDrug());
+        }
 
     }
 
