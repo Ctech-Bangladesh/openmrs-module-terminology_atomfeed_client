@@ -23,10 +23,10 @@
     </organization>
 
     <properties>
-        <openMRSVersion>1.12.0</openMRSVersion>
-        <openMRSRuntimeVersion>1.12.0</openMRSRuntimeVersion>
+        <openMRSVersion>2.0.2</openMRSVersion>
+        <openMRSRuntimeVersion>2.0.2</openMRSRuntimeVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <webservicesRestModuleVersion>2.12</webservicesRestModuleVersion>
+        <webservicesRestModuleVersion>2.16</webservicesRestModuleVersion>
         <openmrsAtomfeedVersion>2.5.2</openmrsAtomfeedVersion>
         <atomfeed.version>1.9.2</atomfeed.version>
         <jackson.version>2.3.3</jackson.version>

@@ -44,7 +44,7 @@ public class ConceptUpdate {
             ((ConceptNumeric) savedConcept).setLowCritical(((ConceptNumeric) newConcept).getLowCritical());
             ((ConceptNumeric) savedConcept).setLowAbsolute(((ConceptNumeric) newConcept).getLowAbsolute());
             ((ConceptNumeric) savedConcept).setUnits(((ConceptNumeric) newConcept).getUnits());
-            ((ConceptNumeric) savedConcept).setPrecise(((ConceptNumeric) newConcept).getPrecise());
+            ((ConceptNumeric) savedConcept).setAllowDecimal(((ConceptNumeric) newConcept).getAllowDecimal());
         }
         return savedConcept;
     }

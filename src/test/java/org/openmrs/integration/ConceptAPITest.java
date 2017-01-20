@@ -3,11 +3,15 @@ package org.openmrs.integration;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.openmrs.Concept;
+import org.openmrs.ConceptName;
 import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.ConceptSource;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.web.test.BaseModuleWebContextSensitiveTest;
+
+import java.util.Locale;
 
 import static org.junit.Assert.assertNotNull;
 import static org.openmrs.integration.ConceptReferenceData.*;
@@ -36,11 +40,14 @@ public class ConceptAPITest extends BaseModuleWebContextSensitiveTest {
     public void shouldCreateAConcept() {
         ConceptService service = Context.getService(ConceptService.class);
 
-        service.saveConcept(concept(CONCEPT_NAME));
+        Concept concept = new Concept();
+        concept.setDatatype(service.getConceptDatatype(1));
+        concept.setConceptClass(service.getConceptClass(1));
+        concept.setFullySpecifiedName(new ConceptName(CONCEPT_NAME, Locale.ENGLISH));
+        service.saveConcept(concept);
 
         assertNotNull(service.getConceptByName(CONCEPT_NAME));
     }
-
 
     @Test
     public void shouldCreateConceptTerm() throws Exception {

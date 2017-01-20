@@ -151,7 +151,7 @@ public class ConceptMapper {
                 conceptNumeric.setLowCritical(request.getCriticalLow());
                 conceptNumeric.setLowAbsolute(request.getAbsoluteLow());
                 conceptNumeric.setUnits(request.getUnits());
-                conceptNumeric.setPrecise(request.getPrecise());
+                conceptNumeric.setAllowDecimal(request.getPrecise());
             }
         }
     }

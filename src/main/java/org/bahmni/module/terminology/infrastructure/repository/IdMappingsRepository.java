@@ -3,10 +3,12 @@ package org.bahmni.module.terminology.infrastructure.repository;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.bahmni.module.terminology.application.model.IdMapping;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.jdbc.ReturningWork;
+import org.hibernate.jdbc.Work;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.ServiceContext;
-import org.openmrs.util.DatabaseUpdater;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -42,12 +44,17 @@ public class IdMappingsRepository {
         return transactionTemplate.execute(new TransactionCallback<T>() {
             @Override
             public T doInTransaction(TransactionStatus transactionStatus) {
-                return work.execute(getConnection());
+                return getSession().doReturningWork(new ReturningWork<T>() {
+                    @Override
+                    public T execute(Connection connection) throws SQLException {
+                        return work.execute(connection);
+                    }
+                });
             }
         });
     }
 
-    private Connection getConnection() {
+    private Session getSession() {
         ServiceContext serviceContext = ServiceContext.getInstance();
         Class klass = serviceContext.getClass();
         try {
@@ -55,7 +62,7 @@ public class IdMappingsRepository {
             field.setAccessible(true);
             ApplicationContext applicationContext = (ApplicationContext) field.get(serviceContext);
             SessionFactory factory = (SessionFactory) applicationContext.getBean("sessionFactory");
-            return factory.getCurrentSession().connection();
+            return factory.getCurrentSession();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
