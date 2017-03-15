@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static junit.framework.Assert.*;
 import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 @org.springframework.test.context.ContextConfiguration(locations = {"classpath:TestingApplicationContext.xml"}, inheritLocations = true)
 public class ConceptUpdateTest extends BaseModuleWebContextSensitiveTest {

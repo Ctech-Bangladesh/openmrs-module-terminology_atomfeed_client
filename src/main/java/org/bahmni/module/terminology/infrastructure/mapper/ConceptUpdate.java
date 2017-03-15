@@ -20,9 +20,9 @@ public class ConceptUpdate {
     private IdMappingsRepository idMappingsRepository;
 
     public Concept merge(Concept existingConcept, Concept newConcept) {
-        existingConcept.setRetired(newConcept.isRetired());
+        existingConcept.setRetired(newConcept.getRetired());
         existingConcept.setRetireReason(newConcept.getRetireReason());
-        existingConcept.setSet(newConcept.isSet());
+        existingConcept.setSet(newConcept.getSet());
         existingConcept.setVersion(newConcept.getVersion());
         mapConceptDataType(newConcept, existingConcept);
         existingConcept.setConceptClass(newConcept.getConceptClass());

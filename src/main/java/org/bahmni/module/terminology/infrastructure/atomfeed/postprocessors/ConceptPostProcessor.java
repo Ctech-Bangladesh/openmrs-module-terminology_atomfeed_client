@@ -47,7 +47,7 @@ public abstract class ConceptPostProcessor {
     }
 
     private void addAsMember(Concept parentConcept, Concept concept) {
-        if (parentConcept.isSet()) {
+        if (parentConcept.getSet()) {
             if (!isPresentAsMember(parentConcept, concept)) {
                 parentConcept.addSetMember(concept);
                 conceptService.saveConcept(parentConcept);

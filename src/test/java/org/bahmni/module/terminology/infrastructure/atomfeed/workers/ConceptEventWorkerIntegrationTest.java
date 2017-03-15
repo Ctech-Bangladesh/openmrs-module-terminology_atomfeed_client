@@ -57,7 +57,7 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
 
     @Before
     public void setUp() {
-
+        Context.setLocale(Locale.ENGLISH);
     }
 
     @After
@@ -87,17 +87,17 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
 
         worker.process(new Event("eventId", concept_event_url, "title", "feedUri", null));
 
-        Concept concept = Context.getConceptService().getConceptByName("tbtest");
+        Concept concept = Context.getConceptService().getConceptByName("tuberculosis");
         assertThat(concept, is(notNullValue()));
         assertThat(concept.getVersion(), is(ConceptMapper.TERMINOLOGY_SERVICES_VERSION_PREFIX + "1.1.1"));
-        assertThat(concept.getName().getName(), is("tbtest"));
+        assertThat(concept.getName().getName(), is("tuberculosis"));
         assertThat(concept.getDatatype().getName(), is("Text"));
         assertThat(concept.getConceptClass().getName(), is("Diagnosis"));
-        assertThat(concept.isSet(), is(false));
-        assertThat(concept.isRetired(), is(false));
+        assertThat(concept.getSet(), is(false));
+        assertThat(concept.getRetired(), is(false));
         assertIdMapping(concept.getUuid(), externalId, CONCEPT,
                 "http://172.18.46.53:9080" + concept_event_url);
-        assertFullySpecifiedName(concept.getFullySpecifiedName(ENGLISH), "tbtest");
+        assertFullySpecifiedName(concept.getFullySpecifiedName(ENGLISH), "tuberculosis");
         assertConceptNames(concept.getNames(), 2);
         assertDescription(concept.getDescription(), "description123");
         //assertReferenceTerms(concept.getConceptMappings(), bloodPressureConcept.getConceptMappings());
@@ -223,8 +223,8 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
         assertThat(concept.getName().getName(), is("Medication TR"));
         assertThat(concept.getDatatype().getName(), is("Coded"));
         assertThat(concept.getConceptClass().getName(), is("Finding"));
-        assertThat(concept.isSet(), is(false));
-        assertThat(concept.isRetired(), is(false));
+        assertThat(concept.getSet(), is(false));
+        assertThat(concept.getRetired(), is(false));
 
         Collection<ConceptAnswer> answers = concept.getAnswers();
         assertEquals(2, answers.size());
@@ -234,6 +234,37 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
         }
 
     }
+
+    @Test
+    public void shouldUpdateShortNameWhenFSNAndShortNameAreSame() {
+        syncConcept("96ff1fb3-301e-4483-ae52-172aaf743b22", "concept_having_same_short_name_and_FSN.json");
+        Concept conceptCreated = conceptService.getConceptByName("tbtest");
+        assertNotNull("Concept should have been created", conceptCreated);
+        assertEquals(2, conceptCreated.getNames().size());
+        assertEquals("tbtest", conceptCreated.getShortNames().iterator().next().getName());
+
+        syncConcept("96ff1fb3-301e-4483-ae52-172aaf743b22", "concept_short_name_updated.json");
+        Concept conceptUpdated = conceptService.getConceptByName("tbtest");
+        assertNotNull("Concept should have been updated", conceptUpdated);
+        assertEquals(2, conceptUpdated.getNames().size());
+        assertEquals("tb-test", conceptUpdated.getShortNames().iterator().next().getName());
+    }
+
+    @Test
+    public void shouldUpdateShortNameAndFullySpecifedName() {
+        syncConcept("96ff1fb3-301e-4483-ae52-172aaf743b22", "concept.json");
+        Concept conceptCreated = conceptService.getConceptByName("tuberculosis");
+        assertNotNull("Concept should have been created", conceptCreated);
+        assertEquals(2, conceptCreated.getNames().size());
+        assertEquals("tb", conceptCreated.getShortNames().iterator().next().getName());
+
+        syncConcept("96ff1fb3-301e-4483-ae52-172aaf743b22", "concept_short_name_and_fsn_updated.json");
+        Concept conceptUpdated = conceptService.getConceptByName("tb");
+        assertNotNull("Concept should have been updated", conceptUpdated);
+        assertEquals(2, conceptUpdated.getNames().size());
+        assertEquals("tuberculosis", conceptUpdated.getShortNames().iterator().next().getName());
+    }
+
 
     private void assertConceptAnswers(Concept patientSexConcept, List<Concept> answerConcepts) {
         assertEquals(answerConcepts.size(), patientSexConcept.getAnswers().size());
@@ -259,8 +290,8 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
         assertThat(concept.getName().getName(), is("Diastolic"));
         assertThat(concept.getDatatype().getName(), is("Numeric"));
         assertThat(concept.getConceptClass().getName(), is("Diagnosis"));
-        assertThat(concept.isSet(), is(false));
-        assertThat(concept.isRetired(), is(false));
+        assertThat(concept.getSet(), is(false));
+        assertThat(concept.getRetired(), is(false));
         assertFullySpecifiedName(concept.getFullySpecifiedName(ENGLISH), "Diastolic");
         assertConceptNames(concept.getNames(), 3);
         assertDescription(concept.getDescription(), "Diastolic Blood Pressure");
@@ -274,8 +305,8 @@ public class ConceptEventWorkerIntegrationTest extends BaseModuleWebContextSensi
         assertThat(concept.getName().getName(), is("Systolic"));
         assertThat(concept.getDatatype().getName(), is("Numeric"));
         assertThat(concept.getConceptClass().getName(), is("Diagnosis"));
-        assertThat(concept.isSet(), is(false));
-        assertThat(concept.isRetired(), is(false));
+        assertThat(concept.getSet(), is(false));
+        assertThat(concept.getRetired(), is(false));
         assertFullySpecifiedName(concept.getFullySpecifiedName(ENGLISH), "Systolic");
         assertConceptNames(concept.getNames(), 3);
         assertDescription(concept.getDescription(), "Systolic Blood Pressure");

@@ -29,7 +29,9 @@ public class ConceptNames implements Iterable<ConceptName> {
         }
         for (ConceptName name : conceptNames) {
             if (name.getName().equals(conceptName.getName())) {
-                return name;
+                if (name.getConceptNameType() != null && name.getConceptNameType().equals(conceptName.getConceptNameType())) {
+                    return name;
+                }
             }
         }
         return null;

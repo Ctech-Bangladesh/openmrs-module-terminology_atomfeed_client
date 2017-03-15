@@ -2,13 +2,13 @@
     "names": [
         {
             "conceptNameType": "SHORT",
-            "conceptName": "tb",
+            "conceptName": "tb-test",
             "locale": "en",
             "preferred" : false
         },
         {
             "conceptNameType": "FULLY_SPECIFIED",
-            "conceptName": "tuberculosis",
+            "conceptName": "tbtest",
             "locale": "en",
             "preferred" : true
         }
@@ -16,7 +16,7 @@
     "conceptClass": "Diagnosis",
     "fullySpecifiedName": {
         "conceptNameType": "FULLY_SPECIFIED",
-        "conceptName": "tuberculosis",
+        "conceptName": "tbtest",
         "locale": "en"
     },
     "uuid": "216c8246-202c-4376-bfa8-3278d1049630",
